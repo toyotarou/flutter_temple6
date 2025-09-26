@@ -110,8 +110,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: Card(
                     clipBehavior: Clip.antiAlias,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    child: Stack(
                       children: <Widget>[
                         AspectRatio(
                           aspectRatio: 3 / 2,
@@ -125,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: _InfoBlockFromModel(item: item),
+                          child: DisplayTempleName(item: item),
                         ),
                       ],
                     ),
@@ -186,42 +185,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class _InfoBlockFromModel extends StatelessWidget {
-  const _InfoBlockFromModel({required this.item});
+///
+class DisplayTempleName extends StatelessWidget {
+  const DisplayTempleName({super.key, required this.item});
 
   final TempleModel item;
 
   @override
   Widget build(BuildContext context) {
-    TextStyle gray([double? size]) => TextStyle(color: Colors.grey.shade700, fontSize: size);
+    return DefaultTextStyle(
+      style: const TextStyle(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.4)),
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: 100, child: Text(item.date.yyyymmdd)),
 
-    final String dateStr = item.date.yyyymmdd;
+                Expanded(child: Text(item.temple, maxLines: 1, overflow: TextOverflow.ellipsis)),
+              ],
+            ),
+          ),
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(dateStr, style: Theme.of(context).textTheme.bodyMedium),
-        const SizedBox(height: 6),
-        Text(item.temple, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 4),
-        Text(item.address, style: gray()),
-        if (item.station.isNotEmpty) ...<Widget>[
-          const SizedBox(height: 2),
-          Text('最寄り: ${item.station}', style: gray(12)),
+          SizedBox(height: context.screenSize.height * 0.07),
+
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.4)),
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(item.address),
+                if (item.station.isNotEmpty) ...<Widget>[const SizedBox(height: 2), Text(item.station)],
+                if (item.gohonzon.isNotEmpty) ...<Widget>[const SizedBox(height: 4), Text(item.gohonzon)],
+                if (item.memo.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: 6),
+                  Text('With. ${item.memo}', maxLines: 3, overflow: TextOverflow.ellipsis),
+                ],
+              ],
+            ),
+          ),
         ],
-        if (item.gohonzon.isNotEmpty) ...<Widget>[
-          const SizedBox(height: 4),
-          Text('御祭神: ${item.gohonzon}', style: gray()),
-        ],
-        if (item.memo.isNotEmpty) ...<Widget>[
-          const SizedBox(height: 6),
-          Text(item.memo, maxLines: 3, overflow: TextOverflow.ellipsis, style: gray()),
-        ],
-      ],
+      ),
     );
   }
 }
 
+///
 class _YearBarDelegate extends SliverPersistentHeaderDelegate {
   _YearBarDelegate({required this.minExtentHeight, required this.maxExtentHeight, required this.child});
 
