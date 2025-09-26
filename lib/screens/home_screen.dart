@@ -2,63 +2,52 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart'; // ← RenderAbstractViewport 用
+import 'package:flutter/rendering.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/_get_data/temple/temple.dart';
 import '../extensions/extensions.dart';
 import '../models/temple_model.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.templeList});
+
+  final List<TempleModel> templeList;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // 年ジャンプ用アンカー（年→見出し直前の 0px Anchor の GlobalKey）
   final Map<int, GlobalKey> _yearAnchorKeys = <int, GlobalKey<State<StatefulWidget>>>{};
 
-  // スクロール制御
   final ScrollController _scrollController = ScrollController();
 
-  // 固定ヘッダー（年ボタンバー）の実測用キー
   final GlobalKey _headerKey = GlobalKey();
 
-  // SliverPersistentHeader の高さ（表示と一致させる）
   static const double _yearBarHeight = 56.0;
 
-  @override
-  void initState() {
-    super.initState();
-    // 起動時にAPI取得（POST は provider 内で実行）
-    // ignore: always_specify_types
-    Future.microtask(() => ref.read(templeProvider.notifier).getAllTemple());
-  }
-
+  ///
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
 
+  ///
   @override
   Widget build(BuildContext context) {
-    final TempleState templeState = ref.watch(templeProvider);
-
-    if (templeState.templeList.isEmpty) {
+    if (widget.templeList.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    // 年ごとにグループ（昇順）
     final Map<int, List<TempleModel>> byYear = <int, List<TempleModel>>{};
-    for (final TempleModel e in templeState.templeList) {
+    for (final TempleModel e in widget.templeList) {
       byYear.putIfAbsent(e.date.year, () => <TempleModel>[]).add(e);
     }
     final List<int> years = byYear.keys.toList()..sort();
 
-    // アンカーキーを準備
     for (final int y in years) {
       _yearAnchorKeys.putIfAbsent(y, () => GlobalKey());
     }
@@ -71,7 +60,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         controller: _scrollController,
         cacheExtent: 400,
         slivers: <Widget>[
-          // 上部固定の年ジャンプバー
           SliverPersistentHeader(
             pinned: true,
             delegate: _YearBarDelegate(
@@ -79,7 +67,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               maxExtentHeight: _yearBarHeight,
               child: Container(
                 key: _headerKey,
-                // 実測用
+
                 color: Theme.of(context).colorScheme.surface,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 alignment: Alignment.centerLeft,
@@ -96,17 +84,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
 
-          // 年ごとの見出し＋リスト
           for (final int y in years) ...<Widget>[
-            // 見出しの「手前」に 0px アンカーを置く（パディング外なのでズレない）
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // ★ ここがジャンプターゲット（高さ0）
                   SizedBox(key: _yearAnchorKeys[y], height: 0),
 
-                  // 見出し UI（パディングは自由に変更OK）
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                     child: Text('$y 年', style: Theme.of(context).textTheme.titleLarge),
@@ -115,7 +99,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
 
-            // リスト本体
             SliverList.builder(
               itemCount: byYear[y]!.length,
               itemBuilder: (BuildContext context, int index) {
@@ -158,7 +141,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  /// 年ジャンプ（0pxアンカーへ → ヘッダー高さだけ差し引き → 微調整）
+  ///
   Future<void> _jumpToYear(int year) async {
     final BuildContext? ctx = _yearAnchorKeys[year]?.currentContext;
     if (ctx == null) {
@@ -172,22 +155,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final RenderAbstractViewport viewport = RenderAbstractViewport.of(renderObj);
 
-    // アンカー（0px）の先頭をビューポート先頭に出すためのスクロール量
     final double baseOffset = viewport.getOffsetToReveal(renderObj, 0.0).offset;
 
-    // 固定ヘッダーの実測高さ（なければ定数）
     final double headerHeight = _headerKey.currentContext?.size?.height ?? _yearBarHeight;
 
-    // ヘッダー分だけ引く（パディング補正は不要：アンカーは0pxで見出しの外）
     double target = baseOffset - headerHeight;
 
-    // 範囲内に丸め
     target = target.clamp(_scrollController.position.minScrollExtent, _scrollController.position.maxScrollExtent);
 
-    // スクロール
     await _scrollController.animateTo(target, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
 
-    // --- 微調整（±数pxの誤差が気になるときだけ） ---
     // ignore: inference_failure_on_instance_creation, always_specify_types
     await Future.delayed(const Duration(milliseconds: 16));
     // ignore: use_build_context_synchronously
@@ -245,7 +222,6 @@ class _InfoBlockFromModel extends StatelessWidget {
   }
 }
 
-// 年ジャンプ・ヘッダのデリゲート
 class _YearBarDelegate extends SliverPersistentHeaderDelegate {
   _YearBarDelegate({required this.minExtentHeight, required this.maxExtentHeight, required this.child});
 
