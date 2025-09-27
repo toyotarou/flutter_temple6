@@ -54,6 +54,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
     super.initState();
 
     templeNotifier.getAllTemple();
+    templeLatLngNotifier.getAllTempleLatLng();
   }
 
   ///
@@ -74,7 +75,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
       debugShowCheckedModeBanner: false,
       home: GestureDetector(
         onTap: () => primaryFocus?.unfocus(),
-        child: HomeScreen(templeList: templeState.templeList),
+        child: HomeScreen(templeList: templeState.templeList, templeLatLngMap: templeLatLngState.templeLatLngMap),
       ),
     );
   }

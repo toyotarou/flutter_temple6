@@ -53,10 +53,8 @@ class Temple extends _$Temple {
 
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['list'].length.toString().toInt(); i++) {
-        final TempleModel val = TempleModel.fromJson(
-          // ignore: avoid_dynamic_calls
-          value['list'][i] as Map<String, dynamic>,
-        );
+        // ignore: avoid_dynamic_calls
+        final TempleModel val = TempleModel.fromJson(value['list'][i] as Map<String, dynamic>);
 
         list.add(val);
         map[val.date.yyyymmdd] = val;
@@ -70,14 +68,10 @@ class Temple extends _$Temple {
 
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['list'].length.toString().toInt(); i++) {
-        final TempleModel val = TempleModel.fromJson(
-          // ignore: avoid_dynamic_calls
-          value['list'][i] as Map<String, dynamic>,
-        );
+        // ignore: avoid_dynamic_calls
+        final TempleModel val = TempleModel.fromJson(value['list'][i] as Map<String, dynamic>);
 
-        val.memo.split('、').forEach((String element) {
-          map3[element] = <String>[];
-        });
+        val.memo.split('、').forEach((String element) => map3[element] = <String>[]);
       }
 
       // ignore: avoid_dynamic_calls

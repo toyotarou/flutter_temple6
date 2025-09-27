@@ -6,19 +6,24 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
+import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
+import 'components/daily_temple_display_alert.dart';
+import 'parts/temple_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key, required this.templeList});
+  const HomeScreen({super.key, required this.templeList, required this.templeLatLngMap});
 
   final List<TempleModel> templeList;
+  final Map<String, TempleLatLngModel> templeLatLngMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<HomeScreen> {
   final Map<int, GlobalKey> _yearAnchorKeys = <int, GlobalKey<State<StatefulWidget>>>{};
 
   final ScrollController _scrollController = ScrollController();
@@ -43,9 +48,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     final Map<int, List<TempleModel>> byYear = <int, List<TempleModel>>{};
+
     for (final TempleModel e in widget.templeList) {
       byYear.putIfAbsent(e.date.year, () => <TempleModel>[]).add(e);
     }
+
     final List<int> years = byYear.keys.toList()..sort();
 
     for (final int y in years) {
@@ -54,8 +61,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final double dpr = MediaQuery.of(context).devicePixelRatio;
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      appParamNotifier.setKeepTempleList(list: widget.templeList);
+
+      appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
+    });
+
     return Scaffold(
-      appBar: AppBar(title: const Text('年ジャンプ付き・神社リスト（Riverpod）')),
+      appBar: AppBar(title: const Text('TEMPLE LIST'), centerTitle: true),
       body: CustomScrollView(
         controller: _scrollController,
         cacheExtent: 400,
@@ -122,10 +135,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             errorWidget: (BuildContext c, _, __) => const Icon(Icons.broken_image),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: DisplayTempleName(item: item),
-                        ),
+
+                        displayTempleNameParts(templeModel: item),
+
+                        displayTempleInfoParts(templeModel: item),
                       ],
                     ),
                   ),
@@ -136,6 +149,82 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
+      ),
+    );
+  }
+
+  ///
+  Widget displayTempleNameParts({required TempleModel templeModel}) {
+    return Positioned(
+      top: 5,
+      right: 2,
+      left: 2,
+      child: DefaultTextStyle(
+        style: const TextStyle(color: Colors.white),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3)),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(width: 100, child: Text(templeModel.date.yyyymmdd)),
+
+                  Expanded(child: Text(templeModel.temple, maxLines: 1, overflow: TextOverflow.ellipsis)),
+
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                      onTap: () {
+                        TempleDialog(context: context, widget: const DailyTempleDisplayAlert());
+                      },
+
+                      child: Icon(Icons.info, color: Colors.white.withValues(alpha: 0.4)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayTempleInfoParts({required TempleModel templeModel}) {
+    return Positioned(
+      bottom: 5,
+
+      right: 2,
+      left: 2,
+
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: DefaultTextStyle(
+          style: const TextStyle(color: Colors.white),
+          child: Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3)),
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(templeModel.address),
+                if (templeModel.station.isNotEmpty) ...<Widget>[const SizedBox(height: 2), Text(templeModel.station)],
+                if (templeModel.gohonzon.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: 4),
+                  Text(templeModel.gohonzon, maxLines: 2, overflow: TextOverflow.ellipsis),
+                ],
+                if (templeModel.memo.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: 6),
+                  Text('With. ${templeModel.memo}', maxLines: 2, overflow: TextOverflow.ellipsis),
+                ],
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -182,56 +271,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         await _scrollController.animateTo(tweak, duration: const Duration(milliseconds: 150), curve: Curves.easeOut);
       }
     }
-  }
-}
-
-///
-class DisplayTempleName extends StatelessWidget {
-  const DisplayTempleName({super.key, required this.item});
-
-  final TempleModel item;
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      style: const TextStyle(color: Colors.white),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.4)),
-            child: Row(
-              children: <Widget>[
-                SizedBox(width: 100, child: Text(item.date.yyyymmdd)),
-
-                Expanded(child: Text(item.temple, maxLines: 1, overflow: TextOverflow.ellipsis)),
-              ],
-            ),
-          ),
-
-          SizedBox(height: context.screenSize.height * 0.07),
-
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.4)),
-
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(item.address),
-                if (item.station.isNotEmpty) ...<Widget>[const SizedBox(height: 2), Text(item.station)],
-                if (item.gohonzon.isNotEmpty) ...<Widget>[const SizedBox(height: 4), Text(item.gohonzon)],
-                if (item.memo.isNotEmpty) ...<Widget>[
-                  const SizedBox(height: 6),
-                  Text('With. ${item.memo}', maxLines: 3, overflow: TextOverflow.ellipsis),
-                ],
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 
