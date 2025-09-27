@@ -8,16 +8,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
+import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
 import 'components/daily_temple_display_alert.dart';
 import 'parts/temple_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key, required this.templeList, required this.templeLatLngMap});
+  const HomeScreen({super.key, required this.templeList, required this.templeLatLngMap, required this.stationMap});
 
   final List<TempleModel> templeList;
   final Map<String, TempleLatLngModel> templeLatLngMap;
+  final Map<String, StationModel> stationMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -63,8 +65,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       appParamNotifier.setKeepTempleList(list: widget.templeList);
-
       appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
+      appParamNotifier.setKeepStationMap(map: widget.stationMap);
     });
 
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_model.dart';
 
@@ -14,8 +15,8 @@ part 'app_param.g.dart';
 class AppParamState with _$AppParamState {
   const factory AppParamState({
     @Default(<TempleModel>[]) List<TempleModel> keepTempleList,
-
     @Default(<String, TempleLatLngModel>{}) Map<String, TempleLatLngModel> keepTempleLatLngMap,
+    @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
   }) = _AppParamState;
 }
 
@@ -33,4 +34,7 @@ class AppParam extends _$AppParam {
   ///
   void setKeepTempleLatLngMap({required Map<String, TempleLatLngModel> map}) =>
       state = state.copyWith(keepTempleLatLngMap: map);
+
+  ///
+  void setKeepStationMap({required Map<String, StationModel> map}) => state = state.copyWith(keepStationMap: map);
 }
