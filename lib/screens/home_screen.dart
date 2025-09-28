@@ -179,7 +179,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                     padding: const EdgeInsets.all(10),
                     child: GestureDetector(
                       onTap: () {
-                        TempleDialog(context: context, widget: const DailyTempleDisplayAlert());
+                        TempleDialog(context: context, widget:  DailyTempleDisplayAlert(
+
+
+
+
+
+                          date:templeModel.date.yyyymmdd
+
+
+
+
+
+                        ));
                       },
 
                       child: Icon(Icons.info, color: Colors.white.withValues(alpha: 0.4)),
