@@ -5,6 +5,7 @@ import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_model.dart';
 
+import '../../models/tokyo_municipal_model.dart';
 import '../../utility/utility.dart';
 
 part 'app_param.freezed.dart';
@@ -17,6 +18,7 @@ class AppParamState with _$AppParamState {
     @Default(<TempleModel>[]) List<TempleModel> keepTempleList,
     @Default(<String, TempleLatLngModel>{}) Map<String, TempleLatLngModel> keepTempleLatLngMap,
     @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
+    @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
 
     ///
     @Default(0) double currentZoom,
@@ -41,6 +43,10 @@ class AppParam extends _$AppParam {
 
   ///
   void setKeepStationMap({required Map<String, StationModel> map}) => state = state.copyWith(keepStationMap: map);
+
+  ///
+  void setKeepTokyoMunicipalList({required List<TokyoMunicipalModel> list}) =>
+      state = state.copyWith(keepTokyoMunicipalList: list);
 
   //===================================================
 

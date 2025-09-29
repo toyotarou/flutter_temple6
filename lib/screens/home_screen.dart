@@ -13,16 +13,24 @@ import '../models/common/temple_data.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
+import '../models/tokyo_municipal_model.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key, required this.templeList, required this.templeLatLngMap, required this.stationMap});
+  const HomeScreen({
+    super.key,
+    required this.templeList,
+    required this.templeLatLngMap,
+    required this.stationMap,
+    required this.tokyoMunicipalList,
+  });
 
   final List<TempleModel> templeList;
   final Map<String, TempleLatLngModel> templeLatLngMap;
   final Map<String, StationModel> stationMap;
+  final List<TokyoMunicipalModel> tokyoMunicipalList;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -70,6 +78,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTempleList(list: widget.templeList);
       appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
       appParamNotifier.setKeepStationMap(map: widget.stationMap);
+      appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
     });
 
     return Scaffold(
@@ -313,11 +322,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                         TempleDialog(
                           context: context,
-                          widget: DailyTempleMapAlert(
-                            date: templeModel.date.yyyymmdd,
-
-                            templeDataList: templeDataList,
-                          ),
+                          widget: DailyTempleMapAlert(date: templeModel.date.yyyymmdd, templeDataList: templeDataList),
                         );
                       },
 

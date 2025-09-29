@@ -56,6 +56,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
     templeNotifier.getAllTemple();
     templeLatLngNotifier.getAllTempleLatLng();
     stationNotifier.getAllStation();
+    tokyoMunicipalNotifier.getAllTokyoMunicipalData();
   }
 
   ///
@@ -80,6 +81,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
           templeList: templeState.templeList,
           templeLatLngMap: templeLatLngState.templeLatLngMap,
           stationMap: stationState.stationMap,
+          tokyoMunicipalList: tokyoMunicipalState.tokyoMunicipalList,
         ),
       ),
     );

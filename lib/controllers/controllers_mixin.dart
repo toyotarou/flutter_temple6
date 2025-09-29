@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/tokyo_municipal_model.dart';
 import '_get_data/station/station.dart';
 import '_get_data/temple/temple.dart';
 import '_get_data/temple_lat_lng/temple_lat_lng.dart';
+import '_get_data/tokyo_municipal/tokyo_municipal.dart';
 import 'app_param/app_param.dart';
 
 mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
@@ -29,6 +31,12 @@ mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   StationState get stationState => ref.watch(stationProvider);
 
   Station get stationNotifier => ref.read(stationProvider.notifier);
+
+  //==========================================//
+
+  TokyoMunicipalState get tokyoMunicipalState => ref.watch(tokyoMunicipalProvider);
+
+  TokyoMunicipal get tokyoMunicipalNotifier => ref.read(tokyoMunicipalProvider.notifier);
 
   //==========================================//
 }
