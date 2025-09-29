@@ -22,6 +22,10 @@ mixin _$AppParamState {
   Map<String, StationModel> get keepStationMap =>
       throw _privateConstructorUsedError;
 
+  ///
+  double get currentZoom => throw _privateConstructorUsedError;
+  int get currentPaddingIndex => throw _privateConstructorUsedError;
+
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,7 +42,9 @@ abstract class $AppParamStateCopyWith<$Res> {
   $Res call(
       {List<TempleModel> keepTempleList,
       Map<String, TempleLatLngModel> keepTempleLatLngMap,
-      Map<String, StationModel> keepStationMap});
+      Map<String, StationModel> keepStationMap,
+      double currentZoom,
+      int currentPaddingIndex});
 }
 
 /// @nodoc
@@ -59,6 +65,8 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? keepTempleList = null,
     Object? keepTempleLatLngMap = null,
     Object? keepStationMap = null,
+    Object? currentZoom = null,
+    Object? currentPaddingIndex = null,
   }) {
     return _then(_value.copyWith(
       keepTempleList: null == keepTempleList
@@ -73,6 +81,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.keepStationMap
           : keepStationMap // ignore: cast_nullable_to_non_nullable
               as Map<String, StationModel>,
+      currentZoom: null == currentZoom
+          ? _value.currentZoom
+          : currentZoom // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentPaddingIndex: null == currentPaddingIndex
+          ? _value.currentPaddingIndex
+          : currentPaddingIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -88,7 +104,9 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
   $Res call(
       {List<TempleModel> keepTempleList,
       Map<String, TempleLatLngModel> keepTempleLatLngMap,
-      Map<String, StationModel> keepStationMap});
+      Map<String, StationModel> keepStationMap,
+      double currentZoom,
+      int currentPaddingIndex});
 }
 
 /// @nodoc
@@ -107,6 +125,8 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? keepTempleList = null,
     Object? keepTempleLatLngMap = null,
     Object? keepStationMap = null,
+    Object? currentZoom = null,
+    Object? currentPaddingIndex = null,
   }) {
     return _then(_$AppParamStateImpl(
       keepTempleList: null == keepTempleList
@@ -121,6 +141,14 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value._keepStationMap
           : keepStationMap // ignore: cast_nullable_to_non_nullable
               as Map<String, StationModel>,
+      currentZoom: null == currentZoom
+          ? _value.currentZoom
+          : currentZoom // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentPaddingIndex: null == currentPaddingIndex
+          ? _value.currentPaddingIndex
+          : currentPaddingIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -133,7 +161,9 @@ class _$AppParamStateImpl implements _AppParamState {
       final Map<String, TempleLatLngModel> keepTempleLatLngMap =
           const <String, TempleLatLngModel>{},
       final Map<String, StationModel> keepStationMap =
-          const <String, StationModel>{}})
+          const <String, StationModel>{},
+      this.currentZoom = 0,
+      this.currentPaddingIndex = 5})
       : _keepTempleList = keepTempleList,
         _keepTempleLatLngMap = keepTempleLatLngMap,
         _keepStationMap = keepStationMap;
@@ -166,9 +196,17 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableMapView(_keepStationMap);
   }
 
+  ///
+  @override
+  @JsonKey()
+  final double currentZoom;
+  @override
+  @JsonKey()
+  final int currentPaddingIndex;
+
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex)';
   }
 
   @override
@@ -181,7 +219,11 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality()
                 .equals(other._keepTempleLatLngMap, _keepTempleLatLngMap) &&
             const DeepCollectionEquality()
-                .equals(other._keepStationMap, _keepStationMap));
+                .equals(other._keepStationMap, _keepStationMap) &&
+            (identical(other.currentZoom, currentZoom) ||
+                other.currentZoom == currentZoom) &&
+            (identical(other.currentPaddingIndex, currentPaddingIndex) ||
+                other.currentPaddingIndex == currentPaddingIndex));
   }
 
   @override
@@ -189,7 +231,9 @@ class _$AppParamStateImpl implements _AppParamState {
       runtimeType,
       const DeepCollectionEquality().hash(_keepTempleList),
       const DeepCollectionEquality().hash(_keepTempleLatLngMap),
-      const DeepCollectionEquality().hash(_keepStationMap));
+      const DeepCollectionEquality().hash(_keepStationMap),
+      currentZoom,
+      currentPaddingIndex);
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -204,7 +248,9 @@ abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
       {final List<TempleModel> keepTempleList,
       final Map<String, TempleLatLngModel> keepTempleLatLngMap,
-      final Map<String, StationModel> keepStationMap}) = _$AppParamStateImpl;
+      final Map<String, StationModel> keepStationMap,
+      final double currentZoom,
+      final int currentPaddingIndex}) = _$AppParamStateImpl;
 
   @override
   List<TempleModel> get keepTempleList;
@@ -212,6 +258,12 @@ abstract class _AppParamState implements AppParamState {
   Map<String, TempleLatLngModel> get keepTempleLatLngMap;
   @override
   Map<String, StationModel> get keepStationMap;
+
+  ///
+  @override
+  double get currentZoom;
+  @override
+  int get currentPaddingIndex;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
