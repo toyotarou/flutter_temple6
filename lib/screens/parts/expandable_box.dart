@@ -125,7 +125,7 @@ class _ExpandableState extends State<ExpandableBox> with SingleTickerProviderSta
 
               final double h = _heightAnim.value;
 
-              final double toggleInset = (full ? 20.0 : 0.0) + 6.0;
+              final double toggleInset = (full ? 10.0 : 0.0) + 6.0;
 
               return SizedBox(
                 width: outerWidth,
@@ -178,6 +178,24 @@ class _ExpandableState extends State<ExpandableBox> with SingleTickerProviderSta
                                 padding: widget.toggleButtonPadding,
                                 decoration: BoxDecoration(color: widget.toggleButtonBgColor, shape: BoxShape.circle),
                                 child: widget.toggleIcon,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          top: 6,
+
+                          right: 60,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {},
+                              customBorder: const CircleBorder(),
+                              child: Container(
+                                padding: widget.toggleButtonPadding,
+                                decoration: BoxDecoration(color: widget.toggleButtonBgColor, shape: BoxShape.circle),
+                                child: const Icon(Icons.photo, size: 18, color: Colors.white),
                               ),
                             ),
                           ),

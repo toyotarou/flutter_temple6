@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../controllers/controllers_mixin.dart';
@@ -11,18 +12,17 @@ import '../../models/common/temple_data.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
 
-class DailyTempleDisplayAlert extends ConsumerStatefulWidget {
-  const DailyTempleDisplayAlert({super.key, required this.date, required this.templeDataList});
+class DailyTempleMapAlert extends ConsumerStatefulWidget {
+  const DailyTempleMapAlert({super.key, required this.date, required this.templeDataList});
 
   final String date;
   final List<TempleData> templeDataList;
 
   @override
-  ConsumerState<DailyTempleDisplayAlert> createState() => _DailyTempleDisplayAlertState();
+  ConsumerState<DailyTempleMapAlert> createState() => _DailyTempleMapAlertState();
 }
 
-class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAlert>
-    with ControllersMixin<DailyTempleDisplayAlert> {
+class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with ControllersMixin<DailyTempleMapAlert> {
   bool isLoading = false;
 
   List<double> latList = <double>[];
@@ -40,6 +40,8 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
   double currentZoomEightTeen = 18;
 
   List<Marker> markerList = <Marker>[];
+
+  List<LatLng> latLngList = <LatLng>[];
 
   ///
   @override
@@ -88,6 +90,8 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
   Widget build(BuildContext context) {
     makeMinMaxLatLng();
 
+    makeMarker();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -112,6 +116,11 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
                   tileProvider: CachedTileProvider(),
                   userAgentPackageName: 'com.example.app',
                 ),
+
+                // ignore: always_specify_types
+                PolylineLayer(polylines: makeTransportationPolyline()),
+
+                MarkerLayer(markers: markerList),
               ],
             ),
 
@@ -130,8 +139,11 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
                   ),
                   collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
                   expandedChild: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const SizedBox(height: 20),
+
+                      Padding(padding: const EdgeInsets.only(left: 10), child: Text(widget.date)),
 
                       Expanded(child: displayDailyTempleList()),
                     ],
@@ -148,13 +160,53 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
   }
 
   ///
+  void makeMarker() {
+    markerList.clear();
+
+    for (int i = 0; i < widget.templeDataList.length; i++) {
+      markerList.add(
+        Marker(
+          point: LatLng(widget.templeDataList[i].latitude.toDouble(), widget.templeDataList[i].longitude.toDouble()),
+          width: 20,
+          height: 20,
+
+          child: (int.tryParse(widget.templeDataList[i].mark) != null)
+              ? Stack(
+                  children: <Widget>[
+                    const Icon(FontAwesomeIcons.toriiGate, size: 20, color: Colors.pinkAccent),
+
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: CircleAvatar(radius: 8, child: Text(i.toString(), style: const TextStyle(fontSize: 10))),
+                    ),
+                  ],
+                )
+              : CircleAvatar(
+                  child: Text(
+                    widget.templeDataList[i].mark,
+                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
+                ),
+        ),
+      );
+    }
+  }
+
+  ///
   void makeMinMaxLatLng() {
     latList.clear();
     lngList.clear();
 
-    for (final TempleData element in widget.templeDataList) {
-      latList.add(element.latitude.toDouble());
-      lngList.add(element.longitude.toDouble());
+    latLngList.clear();
+
+    for (int i = 0; i < widget.templeDataList.length; i++) {
+      latList.add(widget.templeDataList[i].latitude.toDouble());
+      lngList.add(widget.templeDataList[i].longitude.toDouble());
+
+      latLngList.add(
+        LatLng(widget.templeDataList[i].latitude.toDouble(), widget.templeDataList[i].longitude.toDouble()),
+      );
     }
 
     if (latList.isNotEmpty && lngList.isNotEmpty) {
@@ -176,18 +228,35 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
             border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
           ),
 
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.pinkAccent.withValues(alpha: 0.5),
+          padding: const EdgeInsets.symmetric(vertical: 5),
 
-                radius: 15,
-                child: Text(element.mark, style: const TextStyle(color: Colors.white)),
-              ),
-              const SizedBox(width: 10),
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Colors.pinkAccent.withValues(alpha: 0.5),
 
-              Text(element.name),
-            ],
+                  radius: 15,
+                  child: Text(
+                    (int.tryParse(element.mark) != null) ? (element.mark.toInt() + 1).toString() : element.mark,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(element.name),
+
+                      Text('${element.latitude} / ${element.longitude}', style: const TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -206,5 +275,15 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
         ],
       ),
     );
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polyline> makeTransportationPolyline() {
+    // ignore: always_specify_types
+    return <Polyline<Object>>[
+      // ignore: always_specify_types
+      Polyline(points: latLngList, color: Colors.redAccent.withValues(alpha: 0.5), strokeWidth: 5),
+    ];
   }
 }

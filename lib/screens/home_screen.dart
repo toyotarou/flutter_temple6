@@ -13,7 +13,7 @@ import '../models/common/temple_data.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
-import 'components/daily_temple_display_alert.dart';
+import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
 
@@ -313,7 +313,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                         TempleDialog(
                           context: context,
-                          widget: DailyTempleDisplayAlert(
+                          widget: DailyTempleMapAlert(
                             date: templeModel.date.yyyymmdd,
 
                             templeDataList: templeDataList,
