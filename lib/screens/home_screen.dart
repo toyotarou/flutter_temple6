@@ -6,12 +6,15 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../const/const.dart';
 import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
+import '../models/common/temple_data.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
 import 'components/daily_temple_display_alert.dart';
+import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -179,9 +182,146 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                     padding: const EdgeInsets.all(10),
                     child: GestureDetector(
                       onTap: () {
+                        if (widget.stationMap.isEmpty || widget.templeLatLngMap.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () => error_dialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              title: 'エラー',
+                              content: '表示に必要なデータが作成されていません。',
+                            ),
+                          );
+
+                          return;
+                        }
+
+                        ///////////////////////////////////////////////////////////////////////////
+
+                        final List<TempleData> templeDataList = <TempleData>[];
+
+                        if (templeModel.startPoint != '') {
+                          switch (templeModel.startPoint) {
+                            case '自宅':
+                              templeDataList.add(
+                                TempleData(
+                                  name: templeModel.startPoint,
+                                  address: '千葉県船橋市二子町492-25-101',
+                                  latitude: funabashiLat.toString(),
+                                  longitude: funabashiLng.toString(),
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                ),
+                              );
+
+                            case '実家':
+                              templeDataList.add(
+                                TempleData(
+                                  name: templeModel.startPoint,
+                                  address: '東京都杉並区善福寺4-22-11',
+                                  latitude: zenpukujiLat.toString(),
+                                  longitude: zenpukujiLng.toString(),
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                ),
+                              );
+
+                            default:
+                              final StationModel? stationModel = widget.stationMap[templeModel.startPoint];
+
+                              if (stationModel != null) {
+                                templeDataList.add(
+                                  TempleData(
+                                    name: stationModel.stationName,
+                                    address: stationModel.address,
+                                    latitude: stationModel.lat,
+                                    longitude: stationModel.lng,
+                                  ),
+                                );
+                              }
+                          }
+                        }
+
+                        final TempleLatLngModel? templeLatLngModel = widget.templeLatLngMap[templeModel.temple];
+
+                        if (templeLatLngModel != null) {
+                          templeDataList.add(
+                            TempleData(
+                              name: templeLatLngModel.temple,
+                              address: templeLatLngModel.address,
+                              latitude: templeLatLngModel.lat,
+                              longitude: templeLatLngModel.lng,
+                              mark: '1',
+                            ),
+                          );
+                        }
+
+                        if (templeModel.memo != '') {
+                          final List<String> exMemo = templeModel.memo.split('、');
+                          for (int i = 0; i < exMemo.length; i++) {
+                            final TempleLatLngModel? templeLatLngModel2 = widget.templeLatLngMap[exMemo[i]];
+
+                            if (templeLatLngModel2 != null) {
+                              templeDataList.add(
+                                TempleData(
+                                  name: templeLatLngModel2.temple,
+                                  address: templeLatLngModel2.address,
+                                  latitude: templeLatLngModel2.lat,
+                                  longitude: templeLatLngModel2.lng,
+                                ),
+                              );
+                            }
+                          }
+                        }
+
+                        if (templeModel.endPoint != '') {
+                          switch (templeModel.endPoint) {
+                            case '自宅':
+                              templeDataList.add(
+                                TempleData(
+                                  name: templeModel.endPoint,
+                                  address: '千葉県船橋市二子町492-25-101',
+                                  latitude: funabashiLat.toString(),
+                                  longitude: funabashiLng.toString(),
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                ),
+                              );
+
+                            case '実家':
+                              templeDataList.add(
+                                TempleData(
+                                  name: templeModel.endPoint,
+                                  address: '東京都杉並区善福寺4-22-11',
+                                  latitude: zenpukujiLat.toString(),
+                                  longitude: zenpukujiLng.toString(),
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                ),
+                              );
+
+                            default:
+                              final StationModel? stationModel = widget.stationMap[templeModel.endPoint];
+
+                              if (stationModel != null) {
+                                templeDataList.add(
+                                  TempleData(
+                                    name: stationModel.stationName,
+                                    address: stationModel.address,
+                                    latitude: stationModel.lat,
+                                    longitude: stationModel.lng,
+                                  ),
+                                );
+                              }
+                          }
+                        }
+
+                        ///////////////////////////////////////////////////////////////////////////
+
                         TempleDialog(
                           context: context,
-                          widget: DailyTempleDisplayAlert(date: templeModel.date.yyyymmdd),
+                          widget: DailyTempleDisplayAlert(
+                            date: templeModel.date.yyyymmdd,
+
+                            templeDataList: templeDataList,
+                          ),
                         );
                       },
 

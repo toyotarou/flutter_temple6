@@ -6,9 +6,10 @@ import '../../controllers/controllers_mixin.dart';
 import '../../models/common/temple_data.dart';
 
 class DailyTempleDisplayAlert extends ConsumerStatefulWidget {
-  const DailyTempleDisplayAlert({super.key, required this.date});
+  const DailyTempleDisplayAlert({super.key, required this.date, required this.templeDataList});
 
   final String date;
+  final List<TempleData> templeDataList;
 
   @override
   ConsumerState<DailyTempleDisplayAlert> createState() => _DailyTempleDisplayAlertState();
@@ -21,15 +22,13 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
   ///
   @override
   Widget build(BuildContext context) {
-    makeTempleDataList();
-
     return Scaffold(
       backgroundColor: Colors.transparent,
 
       body: SafeArea(
         child: Stack(
-          children: [
-            FlutterMap(children: []),
+          children: <Widget>[
+            const FlutterMap(children: <Widget>[]),
 
             Column(children: <Widget>[Expanded(child: displayDailyTempleList())]),
           ],
@@ -39,11 +38,12 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
   }
 
   ///
-  void makeTempleDataList() {}
-
-  ///
   Widget displayDailyTempleList() {
     final List<Widget> list = <Widget>[];
+
+    for (final TempleData element in widget.templeDataList) {
+      list.add(Text(element.name));
+    }
 
     return CustomScrollView(
       slivers: <Widget>[
