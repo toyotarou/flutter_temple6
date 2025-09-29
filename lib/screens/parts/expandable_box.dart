@@ -195,7 +195,7 @@ class _ExpandableState extends State<ExpandableBox> with SingleTickerProviderSta
                               child: Container(
                                 padding: widget.toggleButtonPadding,
                                 decoration: BoxDecoration(color: widget.toggleButtonBgColor, shape: BoxShape.circle),
-                                child: const Icon(Icons.photo, size: 18, color: Colors.white),
+                                child: const Icon(Icons.photo_outlined, size: 18, color: Colors.white),
                               ),
                             ),
                           ),
