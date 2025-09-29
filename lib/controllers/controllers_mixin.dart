@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/tokyo_municipal_model.dart';
 import '_get_data/station/station.dart';
 import '_get_data/temple/temple.dart';
 import '_get_data/temple_lat_lng/temple_lat_lng.dart';

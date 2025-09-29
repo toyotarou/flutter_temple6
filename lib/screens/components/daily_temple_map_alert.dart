@@ -13,10 +13,16 @@ import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
 
 class DailyTempleMapAlert extends ConsumerStatefulWidget {
-  const DailyTempleMapAlert({super.key, required this.date, required this.templeDataList});
+  const DailyTempleMapAlert({
+    super.key,
+    required this.date,
+    required this.templeDataList,
+    required this.templeMunicipalList,
+  });
 
   final String date;
   final List<TempleData> templeDataList;
+  final List<String> templeMunicipalList;
 
   @override
   ConsumerState<DailyTempleMapAlert> createState() => _DailyTempleMapAlertState();
