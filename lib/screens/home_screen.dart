@@ -144,6 +144,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                         displayTempleNameParts(templeModel: item),
 
                         displayTempleInfoParts(templeModel: item),
+
+                        displayTempleRankParts(templeModel: item),
                       ],
                     ),
                   ),
@@ -235,43 +237,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
                                     longitude: stationModel.lng,
+                                    mark: 'S',
                                   ),
                                 );
                               }
                           }
                         }
 
-                        final TempleLatLngModel? templeLatLngModel = widget.templeLatLngMap[templeModel.temple];
-
-                        if (templeLatLngModel != null) {
-                          templeDataList.add(
-                            TempleData(
-                              name: templeLatLngModel.temple,
-                              address: templeLatLngModel.address,
-                              latitude: templeLatLngModel.lat,
-                              longitude: templeLatLngModel.lng,
-                              mark: '1',
-                            ),
-                          );
-                        }
+                        //////////////////////////
+                        final List<String> templeNameList = <String>[templeModel.temple];
 
                         if (templeModel.memo != '') {
-                          final List<String> exMemo = templeModel.memo.split('、');
-                          for (int i = 0; i < exMemo.length; i++) {
-                            final TempleLatLngModel? templeLatLngModel2 = widget.templeLatLngMap[exMemo[i]];
+                          templeNameList.addAll(templeModel.memo.split('、'));
+                        }
 
-                            if (templeLatLngModel2 != null) {
-                              templeDataList.add(
-                                TempleData(
-                                  name: templeLatLngModel2.temple,
-                                  address: templeLatLngModel2.address,
-                                  latitude: templeLatLngModel2.lat,
-                                  longitude: templeLatLngModel2.lng,
-                                ),
-                              );
-                            }
+                        for (int i = 0; i < templeNameList.length; i++) {
+                          final TempleLatLngModel? templeLatLngModel = widget.templeLatLngMap[templeNameList[i]];
+
+                          if (templeLatLngModel != null) {
+                            templeDataList.add(
+                              TempleData(
+                                name: templeLatLngModel.temple,
+                                address: templeLatLngModel.address,
+                                latitude: templeLatLngModel.lat,
+                                longitude: templeLatLngModel.lng,
+                                mark: i.toString(),
+                              ),
+                            );
                           }
                         }
+                        //////////////////////////
 
                         if (templeModel.endPoint != '') {
                           switch (templeModel.endPoint) {
@@ -307,6 +302,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
                                     longitude: stationModel.lng,
+                                    mark: 'E',
                                   ),
                                 );
                               }
@@ -325,7 +321,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                         );
                       },
 
-                      child: Icon(Icons.info, color: Colors.white.withValues(alpha: 0.4)),
+                      child: Icon(Icons.info, color: Colors.white.withValues(alpha: 0.5)),
                     ),
                   ),
                 ],
@@ -340,7 +336,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
   ///
   Widget displayTempleInfoParts({required TempleModel templeModel}) {
     return Positioned(
-      bottom: 5,
+      bottom: 15,
 
       right: 2,
       left: 2,
@@ -416,6 +412,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         await _scrollController.animateTo(tweak, duration: const Duration(milliseconds: 150), curve: Curves.easeOut);
       }
     }
+  }
+
+  ///
+  Widget displayTempleRankParts({required TempleModel templeModel}) {
+    final List<Widget> list = <Widget>[];
+
+    final List<String> templeNameList = <String>[templeModel.temple];
+
+    if (templeModel.memo != '') {
+      templeNameList.addAll(templeModel.memo.split('、'));
+    }
+
+    for (int i = 0; i < templeNameList.length; i++) {
+      final TempleLatLngModel? templeLatLngModel = widget.templeLatLngMap[templeNameList[i]];
+
+      if (templeLatLngModel != null) {
+        list.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: CircleAvatar(
+              backgroundColor: Colors.pinkAccent.withOpacity(0.5),
+              radius: 10,
+              child: Text(templeLatLngModel.rank, style: const TextStyle(fontSize: 12, color: Colors.white)),
+            ),
+          ),
+        );
+      }
+    }
+
+    return Positioned(
+      bottom: 3,
+      right: 3,
+      left: 3,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(children: list),
+      ),
+    );
   }
 }
 

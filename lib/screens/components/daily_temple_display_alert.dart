@@ -131,7 +131,7 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
                   collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
                   expandedChild: Column(
                     children: <Widget>[
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
 
                       Expanded(child: displayDailyTempleList()),
                     ],
@@ -170,18 +170,41 @@ class _DailyTempleDisplayAlertState extends ConsumerState<DailyTempleDisplayAler
     final List<Widget> list = <Widget>[];
 
     for (final TempleData element in widget.templeDataList) {
-      list.add(Text(element.name));
-    }
+      list.add(
+        Container(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+          ),
 
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) => list[index],
-            childCount: list.length,
+          child: Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.pinkAccent.withValues(alpha: 0.5),
+
+                radius: 15,
+                child: Text(element.mark, style: const TextStyle(color: Colors.white)),
+              ),
+              const SizedBox(width: 10),
+
+              Text(element.name),
+            ],
           ),
         ),
-      ],
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) => list[index],
+              childCount: list.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
