@@ -182,24 +182,6 @@ class _ExpandableState extends State<ExpandableBox> with SingleTickerProviderSta
                             ),
                           ),
                         ),
-
-                        Positioned(
-                          top: 6,
-
-                          right: 60,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {},
-                              customBorder: const CircleBorder(),
-                              child: Container(
-                                padding: widget.toggleButtonPadding,
-                                decoration: BoxDecoration(color: widget.toggleButtonBgColor, shape: BoxShape.circle),
-                                child: const Icon(Icons.photo_outlined, size: 18, color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

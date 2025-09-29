@@ -132,28 +132,51 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
             Column(
               children: <Widget>[
-                ExpandableBox(
-                  alignment: Alignment.topCenter,
-                  keepFullWidth: true,
+                Stack(
+                  children: <Widget>[
+                    ExpandableBox(
+                      alignment: Alignment.topCenter,
+                      keepFullWidth: true,
 
-                  collapsedSize: Size(0, context.screenSize.height * 0.05),
-                  expandedSize: Size(0, context.screenSize.height * 0.2),
+                      collapsedSize: Size(0, context.screenSize.height * 0.05),
+                      expandedSize: Size(0, context.screenSize.height * 0.2),
 
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  ),
-                  collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
-                  expandedChild: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(height: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      ),
+                      collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
+                      expandedChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 30),
 
-                      Padding(padding: const EdgeInsets.only(left: 10), child: Text(widget.date)),
+                          Expanded(child: displayDailyTempleList()),
+                        ],
+                      ),
+                    ),
 
-                      Expanded(child: displayDailyTempleList()),
-                    ],
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(widget.date, style: const TextStyle(fontSize: 20)),
+                    ),
+
+                    Positioned(
+                      top: 5,
+                      right: 60,
+                      child: GestureDetector(
+                        onTap: () {
+                          setDefaultBoundsMap();
+                        },
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -261,6 +284,20 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                     ],
                   ),
                 ),
+
+                if (int.tryParse(element.mark) != null) ...<Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      print(element.name);
+                    },
+                    child: const CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Color(0x66000000),
+
+                      child: Icon(Icons.photo_outlined, size: 18, color: Colors.white),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

@@ -248,7 +248,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
                                     longitude: stationModel.lng,
-                                    mark: 'S',
+                                    mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
                                   ),
                                 );
                               }
@@ -298,7 +298,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                   address: '千葉県船橋市二子町492-25-101',
                                   latitude: funabashiLat.toString(),
                                   longitude: funabashiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
                                 ),
                               );
 
@@ -309,7 +309,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                   address: '東京都杉並区善福寺4-22-11',
                                   latitude: zenpukujiLat.toString(),
                                   longitude: zenpukujiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
+                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
                                 ),
                               );
 
@@ -323,7 +323,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
                                     longitude: stationModel.lng,
-                                    mark: 'E',
+                                    mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
                                   ),
                                 );
                               }
