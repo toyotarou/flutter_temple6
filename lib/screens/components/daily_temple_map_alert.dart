@@ -439,18 +439,28 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
-        for (final List<List<List<double>>> rings in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
-          if (rings.isEmpty) {
+        for (final List<List<List<double>>> element2 in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
+          if (element2.isEmpty) {
             continue;
           }
 
-          final List<LatLng> outer = rings.first.map((List<double> p) => LatLng(p[1], p[0])).toList();
+          /////////////////////////////////////
+          final List<LatLng> outer = element2.first.map((List<double> element3) {
+            return LatLng(element3[1], element3[0]);
+          }).toList();
+          /////////////////////////////////////
 
+          /////////////////////////////////////
           final List<List<LatLng>> holes = <List<LatLng>>[];
 
-          for (int i = 1; i < rings.length; i++) {
-            holes.add(rings[i].map((List<double> p) => LatLng(p[1], p[0])).toList());
+          for (int i = 1; i < element2.length; i++) {
+            holes.add(
+              element2[i].map((List<double> element4) {
+                return LatLng(element4[1], element4[0]);
+              }).toList(),
+            );
           }
+          /////////////////////////////////////
 
           polygonList.add(
             // ignore: always_specify_types
