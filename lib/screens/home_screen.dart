@@ -26,6 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.templeLatLngMap,
     required this.stationMap,
     required this.tokyoMunicipalList,
+    required this.tokyoMunicipalMap,
     required this.templePhotoMap,
   });
 
@@ -33,6 +34,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final Map<String, TempleLatLngModel> templeLatLngMap;
   final Map<String, StationModel> stationMap;
   final List<TokyoMunicipalModel> tokyoMunicipalList;
+  final Map<String, TokyoMunicipalModel> tokyoMunicipalMap;
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
 
   @override
@@ -83,6 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepStationMap(map: widget.stationMap);
       appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
+      appParamNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
     });
 
     return Scaffold(
@@ -335,6 +338,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                         }
 
                         ///////////////////////////////////////////////////////////////////////////
+
+                        templeMunicipalList.sort();
 
                         TempleDialog(
                           context: context,

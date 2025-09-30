@@ -21,6 +21,7 @@ class AppParamState with _$AppParamState {
     @Default(<String, TempleLatLngModel>{}) Map<String, TempleLatLngModel> keepTempleLatLngMap,
     @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
     @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
+    @Default(<String, TokyoMunicipalModel>{}) Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
     @Default(<String, List<TemplePhotoModel>>{}) Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
 
     ///
@@ -62,6 +63,10 @@ class AppParam extends _$AppParam {
   ///
   void setKeepTemplePhotoMap({required Map<String, List<TemplePhotoModel>> map}) =>
       state = state.copyWith(keepTemplePhotoMap: map);
+
+  ///
+  void setKeepTokyoMunicipalMap({required Map<String, TokyoMunicipalModel> map}) =>
+      state = state.copyWith(keepTokyoMunicipalMap: map);
 
   //===================================================
 

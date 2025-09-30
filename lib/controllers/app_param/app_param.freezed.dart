@@ -23,6 +23,8 @@ mixin _$AppParamState {
       throw _privateConstructorUsedError;
   List<TokyoMunicipalModel> get keepTokyoMunicipalList =>
       throw _privateConstructorUsedError;
+  Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap =>
+      throw _privateConstructorUsedError;
   Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap =>
       throw _privateConstructorUsedError;
 
@@ -55,6 +57,7 @@ abstract class $AppParamStateCopyWith<$Res> {
       Map<String, TempleLatLngModel> keepTempleLatLngMap,
       Map<String, StationModel> keepStationMap,
       List<TokyoMunicipalModel> keepTokyoMunicipalList,
+      Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
       Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
       double currentZoom,
       int currentPaddingIndex,
@@ -83,6 +86,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? keepTempleLatLngMap = null,
     Object? keepStationMap = null,
     Object? keepTokyoMunicipalList = null,
+    Object? keepTokyoMunicipalMap = null,
     Object? keepTemplePhotoMap = null,
     Object? currentZoom = null,
     Object? currentPaddingIndex = null,
@@ -108,6 +112,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.keepTokyoMunicipalList
           : keepTokyoMunicipalList // ignore: cast_nullable_to_non_nullable
               as List<TokyoMunicipalModel>,
+      keepTokyoMunicipalMap: null == keepTokyoMunicipalMap
+          ? _value.keepTokyoMunicipalMap
+          : keepTokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoMunicipalModel>,
       keepTemplePhotoMap: null == keepTemplePhotoMap
           ? _value.keepTemplePhotoMap
           : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
@@ -153,6 +161,7 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       Map<String, TempleLatLngModel> keepTempleLatLngMap,
       Map<String, StationModel> keepStationMap,
       List<TokyoMunicipalModel> keepTokyoMunicipalList,
+      Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
       Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
       double currentZoom,
       int currentPaddingIndex,
@@ -179,6 +188,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? keepTempleLatLngMap = null,
     Object? keepStationMap = null,
     Object? keepTokyoMunicipalList = null,
+    Object? keepTokyoMunicipalMap = null,
     Object? keepTemplePhotoMap = null,
     Object? currentZoom = null,
     Object? currentPaddingIndex = null,
@@ -204,6 +214,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value._keepTokyoMunicipalList
           : keepTokyoMunicipalList // ignore: cast_nullable_to_non_nullable
               as List<TokyoMunicipalModel>,
+      keepTokyoMunicipalMap: null == keepTokyoMunicipalMap
+          ? _value._keepTokyoMunicipalMap
+          : keepTokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoMunicipalModel>,
       keepTemplePhotoMap: null == keepTemplePhotoMap
           ? _value._keepTemplePhotoMap
           : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
@@ -247,6 +261,8 @@ class _$AppParamStateImpl implements _AppParamState {
           const <String, StationModel>{},
       final List<TokyoMunicipalModel> keepTokyoMunicipalList =
           const <TokyoMunicipalModel>[],
+      final Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap =
+          const <String, TokyoMunicipalModel>{},
       final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap =
           const <String, List<TemplePhotoModel>>{},
       this.currentZoom = 0,
@@ -259,6 +275,7 @@ class _$AppParamStateImpl implements _AppParamState {
         _keepTempleLatLngMap = keepTempleLatLngMap,
         _keepStationMap = keepStationMap,
         _keepTokyoMunicipalList = keepTokyoMunicipalList,
+        _keepTokyoMunicipalMap = keepTokyoMunicipalMap,
         _keepTemplePhotoMap = keepTemplePhotoMap,
         _firstEntries = firstEntries,
         _secondEntries = secondEntries,
@@ -300,6 +317,16 @@ class _$AppParamStateImpl implements _AppParamState {
       return _keepTokyoMunicipalList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_keepTokyoMunicipalList);
+  }
+
+  final Map<String, TokyoMunicipalModel> _keepTokyoMunicipalMap;
+  @override
+  @JsonKey()
+  Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap {
+    if (_keepTokyoMunicipalMap is EqualUnmodifiableMapView)
+      return _keepTokyoMunicipalMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoMunicipalMap);
   }
 
   final Map<String, List<TemplePhotoModel>> _keepTemplePhotoMap;
@@ -357,7 +384,7 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTemplePhotoMap: $keepTemplePhotoMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList)';
   }
 
   @override
@@ -373,6 +400,8 @@ class _$AppParamStateImpl implements _AppParamState {
                 .equals(other._keepStationMap, _keepStationMap) &&
             const DeepCollectionEquality().equals(
                 other._keepTokyoMunicipalList, _keepTokyoMunicipalList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoMunicipalMap, _keepTokyoMunicipalMap) &&
             const DeepCollectionEquality()
                 .equals(other._keepTemplePhotoMap, _keepTemplePhotoMap) &&
             (identical(other.currentZoom, currentZoom) ||
@@ -396,6 +425,7 @@ class _$AppParamStateImpl implements _AppParamState {
       const DeepCollectionEquality().hash(_keepTempleLatLngMap),
       const DeepCollectionEquality().hash(_keepStationMap),
       const DeepCollectionEquality().hash(_keepTokyoMunicipalList),
+      const DeepCollectionEquality().hash(_keepTokyoMunicipalMap),
       const DeepCollectionEquality().hash(_keepTemplePhotoMap),
       currentZoom,
       currentPaddingIndex,
@@ -419,6 +449,7 @@ abstract class _AppParamState implements AppParamState {
       final Map<String, TempleLatLngModel> keepTempleLatLngMap,
       final Map<String, StationModel> keepStationMap,
       final List<TokyoMunicipalModel> keepTokyoMunicipalList,
+      final Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
       final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
       final double currentZoom,
       final int currentPaddingIndex,
@@ -435,6 +466,8 @@ abstract class _AppParamState implements AppParamState {
   Map<String, StationModel> get keepStationMap;
   @override
   List<TokyoMunicipalModel> get keepTokyoMunicipalList;
+  @override
+  Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap;
   @override
   Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap;
 

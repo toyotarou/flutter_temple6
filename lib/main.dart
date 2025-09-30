@@ -83,6 +83,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
           templeLatLngMap: templeLatLngState.templeLatLngMap,
           stationMap: stationState.stationMap,
           tokyoMunicipalList: tokyoMunicipalState.tokyoMunicipalList,
+          tokyoMunicipalMap: tokyoMunicipalState.tokyoMunicipalMap,
           templePhotoMap: templePhotoState.templePhotoMap,
         ),
       ),

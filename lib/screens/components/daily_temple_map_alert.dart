@@ -134,6 +134,11 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                   userAgentPackageName: 'com.example.app',
                 ),
 
+                if (appParamState.selectedMunicipalNameList.isNotEmpty) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolygonLayer(polygons: makeAreaPolygons()),
+                ],
+
                 // ignore: always_specify_types
                 PolylineLayer(polylines: makeTransportationPolyline()),
 
@@ -412,5 +417,44 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
       secondEntries: _secondEntries,
       onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
     );
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polygon> makeAreaPolygons() {
+    // ignore: always_specify_types
+    final List<Polygon<Object>> polygonList = <Polygon>[];
+
+    for (final String element in appParamState.selectedMunicipalNameList) {
+      if (appParamState.keepTokyoMunicipalMap[element] != null) {
+        for (final List<List<List<double>>> rings in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
+          if (rings.isEmpty) {
+            continue;
+          }
+
+          final List<LatLng> outer = rings.first.map((List<double> p) => LatLng(p[1], p[0])).toList();
+
+          final List<List<LatLng>> holes = <List<LatLng>>[];
+
+          for (int i = 1; i < rings.length; i++) {
+            holes.add(rings[i].map((List<double> p) => LatLng(p[1], p[0])).toList());
+          }
+
+          polygonList.add(
+            // ignore: always_specify_types
+            Polygon(
+              points: outer,
+              holePointsList: holes.isEmpty ? null : holes,
+              isFilled: true,
+              color: const Color(0x33FF0000),
+              borderColor: const Color(0xFFFF0000),
+              borderStrokeWidth: 1.5,
+            ),
+          );
+        }
+      }
+    }
+
+    return polygonList;
   }
 }
