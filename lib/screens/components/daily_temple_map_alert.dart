@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/temple_data.dart';
@@ -364,38 +365,29 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
       widget: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-            const SizedBox(width: double.infinity),
+          children: widget.templeMunicipalList.map((String e) {
+            return GestureDetector(
+              onTap: () {
+                appParamNotifier.setSelectedMunicipalNameList(municipal: e);
+              },
 
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                margin: const EdgeInsets.all(5),
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final List<String> selectedMunicipalNameList = ref.watch(
+                    appParamProvider.select((AppParamState value) => value.selectedMunicipalNameList),
+                  );
 
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
-
-                child: const Column(
-                  children: <Widget>[
-                    SizedBox(width: double.infinity),
-
-                    Text('CLEAR', style: TextStyle(fontSize: 12)),
-                  ],
-                ),
-              ),
-            ),
-
-            Column(
-              children: widget.templeMunicipalList.map((String e) {
-                return GestureDetector(
-                  onTap: () {
-                    print(e);
-                  },
-                  child: Container(
+                  return Container(
                     margin: const EdgeInsets.all(5),
 
                     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                    decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
+                    decoration: BoxDecoration(
+                      color: (selectedMunicipalNameList.contains(e))
+                          ? Colors.yellowAccent.withValues(alpha: 0.1)
+                          : Colors.transparent,
+
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
+                    ),
 
                     child: Column(
                       children: <Widget>[
@@ -404,11 +396,11 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                         Text(e, style: const TextStyle(fontSize: 12)),
                       ],
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
+                  );
+                },
+              ),
+            );
+          }).toList(),
         ),
       ),
 

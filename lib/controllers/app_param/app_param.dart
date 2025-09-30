@@ -32,6 +32,8 @@ class AppParamState with _$AppParamState {
     List<OverlayEntry>? secondEntries,
 
     Offset? overlayPosition,
+
+    @Default(<String>[]) List<String> selectedMunicipalNameList,
   }) = _AppParamState;
 }
 
@@ -76,4 +78,20 @@ class AppParam extends _$AppParam {
 
   ///
   void updateOverlayPosition(Offset newPos) => state = state.copyWith(overlayPosition: newPos);
+
+  ///
+  void clearSelectedMunicipalNameList() => state = state.copyWith(selectedMunicipalNameList: <String>[]);
+
+  ///
+  void setSelectedMunicipalNameList({required String municipal}) {
+    final List<String> list = <String>[...state.selectedMunicipalNameList];
+
+    if (list.contains(municipal)) {
+      list.remove(municipal);
+    } else {
+      list.add(municipal);
+    }
+
+    state = state.copyWith(selectedMunicipalNameList: list);
+  }
 }

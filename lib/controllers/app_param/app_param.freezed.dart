@@ -34,6 +34,8 @@ mixin _$AppParamState {
   List<OverlayEntry>? get firstEntries => throw _privateConstructorUsedError;
   List<OverlayEntry>? get secondEntries => throw _privateConstructorUsedError;
   Offset? get overlayPosition => throw _privateConstructorUsedError;
+  List<String> get selectedMunicipalNameList =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,7 +60,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       int currentPaddingIndex,
       List<OverlayEntry>? firstEntries,
       List<OverlayEntry>? secondEntries,
-      Offset? overlayPosition});
+      Offset? overlayPosition,
+      List<String> selectedMunicipalNameList});
 }
 
 /// @nodoc
@@ -86,6 +89,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? firstEntries = freezed,
     Object? secondEntries = freezed,
     Object? overlayPosition = freezed,
+    Object? selectedMunicipalNameList = null,
   }) {
     return _then(_value.copyWith(
       keepTempleList: null == keepTempleList
@@ -128,6 +132,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.overlayPosition
           : overlayPosition // ignore: cast_nullable_to_non_nullable
               as Offset?,
+      selectedMunicipalNameList: null == selectedMunicipalNameList
+          ? _value.selectedMunicipalNameList
+          : selectedMunicipalNameList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -150,7 +158,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       int currentPaddingIndex,
       List<OverlayEntry>? firstEntries,
       List<OverlayEntry>? secondEntries,
-      Offset? overlayPosition});
+      Offset? overlayPosition,
+      List<String> selectedMunicipalNameList});
 }
 
 /// @nodoc
@@ -176,6 +185,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? firstEntries = freezed,
     Object? secondEntries = freezed,
     Object? overlayPosition = freezed,
+    Object? selectedMunicipalNameList = null,
   }) {
     return _then(_$AppParamStateImpl(
       keepTempleList: null == keepTempleList
@@ -218,6 +228,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.overlayPosition
           : overlayPosition // ignore: cast_nullable_to_non_nullable
               as Offset?,
+      selectedMunicipalNameList: null == selectedMunicipalNameList
+          ? _value._selectedMunicipalNameList
+          : selectedMunicipalNameList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -239,14 +253,16 @@ class _$AppParamStateImpl implements _AppParamState {
       this.currentPaddingIndex = 5,
       final List<OverlayEntry>? firstEntries,
       final List<OverlayEntry>? secondEntries,
-      this.overlayPosition})
+      this.overlayPosition,
+      final List<String> selectedMunicipalNameList = const <String>[]})
       : _keepTempleList = keepTempleList,
         _keepTempleLatLngMap = keepTempleLatLngMap,
         _keepStationMap = keepStationMap,
         _keepTokyoMunicipalList = keepTokyoMunicipalList,
         _keepTemplePhotoMap = keepTemplePhotoMap,
         _firstEntries = firstEntries,
-        _secondEntries = secondEntries;
+        _secondEntries = secondEntries,
+        _selectedMunicipalNameList = selectedMunicipalNameList;
 
   final List<TempleModel> _keepTempleList;
   @override
@@ -329,10 +345,19 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   final Offset? overlayPosition;
+  final List<String> _selectedMunicipalNameList;
+  @override
+  @JsonKey()
+  List<String> get selectedMunicipalNameList {
+    if (_selectedMunicipalNameList is EqualUnmodifiableListView)
+      return _selectedMunicipalNameList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedMunicipalNameList);
+  }
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTemplePhotoMap: $keepTemplePhotoMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTemplePhotoMap: $keepTemplePhotoMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList)';
   }
 
   @override
@@ -359,7 +384,9 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality()
                 .equals(other._secondEntries, _secondEntries) &&
             (identical(other.overlayPosition, overlayPosition) ||
-                other.overlayPosition == overlayPosition));
+                other.overlayPosition == overlayPosition) &&
+            const DeepCollectionEquality().equals(
+                other._selectedMunicipalNameList, _selectedMunicipalNameList));
   }
 
   @override
@@ -374,7 +401,8 @@ class _$AppParamStateImpl implements _AppParamState {
       currentPaddingIndex,
       const DeepCollectionEquality().hash(_firstEntries),
       const DeepCollectionEquality().hash(_secondEntries),
-      overlayPosition);
+      overlayPosition,
+      const DeepCollectionEquality().hash(_selectedMunicipalNameList));
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -396,7 +424,8 @@ abstract class _AppParamState implements AppParamState {
       final int currentPaddingIndex,
       final List<OverlayEntry>? firstEntries,
       final List<OverlayEntry>? secondEntries,
-      final Offset? overlayPosition}) = _$AppParamStateImpl;
+      final Offset? overlayPosition,
+      final List<String> selectedMunicipalNameList}) = _$AppParamStateImpl;
 
   @override
   List<TempleModel> get keepTempleList;
@@ -422,6 +451,8 @@ abstract class _AppParamState implements AppParamState {
   List<OverlayEntry>? get secondEntries;
   @override
   Offset? get overlayPosition;
+  @override
+  List<String> get selectedMunicipalNameList;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
