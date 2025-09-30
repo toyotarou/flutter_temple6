@@ -285,7 +285,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           onPressed: searchHit ? () {} : null,
 
           icon: Icon(
-            Icons.arrow_downward,
+            Icons.list,
             color: searchHit ? Colors.yellowAccent : Colors.white.withValues(alpha: 0.3),
           ),
         ),
