@@ -223,24 +223,30 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
           width: 20,
           height: 20,
 
-          child: (int.tryParse(widget.templeDataList[i].mark) != null)
-              ? Stack(
-                  children: <Widget>[
-                    const Icon(FontAwesomeIcons.toriiGate, size: 20, color: Colors.pinkAccent),
+          child: GestureDetector(
+            onTap: () {},
 
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: CircleAvatar(radius: 8, child: Text(i.toString(), style: const TextStyle(fontSize: 10))),
+            child: (int.tryParse(widget.templeDataList[i].mark) != null)
+                ? Stack(
+                    children: <Widget>[
+                      const Icon(FontAwesomeIcons.toriiGate, size: 20, color: Colors.pinkAccent),
+
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(radius: 8, child: Text(i.toString(), style: const TextStyle(fontSize: 10))),
+                      ),
+                    ],
+                  )
+                : CircleAvatar(
+                    backgroundColor: Colors.green[900],
+
+                    child: Text(
+                      widget.templeDataList[i].mark,
+                      style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
-                  ],
-                )
-              : CircleAvatar(
-                  child: Text(
-                    widget.templeDataList[i].mark,
-                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                   ),
-                ),
+          ),
         ),
       );
     }
@@ -502,9 +508,13 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
     final List<TempleDataModel> uniqueTemples = getUniqueTemples(list);
 
+    final List<TempleDataModel> filteredTemples = uniqueTemples.where((TempleDataModel t) {
+      return !widget.templeDataList.any((TempleDataModel w) => w.latitude == t.latitude && w.longitude == t.longitude);
+    }).toList();
+
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
-        for (final TempleDataModel element2 in uniqueTemples) {
+        for (final TempleDataModel element2 in filteredTemples) {
           if (pointInMunicipality(
             element2.latitude.toDouble(),
             element2.longitude.toDouble(),
@@ -513,7 +523,20 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
             municipalTempleMarkerList.add(
               Marker(
                 point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
-                child: const Icon(Icons.ac_unit, color: Colors.purple),
+
+                child: GestureDetector(
+                  onTap: () {},
+                  child: CircleAvatar(
+                    radius: 10,
+
+                    backgroundColor: Colors.pinkAccent.withValues(alpha: 0.6),
+
+                    child: Text(
+                      element2.rank,
+                      style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ),
             );
           }

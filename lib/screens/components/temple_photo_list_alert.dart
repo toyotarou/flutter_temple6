@@ -25,13 +25,34 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            Text(widget.temple),
+            Positioned(
+              top: 5,
+              right: 5,
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
+                child: Text(
+                  (appParamState.keepTemplePhotoMap[widget.temple] == null)
+                      ? '0'
+                      : appParamState.keepTemplePhotoMap[widget.temple]!.length.toString(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
 
-            Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            Expanded(child: displayTemplePhotoList()),
+              children: <Widget>[
+                Text(widget.temple, style: const TextStyle(fontSize: 12)),
+
+                Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+
+                Expanded(child: displayTemplePhotoList()),
+              ],
+            ),
           ],
         ),
       ),
