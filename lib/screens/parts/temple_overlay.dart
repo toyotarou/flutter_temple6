@@ -153,6 +153,7 @@ void addFirstOverlay({
       }
       setStateCallback(() => firstEntries.clear());
     }
+    // ignore: empty_catches
   } catch (e) {}
 
   late OverlayEntry entry;

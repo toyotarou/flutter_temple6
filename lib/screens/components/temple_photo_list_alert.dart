@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
+import '../../models/temple_photo_model.dart';
 import '../parts/temple_dialog.dart';
 import 'temple_photo_display_alert.dart';
 
@@ -25,7 +26,7 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             Text(widget.temple),
 
             Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
@@ -41,7 +42,7 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
   Widget displayTemplePhotoList() {
     final List<Widget> list = <Widget>[];
 
-    appParamState.keepTemplePhotoMap[widget.temple]?.forEach((element) {
+    appParamState.keepTemplePhotoMap[widget.temple]?.forEach((TemplePhotoModel element) {
       final List<Widget> list2 = <Widget>[];
       for (final String element2 in element.templephotos) {
         list2.add(
