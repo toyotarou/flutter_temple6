@@ -367,35 +367,43 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
           children: <Widget>[
             const SizedBox(width: double.infinity),
 
-            Container(
-              margin: const EdgeInsets.all(5),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                margin: const EdgeInsets.all(5),
 
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-              decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
 
-              child: const Column(
-                children: <Widget>[
-                  SizedBox(width: double.infinity),
+                child: const Column(
+                  children: <Widget>[
+                    SizedBox(width: double.infinity),
 
-                  Text('CLEAR', style: TextStyle(fontSize: 12)),
-                ],
+                    Text('CLEAR', style: TextStyle(fontSize: 12)),
+                  ],
+                ),
               ),
             ),
 
             Column(
               children: widget.templeMunicipalList.map((String e) {
-                return Container(
-                  margin: const EdgeInsets.all(5),
+                return GestureDetector(
+                  onTap: () {
+                    print(e);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
 
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                    decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
 
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(width: double.infinity),
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(width: double.infinity),
 
-                      Text(e, style: const TextStyle(fontSize: 12)),
-                    ],
+                        Text(e, style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
