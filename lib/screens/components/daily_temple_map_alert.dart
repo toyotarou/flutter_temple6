@@ -11,7 +11,9 @@ import '../../extensions/extensions.dart';
 import '../../models/common/temple_data.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
+import '../parts/temple_dialog.dart';
 import '../parts/temple_overlay.dart';
+import 'temple_photo_list_alert.dart';
 
 class DailyTempleMapAlert extends ConsumerStatefulWidget {
   const DailyTempleMapAlert({
@@ -293,7 +295,21 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
                 if (int.tryParse(element.mark) != null) ...<Widget>[
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      try {
+                        closeAllOverlays(ref: ref);
+                        // ignore: empty_catches
+                      } catch (e) {}
+
+                      TempleDialog(
+                        context: context,
+                        widget: TemplePhotoListAlert(temple: element.name),
+                        clearBarrierColor: true,
+
+                        paddingTop: context.screenSize.height * 0.2,
+                        paddingRight: context.screenSize.width * 0.2,
+                      );
+                    },
                     child: const CircleAvatar(
                       radius: 15,
                       backgroundColor: Color(0x66000000),

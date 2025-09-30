@@ -146,12 +146,14 @@ void addFirstOverlay({
   WidgetRef? ref,
   String? from,
 }) {
-  if (firstEntries.isNotEmpty) {
-    for (final OverlayEntry e in firstEntries) {
-      e.remove();
+  try {
+    if (firstEntries.isNotEmpty) {
+      for (final OverlayEntry e in firstEntries) {
+        e.remove();
+      }
+      setStateCallback(() => firstEntries.clear());
     }
-    setStateCallback(() => firstEntries.clear());
-  }
+  } catch (e) {}
 
   late OverlayEntry entry;
   entry = createDraggableOverlayEntry(
@@ -195,12 +197,16 @@ void addSecondOverlay({
   required ValueChanged<Offset> onPositionChanged,
   bool? fixedFlag,
 }) {
-  if (secondEntries.isNotEmpty) {
-    for (final OverlayEntry e in secondEntries) {
-      e.remove();
+  try {
+    if (secondEntries.isNotEmpty) {
+      for (final OverlayEntry e in secondEntries) {
+        e.remove();
+      }
+      setStateCallback(() => secondEntries.clear());
     }
-    setStateCallback(() => secondEntries.clear());
-  }
+
+    // ignore: empty_catches
+  } catch (e) {}
 
   late OverlayEntry entry;
   entry = createDraggableOverlayEntry(

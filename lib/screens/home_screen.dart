@@ -344,6 +344,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             templeMunicipalList: templeMunicipalList,
                           ),
 
+                          clearBarrierColor: true,
+
                           executeFunctionWhenDialogClose: true,
                           ref: ref,
                           from: 'DailyTempleMapAlert',
