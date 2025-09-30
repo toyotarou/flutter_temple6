@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'temple_overlay.dart';
+
 Future<void> TempleDialog({
   required BuildContext context,
   required Widget widget,
@@ -32,32 +34,18 @@ Future<void> TempleDialog({
     },
     // ignore: always_specify_types
   ).then((value) {
-    //
-    //
-    // // ignore: use_if_null_to_convert_nulls_to_bools
-    // if (executeFunctionWhenDialogClose == true) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     if (from == 'MoneyDataInputAlert' ||
-    //         from == 'MonthlyGeolocMapDisplayAlert' ||
-    //         from == 'ToushiShintakuDataUpdateAlert' ||
-    //         from == 'LifetimeGeolocMapDisplayAlert') {
-    //       if (ref != null) {
-    //         try {
-    //           closeAllOverlays(ref: ref);
-    //         // ignore: empty_catches
-    //         } catch (e) {}
-    //       }
-    //     }
-    //
-    //     if (from == 'BankPriceListAlert') {
-    //       if (ref != null) {
-    //         ref.read(bankInputProvider.notifier).setSelectedBankKey(key: '');
-    //       }
-    //     }
-    //   });
-    // }
-    //
-    //
-    //
+    // ignore: use_if_null_to_convert_nulls_to_bools
+    if (executeFunctionWhenDialogClose == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (from == 'DailyTempleMapAlert') {
+          if (ref != null) {
+            try {
+              closeAllOverlays(ref: ref);
+              // ignore: empty_catches
+            } catch (e) {}
+          }
+        }
+      });
+    }
   });
 }

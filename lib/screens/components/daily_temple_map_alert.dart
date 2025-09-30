@@ -11,6 +11,7 @@ import '../../extensions/extensions.dart';
 import '../../models/common/temple_data.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
+import '../parts/temple_overlay.dart';
 
 class DailyTempleMapAlert extends ConsumerStatefulWidget {
   const DailyTempleMapAlert({
@@ -48,6 +49,9 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   List<Marker> markerList = <Marker>[];
 
   List<LatLng> latLngList = <LatLng>[];
+
+  final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
+  final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
 
   ///
   @override
@@ -88,6 +92,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
       setState(() => currentZoom = newZoom);
 
       appParamNotifier.setCurrentZoom(zoom: newZoom);
+
+      callFirstBox();
     }
   }
 
@@ -328,5 +334,38 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
       // ignore: always_specify_types
       Polyline(points: latLngList, color: Colors.redAccent.withValues(alpha: 0.5), strokeWidth: 5),
     ];
+  }
+
+  ///
+  void callFirstBox() {
+    appParamNotifier.setFirstOverlayParams(firstEntries: _firstEntries);
+
+    addFirstOverlay(
+      context: context,
+      setStateCallback: setState,
+      width: context.screenSize.width * 0.25,
+      height: context.screenSize.height * 0.25,
+      color: Colors.blueGrey.withOpacity(0.3),
+      initialPosition: Offset(context.screenSize.width * 0.75, context.screenSize.height * 0.45),
+
+      // widget: SizedBox(
+      //   height: context.screenSize.height * 0.2,
+      //
+      //   child: displayTimeGeolocList(
+      //     onCloseDialogFromOverlay: () {
+      //       if (!completer.isCompleted) {
+      //         completer.complete();
+      //       }
+      //     },
+      //   ),
+      // ),
+      widget: Text('fffffffff'),
+
+      fixedFlag: true,
+
+      firstEntries: _firstEntries,
+      secondEntries: _secondEntries,
+      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+    );
   }
 }

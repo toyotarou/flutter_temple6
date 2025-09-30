@@ -339,6 +339,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             templeDataList: templeDataList,
                             templeMunicipalList: templeMunicipalList,
                           ),
+
+                          executeFunctionWhenDialogClose: true,
+                          ref: ref,
+                          from: 'DailyTempleMapAlert',
                         );
                       },
 

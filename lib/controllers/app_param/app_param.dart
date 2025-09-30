@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,10 +24,16 @@ class AppParamState with _$AppParamState {
     ///
     @Default(0) double currentZoom,
     @Default(5) int currentPaddingIndex,
+
+    ///
+    List<OverlayEntry>? firstEntries,
+    List<OverlayEntry>? secondEntries,
+
+    Offset? overlayPosition,
   }) = _AppParamState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AppParam extends _$AppParam {
   final Utility utility = Utility();
 
@@ -52,4 +59,15 @@ class AppParam extends _$AppParam {
 
   ///
   void setCurrentZoom({required double zoom}) => state = state.copyWith(currentZoom: zoom);
+
+  ///
+  void setFirstOverlayParams({required List<OverlayEntry>? firstEntries}) =>
+      state = state.copyWith(firstEntries: firstEntries);
+
+  ///
+  void setSecondOverlayParams({required List<OverlayEntry>? secondEntries}) =>
+      state = state.copyWith(secondEntries: secondEntries);
+
+  ///
+  void updateOverlayPosition(Offset newPos) => state = state.copyWith(overlayPosition: newPos);
 }
