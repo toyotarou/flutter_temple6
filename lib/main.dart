@@ -80,6 +80,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
         onTap: () => primaryFocus?.unfocus(),
         child: HomeScreen(
           templeList: templeState.templeList,
+          templeLatLngList: templeLatLngState.templeLatLngList,
           templeLatLngMap: templeLatLngState.templeLatLngMap,
           stationMap: stationState.stationMap,
           tokyoMunicipalList: tokyoMunicipalState.tokyoMunicipalList,

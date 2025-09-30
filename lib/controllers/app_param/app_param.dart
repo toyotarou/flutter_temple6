@@ -18,6 +18,7 @@ part 'app_param.g.dart';
 class AppParamState with _$AppParamState {
   const factory AppParamState({
     @Default(<TempleModel>[]) List<TempleModel> keepTempleList,
+    @Default(<TempleLatLngModel>[]) List<TempleLatLngModel> keepTempleLatLngList,
     @Default(<String, TempleLatLngModel>{}) Map<String, TempleLatLngModel> keepTempleLatLngMap,
     @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
     @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
@@ -48,6 +49,10 @@ class AppParam extends _$AppParam {
 
   ///
   void setKeepTempleList({required List<TempleModel> list}) => state = state.copyWith(keepTempleList: list);
+
+  ///
+  void setKeepTempleLatLngList({required List<TempleLatLngModel> list}) =>
+      state = state.copyWith(keepTempleLatLngList: list);
 
   ///
   void setKeepTempleLatLngMap({required Map<String, TempleLatLngModel> map}) =>

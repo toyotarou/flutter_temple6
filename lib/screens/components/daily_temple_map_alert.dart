@@ -10,6 +10,8 @@ import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/temple_data.dart';
+import '../../models/temple_lat_lng_model.dart';
+import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_dialog.dart';
@@ -25,7 +27,7 @@ class DailyTempleMapAlert extends ConsumerStatefulWidget {
   });
 
   final String date;
-  final List<TempleData> templeDataList;
+  final List<TempleDataModel> templeDataList;
   final List<String> templeMunicipalList;
 
   @override
@@ -55,6 +57,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
+
+  List<Marker> municipalTempleMarkerList = <Marker>[];
 
   ///
   @override
@@ -109,6 +113,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
     makeMarker();
 
+    makeMunicipalTempleMarkerList();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -143,6 +149,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                 PolylineLayer(polylines: makeTransportationPolyline()),
 
                 MarkerLayer(markers: markerList),
+
+                if (municipalTempleMarkerList.isNotEmpty) MarkerLayer(markers: municipalTempleMarkerList),
               ],
             ),
 
@@ -266,7 +274,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   Widget displayDailyTempleList() {
     final List<Widget> list = <Widget>[];
 
-    for (final TempleData element in widget.templeDataList) {
+    for (final TempleDataModel element in widget.templeDataList) {
       list.add(
         Container(
           decoration: BoxDecoration(
@@ -278,6 +286,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
           child: DefaultTextStyle(
             style: const TextStyle(fontSize: 12),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
               children: <Widget>[
                 CircleAvatar(
                   backgroundColor: Colors.pinkAccent.withValues(alpha: 0.5),
@@ -297,6 +307,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                       Text(element.name),
 
                       Text('${element.latitude} / ${element.longitude}', style: const TextStyle(fontSize: 10)),
+
+                      Text(element.address),
                     ],
                   ),
                 ),
@@ -456,5 +468,47 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     }
 
     return polygonList;
+  }
+
+  ///
+  void makeMunicipalTempleMarkerList() {
+    municipalTempleMarkerList.clear();
+
+    //-------------------------------------------------------------//
+    final List<TempleDataModel> list = <TempleDataModel>[];
+
+    for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
+      list.add(
+        TempleDataModel(
+          name: element.temple,
+          address: element.address,
+          latitude: element.lat,
+          longitude: element.lng,
+          rank: element.rank,
+        ),
+      );
+    }
+    //-------------------------------------------------------------//
+
+    final List<TempleDataModel> uniqueTemples = getUniqueTemples(list);
+
+    for (final String element in appParamState.selectedMunicipalNameList) {
+      if (appParamState.keepTokyoMunicipalMap[element] != null) {
+        for (final TempleDataModel element2 in uniqueTemples) {
+          if (pointInMunicipality(
+            element2.latitude.toDouble(),
+            element2.longitude.toDouble(),
+            appParamState.keepTokyoMunicipalMap[element]!,
+          )) {
+            municipalTempleMarkerList.add(
+              Marker(
+                point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
+                child: const Icon(Icons.ac_unit, color: Colors.purple),
+              ),
+            );
+          }
+        }
+      }
+    }
   }
 }
