@@ -13,6 +13,7 @@ import '../models/common/temple_data.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
+import '../models/temple_photo_model.dart';
 import '../models/tokyo_municipal_model.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
@@ -25,12 +26,14 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.templeLatLngMap,
     required this.stationMap,
     required this.tokyoMunicipalList,
+    required this.templePhotoMap,
   });
 
   final List<TempleModel> templeList;
   final Map<String, TempleLatLngModel> templeLatLngMap;
   final Map<String, StationModel> stationMap;
   final List<TokyoMunicipalModel> tokyoMunicipalList;
+  final Map<String, List<TemplePhotoModel>> templePhotoMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -79,6 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
       appParamNotifier.setKeepStationMap(map: widget.stationMap);
       appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
+      appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
     });
 
     return Scaffold(
