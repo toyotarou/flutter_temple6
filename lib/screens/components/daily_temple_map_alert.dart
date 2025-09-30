@@ -96,7 +96,9 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
       appParamNotifier.setCurrentZoom(zoom: newZoom);
 
-      callFirstBox();
+      if (widget.templeMunicipalList.isNotEmpty) {
+        callFirstBox();
+      }
     }
   }
 
