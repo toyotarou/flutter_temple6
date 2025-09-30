@@ -293,9 +293,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
                 if (int.tryParse(element.mark) != null) ...<Widget>[
                   GestureDetector(
-                    onTap: () {
-                      print(element.name);
-                    },
+                    onTap: () {},
                     child: const CircleAvatar(
                       radius: 15,
                       backgroundColor: Color(0x66000000),
@@ -346,20 +344,49 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
       width: context.screenSize.width * 0.25,
       height: context.screenSize.height * 0.25,
       color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: Offset(context.screenSize.width * 0.75, context.screenSize.height * 0.45),
+      initialPosition: Offset(context.screenSize.width * 0.75, context.screenSize.height * 0.3),
 
-      // widget: SizedBox(
-      //   height: context.screenSize.height * 0.2,
-      //
-      //   child: displayTimeGeolocList(
-      //     onCloseDialogFromOverlay: () {
-      //       if (!completer.isCompleted) {
-      //         completer.complete();
-      //       }
-      //     },
-      //   ),
-      // ),
-      widget: Text('fffffffff'),
+      widget: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(width: double.infinity),
+
+            Container(
+              margin: const EdgeInsets.all(5),
+
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+              decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
+
+              child: const Column(
+                children: <Widget>[
+                  SizedBox(width: double.infinity),
+
+                  Text('CLEAR', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+
+            Column(
+              children: widget.templeMunicipalList.map((String e) {
+                return Container(
+                  margin: const EdgeInsets.all(5),
+
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.5))),
+
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(width: double.infinity),
+
+                      Text(e, style: const TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
 
       fixedFlag: true,
 
