@@ -32,10 +32,12 @@ class AppParamState with _$AppParamState {
     ///
     List<OverlayEntry>? firstEntries,
     List<OverlayEntry>? secondEntries,
-
     Offset? overlayPosition,
 
+    ///
     @Default(<String>[]) List<String> selectedMunicipalNameList,
+
+    @Default('') String searchWord,
   }) = _AppParamState;
 }
 
@@ -78,6 +80,8 @@ class AppParam extends _$AppParam {
   ///
   void setCurrentZoom({required double zoom}) => state = state.copyWith(currentZoom: zoom);
 
+  //===================================================
+
   ///
   void setFirstOverlayParams({required List<OverlayEntry>? firstEntries}) =>
       state = state.copyWith(firstEntries: firstEntries);
@@ -88,6 +92,8 @@ class AppParam extends _$AppParam {
 
   ///
   void updateOverlayPosition(Offset newPos) => state = state.copyWith(overlayPosition: newPos);
+
+  //===================================================
 
   ///
   void clearSelectedMunicipalNameList() => state = state.copyWith(selectedMunicipalNameList: <String>[]);
@@ -104,4 +110,7 @@ class AppParam extends _$AppParam {
 
     state = state.copyWith(selectedMunicipalNameList: list);
   }
+
+  ///
+  void setSearchWord({required String word}) => state = state.copyWith(searchWord: word);
 }

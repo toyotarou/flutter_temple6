@@ -53,6 +53,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   static const double _yearBarHeight = 56.0;
 
+  TextEditingController searchWordEditingController = TextEditingController();
+
   ///
   @override
   void dispose() {
@@ -93,7 +95,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('TEMPLE LIST'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Temple List'),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        bottom: displayHomeAppBar(),
+      ),
+
       body: CustomScrollView(
         controller: _scrollController,
         cacheExtent: 400,
@@ -140,9 +148,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
             SliverList.builder(
               itemCount: byYear[y]!.length,
               itemBuilder: (BuildContext context, int index) {
-                final TempleModel item = byYear[y]![index];
+                final TempleModel templeModel = byYear[y]![index];
                 final double screenW = MediaQuery.of(context).size.width;
                 final int targetPxW = max(1, (screenW * dpr).round());
+
+                //=======================================================
+
+                bool showSearchHitBorder = false;
+
+                if (appParamState.searchWord != '') {
+                  final List<String> templeNameList = <String>[templeModel.temple];
+
+                  if (templeModel.memo != '') {
+                    templeNameList.addAll(templeModel.memo.split('、'));
+                  }
+
+                  final RegExp reg = RegExp(appParamState.searchWord);
+
+                  for (final String element in templeNameList) {
+                    if (reg.firstMatch(element) != null) {
+                      showSearchHitBorder = true;
+                    }
+                  }
+                }
+
+                //=======================================================
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -150,22 +180,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                     clipBehavior: Clip.antiAlias,
                     child: Stack(
                       children: <Widget>[
-                        AspectRatio(
-                          aspectRatio: 3 / 2,
-                          child: CachedNetworkImage(
-                            imageUrl: item.thumbnail,
-                            memCacheWidth: targetPxW,
-                            fit: BoxFit.cover,
-                            placeholder: (BuildContext c, _) => const ColoredBox(color: Colors.black12),
-                            errorWidget: (BuildContext c, _, __) => const Icon(Icons.broken_image),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: showSearchHitBorder
+                                  ? Colors.yellowAccent.withValues(alpha: 0.6)
+                                  : Colors.transparent,
+                              width: 5,
+                            ),
+                          ),
+
+                          child: AspectRatio(
+                            aspectRatio: 3 / 2,
+                            child: CachedNetworkImage(
+                              imageUrl: templeModel.thumbnail,
+                              memCacheWidth: targetPxW,
+                              fit: BoxFit.cover,
+                              placeholder: (BuildContext c, _) => const ColoredBox(color: Colors.black12),
+                              errorWidget: (BuildContext c, _, __) => const Icon(Icons.broken_image),
+                            ),
                           ),
                         ),
 
-                        displayTempleNameParts(templeModel: item),
+                        displayTempleNameParts(templeModel: templeModel),
 
-                        displayTempleInfoParts(templeModel: item),
+                        displayTempleInfoParts(templeModel: templeModel),
 
-                        displayTempleRankParts(templeModel: item),
+                        displayTempleRankParts(templeModel: templeModel),
                       ],
                     ),
                   ),
@@ -177,6 +218,78 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
+    );
+  }
+
+  ///
+  PreferredSize displayHomeAppBar() {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(40),
+      child: Column(children: <Widget>[displaySearchForm()]),
+    );
+  }
+
+  ///
+  Widget displaySearchForm() {
+    bool searchHit = false;
+
+    if (appParamState.searchWord != '') {
+      final RegExp reg = RegExp(appParamState.searchWord);
+
+      for (final TempleLatLngModel element in widget.templeLatLngList) {
+        if (reg.firstMatch(element.temple) != null) {
+          searchHit = true;
+        }
+      }
+    }
+
+    return Row(
+      children: <Widget>[
+        IconButton(
+          onPressed: () {
+            searchWordEditingController.text = '';
+
+            appParamNotifier.setSearchWord(word: '');
+          },
+          icon: const Icon(Icons.close, color: Colors.white),
+        ),
+        Expanded(
+          child: TextFormField(
+            style: const TextStyle(color: Colors.white),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: searchWordEditingController,
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              filled: true,
+              fillColor: Colors.white.withOpacity(0.2),
+              border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+            ),
+            onTapOutside: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
+            onChanged: (String value) {},
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            appParamNotifier.setSearchWord(word: searchWordEditingController.text);
+
+            setState(() {});
+          },
+
+          icon: const Icon(Icons.search, color: Colors.white),
+        ),
+
+        IconButton(
+          onPressed: searchHit ? () {} : null,
+
+          icon: Icon(
+            Icons.arrow_downward,
+            color: searchHit ? Colors.yellowAccent : Colors.white.withValues(alpha: 0.3),
+          ),
+        ),
+      ],
     );
   }
 
