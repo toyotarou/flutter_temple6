@@ -163,7 +163,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           : polygons
                 .expand((List<List<List<double>>> e2) => e2)
                 .expand((List<List<double>> e3) => e3)
-                .map((List<double> p) => p[0])
+                .map((List<double> p) => p[1])
                 .toList();
 
       final List<double> lngList = polygons == null
@@ -171,7 +171,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           : polygons
                 .expand((List<List<List<double>>> e2) => e2)
                 .expand((List<List<double>> e3) => e3)
-                .map((List<double> p) => p[1])
+                .map((List<double> p) => p[0])
                 .toList();
 
       list.add(

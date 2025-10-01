@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +46,51 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => isLoading = true);
+
+      // ignore: always_specify_types
+      Future.delayed(const Duration(seconds: 2), () {
+        setDefaultBoundsMap();
+
+        setState(() => isLoading = false);
+      });
+    });
+  }
+
+  ///
+  void setDefaultBoundsMap() {
+    if (widget.latList.isNotEmpty && widget.lngList.isNotEmpty) {
+      mapController.rotate(0);
+
+      final LatLngBounds bounds = LatLngBounds.fromPoints(<LatLng>[LatLng(minLat, maxLng), LatLng(maxLat, minLng)]);
+
+      final CameraFit cameraFit = CameraFit.bounds(
+        bounds: bounds,
+        padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
+      );
+
+      mapController.fitCamera(cameraFit);
+
+      /// これは残しておく
+      // final LatLng newCenter = mapController.camera.center;
+
+      final double newZoom = mapController.camera.zoom;
+
+      setState(() => currentZoom = newZoom);
+
+      appParamNotifier.setCurrentZoom(zoom: newZoom);
+    }
+  }
+
+  ///
+  @override
   Widget build(BuildContext context) {
+    makeMinMaxLatLng();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -71,9 +117,21 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 ),
               ],
             ),
+
+            if (isLoading) ...<Widget>[const Center(child: CircularProgressIndicator())],
           ],
         ),
       ),
     );
+  }
+
+  ///
+  void makeMinMaxLatLng() {
+    if (widget.latList.isNotEmpty && widget.lngList.isNotEmpty) {
+      minLat = widget.latList.reduce(min);
+      maxLat = widget.latList.reduce(max);
+      minLng = widget.lngList.reduce(min);
+      maxLng = widget.lngList.reduce(max);
+    }
   }
 }
