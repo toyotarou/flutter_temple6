@@ -1,4 +1,4 @@
-import '../models/common/temple_data.dart';
+import '../models/common/temple_data_model.dart';
 import '../models/tokyo_municipal_model.dart';
 
 const double _eps = 1e-12;

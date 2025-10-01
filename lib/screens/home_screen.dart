@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../const/const.dart';
 import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
-import '../models/common/temple_data.dart';
+import '../models/common/search_result_model.dart';
+import '../models/common/temple_data_model.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_model.dart';
@@ -19,6 +20,7 @@ import '../utility/functions.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
+import 'parts/temple_overlay.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({
@@ -54,6 +56,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
   static const double _yearBarHeight = 56.0;
 
   TextEditingController searchWordEditingController = TextEditingController();
+
+  List<SearchResultModel> searchResultModelList = <SearchResultModel>[];
+
+  final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
+  final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
+
+  ///
+  @override
+  void initState() {
+    super.initState();
+
+    searchResultModelList.clear();
+  }
 
   ///
   @override
@@ -231,14 +246,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   ///
   Widget displaySearchForm() {
-    bool searchHit = false;
-
     if (appParamState.searchWord != '') {
-      final RegExp reg = RegExp(appParamState.searchWord);
+      searchResultModelList.clear();
 
-      for (final TempleLatLngModel element in widget.templeLatLngList) {
-        if (reg.firstMatch(element.temple) != null) {
-          searchHit = true;
+      for (final TempleModel element in widget.templeList) {
+        final List<String> templeNameList = <String>[element.temple];
+
+        if (element.memo != '') {
+          templeNameList.addAll(element.memo.split('、'));
+        }
+
+        final RegExp reg = RegExp(appParamState.searchWord);
+
+        for (final String element2 in templeNameList) {
+          if (reg.firstMatch(element2) != null) {
+            searchResultModelList.add(SearchResultModel(date: element.date.yyyymmdd, name: element2));
+          }
         }
       }
     }
@@ -250,6 +273,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
             searchWordEditingController.text = '';
 
             appParamNotifier.setSearchWord(word: '');
+
+            searchResultModelList.clear();
+
+            setState(() {});
           },
           icon: const Icon(Icons.close, color: Colors.white),
         ),
@@ -282,11 +309,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         ),
 
         IconButton(
-          onPressed: searchHit ? () {} : null,
+          onPressed: (searchResultModelList.isNotEmpty)
+              ? () {
+                  callFirstBox();
+                }
+              : null,
 
           icon: Icon(
             Icons.list,
-            color: searchHit ? Colors.yellowAccent : Colors.white.withValues(alpha: 0.3),
+            color: (searchResultModelList.isNotEmpty) ? Colors.yellowAccent : Colors.white.withValues(alpha: 0.3),
           ),
         ),
       ],
@@ -616,6 +647,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
     }
 
     return null;
+  }
+
+  ///
+  void callFirstBox() {
+    appParamNotifier.setFirstOverlayParams(firstEntries: _firstEntries);
+
+    addFirstOverlay(
+      context: context,
+      setStateCallback: setState,
+      width: context.screenSize.width * 0.6,
+      height: context.screenSize.height * 0.5,
+      color: Colors.blueGrey.withOpacity(0.3),
+      initialPosition: Offset(10, context.screenSize.height * 0.25),
+
+      widget: SingleChildScrollView(
+        child: Column(
+          children: searchResultModelList.map((SearchResultModel e) {
+            return DefaultTextStyle(
+              style: const TextStyle(fontSize: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                ),
+                padding: const EdgeInsets.all(5),
+
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 60, child: Text(e.date)),
+
+                    const SizedBox(width: 10),
+
+                    Expanded(child: Text(e.name, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+
+      fixedFlag: true,
+
+      firstEntries: _firstEntries,
+      secondEntries: _secondEntries,
+      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+    );
   }
 }
 

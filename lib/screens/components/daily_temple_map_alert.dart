@@ -9,7 +9,7 @@ import 'package:latlong2/latlong.dart';
 import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
-import '../../models/common/temple_data.dart';
+import '../../models/common/temple_data_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
