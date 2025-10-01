@@ -446,39 +446,11 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
         for (final List<List<List<double>>> element2 in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
-          if (element2.isEmpty) {
-            continue;
+          final Polygon<Object>? polygon = getRedPaintPolygon(polygon: element2);
+
+          if (polygon != null) {
+            polygonList.add(polygon);
           }
-
-          /////////////////////////////////////
-          final List<LatLng> outer = element2.first.map((List<double> element3) {
-            return LatLng(element3[1], element3[0]);
-          }).toList();
-          /////////////////////////////////////
-
-          /////////////////////////////////////
-          final List<List<LatLng>> holes = <List<LatLng>>[];
-
-          for (int i = 1; i < element2.length; i++) {
-            holes.add(
-              element2[i].map((List<double> element4) {
-                return LatLng(element4[1], element4[0]);
-              }).toList(),
-            );
-          }
-          /////////////////////////////////////
-
-          polygonList.add(
-            // ignore: always_specify_types
-            Polygon(
-              points: outer,
-              holePointsList: holes.isEmpty ? null : holes,
-              isFilled: true,
-              color: const Color(0x33FF0000),
-              borderColor: const Color(0xFFFF0000),
-              borderStrokeWidth: 1.5,
-            ),
-          );
         }
       }
     }

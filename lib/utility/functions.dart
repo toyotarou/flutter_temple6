@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
 import '../models/common/spot_data_model.dart';
 import '../models/tokyo_municipal_model.dart';
 
@@ -141,10 +145,7 @@ List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
     } else {
       final double avgLat = averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.latitude));
 
-      final double avgLng = averageOf<SpotDataModel>(
-        entry.value,
-        (SpotDataModel e) => double.tryParse(e.longitude),
-      );
+      final double avgLng = averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.longitude));
 
       result.add(
         SpotDataModel(
@@ -173,4 +174,34 @@ double averageOf<T>(Iterable<T> items, double? Function(T) selector) {
     }
   }
   return count == 0 ? 0.0 : sum / count;
+}
+
+///
+// ignore: always_specify_types
+Polygon? getRedPaintPolygon({required List<List<List<double>>> polygon}) {
+  if (polygon.isEmpty) {
+    return null;
+  }
+
+  /////////////////////////////////////
+  final List<LatLng> outer = polygon.first.map((List<double> element) => LatLng(element[1], element[0])).toList();
+  /////////////////////////////////////
+
+  /////////////////////////////////////
+  final List<List<LatLng>> holes = <List<LatLng>>[];
+
+  for (int i = 1; i < polygon.length; i++) {
+    holes.add(polygon[i].map((List<double> element4) => LatLng(element4[1], element4[0])).toList());
+  }
+  /////////////////////////////////////
+
+  // ignore: always_specify_types
+  return Polygon(
+    points: outer,
+    holePointsList: holes.isEmpty ? null : holes,
+    isFilled: true,
+    color: const Color(0x33FF0000),
+    borderColor: const Color(0xFFFF0000),
+    borderStrokeWidth: 1.5,
+  );
 }
