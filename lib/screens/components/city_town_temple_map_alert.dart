@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../controllers/controllers_mixin.dart';
 import '../../models/common/spot_data_model.dart';
+import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 
 class CityTownTempleMapAlert extends ConsumerStatefulWidget {
@@ -17,6 +18,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
     this.noReachMunicipalSpotData,
     required this.latList,
     required this.lngList,
+    this.polygons,
   });
 
   final String cityTownName;
@@ -24,6 +26,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   final List<SpotDataModel>? noReachMunicipalSpotData;
   final List<double> latList;
   final List<double> lngList;
+  final List<List<List<List<double>>>>? polygons;
 
   @override
   ConsumerState<CityTownTempleMapAlert> createState() => _CityTownTempleMapAlertState();
@@ -115,6 +118,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   tileProvider: CachedTileProvider(),
                   userAgentPackageName: 'com.example.app',
                 ),
+
+                if (widget.polygons != null) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolygonLayer(polygons: makeAreaPolygons()),
+                ],
               ],
             ),
 
@@ -133,5 +141,22 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       minLng = widget.lngList.reduce(min);
       maxLng = widget.lngList.reduce(max);
     }
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polygon> makeAreaPolygons() {
+    // ignore: always_specify_types
+    final List<Polygon<Object>> polygonList = <Polygon>[];
+
+    for (final List<List<List<double>>> element in widget.polygons!) {
+      final Polygon<Object>? polygon = getRedPaintPolygon(polygon: element);
+
+      if (polygon != null) {
+        polygonList.add(polygon);
+      }
+    }
+
+    return polygonList;
   }
 }

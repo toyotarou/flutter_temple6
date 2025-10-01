@@ -225,6 +225,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                       visitedMunicipalSpotData: visitedMunicipalSpotDataListMap[element],
                       noReachMunicipalSpotData: noReachMunicipalSpotDataListMap[element],
+
+                      polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
                     ),
                   );
                 },
