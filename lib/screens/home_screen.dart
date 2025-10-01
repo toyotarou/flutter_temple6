@@ -17,6 +17,7 @@ import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
 import '../models/tokyo_municipal_model.dart';
 import '../utility/functions.dart';
+import '../utility/utility.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
@@ -61,6 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
+
+  Utility utility = Utility();
 
   ///
   @override
@@ -109,132 +112,141 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Temple List'),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        bottom: displayHomeAppBar(),
-      ),
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        utility.getBackGround(),
 
-      body: CustomScrollView(
-        controller: _scrollController,
-        cacheExtent: 400,
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _YearBarDelegate(
-              minExtentHeight: _yearBarHeight,
-              maxExtentHeight: _yearBarHeight,
-              child: Container(
-                key: _headerKey,
+        Scaffold(
+          backgroundColor: Colors.transparent,
 
-                color: Theme.of(context).colorScheme.surface,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                alignment: Alignment.centerLeft,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: years.length,
-                  itemBuilder: (_, int i) {
-                    final int y = years[i];
-                    return ChoiceChip(label: Text('$y'), selected: false, onSelected: (_) => _jumpToYear(y));
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(width: 8),
-                ),
-              ),
-            ),
+          appBar: AppBar(
+            title: const Text('Temple List'),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            bottom: displayHomeAppBar(),
           ),
 
-          for (final int y in years) ...<Widget>[
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(key: _yearAnchorKeys[y], height: 0),
+          body: CustomScrollView(
+            controller: _scrollController,
+            cacheExtent: 400,
+            slivers: <Widget>[
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _YearBarDelegate(
+                  minExtentHeight: _yearBarHeight,
+                  maxExtentHeight: _yearBarHeight,
+                  child: Container(
+                    key: _headerKey,
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Text('$y 年', style: Theme.of(context).textTheme.titleLarge),
-                  ),
-                ],
-              ),
-            ),
-
-            SliverList.builder(
-              itemCount: byYear[y]!.length,
-              itemBuilder: (BuildContext context, int index) {
-                final TempleModel templeModel = byYear[y]![index];
-                final double screenW = MediaQuery.of(context).size.width;
-                final int targetPxW = max(1, (screenW * dpr).round());
-
-                //=======================================================
-
-                bool showSearchHitBorder = false;
-
-                if (appParamState.searchWord != '') {
-                  final List<String> templeNameList = <String>[templeModel.temple];
-
-                  if (templeModel.memo != '') {
-                    templeNameList.addAll(templeModel.memo.split('、'));
-                  }
-
-                  final RegExp reg = RegExp(appParamState.searchWord);
-
-                  for (final String element in templeNameList) {
-                    if (reg.firstMatch(element) != null) {
-                      showSearchHitBorder = true;
-                    }
-                  }
-                }
-
-                //=======================================================
-
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: showSearchHitBorder
-                                  ? Colors.yellowAccent.withValues(alpha: 0.6)
-                                  : Colors.transparent,
-                              width: 5,
-                            ),
-                          ),
-
-                          child: AspectRatio(
-                            aspectRatio: 3 / 2,
-                            child: CachedNetworkImage(
-                              imageUrl: templeModel.thumbnail,
-                              memCacheWidth: targetPxW,
-                              fit: BoxFit.cover,
-                              placeholder: (BuildContext c, _) => const ColoredBox(color: Colors.black12),
-                              errorWidget: (BuildContext c, _, __) => const Icon(Icons.broken_image),
-                            ),
-                          ),
-                        ),
-
-                        displayTempleNameParts(templeModel: templeModel),
-
-                        displayTempleInfoParts(templeModel: templeModel),
-
-                        displayTempleRankParts(templeModel: templeModel),
-                      ],
+                    color: Theme.of(context).colorScheme.surface,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    alignment: Alignment.centerLeft,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: years.length,
+                      itemBuilder: (_, int i) {
+                        final int y = years[i];
+                        return ChoiceChip(label: Text('$y'), selected: false, onSelected: (_) => _jumpToYear(y));
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
                     ),
                   ),
-                );
-              },
-            ),
-          ],
+                ),
+              ),
 
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
-        ],
-      ),
+              for (final int y in years) ...<Widget>[
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(key: _yearAnchorKeys[y], height: 0),
 
-      endDrawer: _dispDrawer(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                        child: Text('$y 年', style: Theme.of(context).textTheme.titleLarge),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SliverList.builder(
+                  itemCount: byYear[y]!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final TempleModel templeModel = byYear[y]![index];
+                    final double screenW = MediaQuery.of(context).size.width;
+                    final int targetPxW = max(1, (screenW * dpr).round());
+
+                    //=======================================================
+
+                    bool showSearchHitBorder = false;
+
+                    if (appParamState.searchWord != '') {
+                      final List<String> templeNameList = <String>[templeModel.temple];
+
+                      if (templeModel.memo != '') {
+                        templeNameList.addAll(templeModel.memo.split('、'));
+                      }
+
+                      final RegExp reg = RegExp(appParamState.searchWord);
+
+                      for (final String element in templeNameList) {
+                        if (reg.firstMatch(element) != null) {
+                          showSearchHitBorder = true;
+                        }
+                      }
+                    }
+
+                    //=======================================================
+
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: showSearchHitBorder
+                                      ? Colors.yellowAccent.withValues(alpha: 0.6)
+                                      : Colors.transparent,
+                                  width: 5,
+                                ),
+                              ),
+
+                              child: AspectRatio(
+                                aspectRatio: 3 / 2,
+                                child: CachedNetworkImage(
+                                  imageUrl: templeModel.thumbnail,
+                                  memCacheWidth: targetPxW,
+                                  fit: BoxFit.cover,
+                                  placeholder: (BuildContext c, _) => const ColoredBox(color: Colors.black12),
+                                  errorWidget: (BuildContext c, _, __) => const Icon(Icons.broken_image),
+                                ),
+                              ),
+                            ),
+
+                            displayTempleNameParts(templeModel: templeModel),
+
+                            displayTempleInfoParts(templeModel: templeModel),
+
+                            displayTempleRankParts(templeModel: templeModel),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            ],
+          ),
+
+          endDrawer: _dispDrawer(),
+        ),
+      ],
     );
   }
 
