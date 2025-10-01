@@ -5,35 +5,45 @@ class StationModel {
     required this.address,
     required this.lat,
     required this.lng,
+    required this.prefecture,
     required this.lineNumber,
     required this.lineName,
   });
 
-  factory StationModel.fromJson(Map<String, dynamic> json) => StationModel(
-        id: int.parse(json['id'].toString()),
-        stationName: json['station_name'].toString(),
-        address: json['address'].toString(),
-        lat: json['lat'].toString(),
-        lng: json['lng'].toString(),
-        lineNumber: json['line_number'].toString(),
-        lineName: json['line_name'].toString(),
-      );
+  /// JSON → モデル
+  factory StationModel.fromJson(Map<String, dynamic> json) {
+    return StationModel(
+      id: json['id'] as int,
+      stationName: json['station_name'] as String,
+      address: json['address'] as String,
+      lat: json['lat'] as String,
+      lng: json['lng'] as String,
+      prefecture: json['prefecture'] as String,
+      lineNumber: json['line_number'] as String,
+      lineName: json['line_name'] as String,
+    );
+  }
 
-  int id;
-  String stationName;
-  String address;
-  String lat;
-  String lng;
-  String lineNumber;
-  String lineName;
+  final int id;
+  final String stationName;
+  final String address;
+  final String lat;
+  final String lng;
+  final String prefecture;
+  final String lineNumber;
+  final String lineName;
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'station_name': stationName,
-        'address': address,
-        'lat': lat,
-        'lng': lng,
-        'line_number': lineNumber,
-        'line_name': lineName,
-      };
+  /// モデル → JSON
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'station_name': stationName,
+      'address': address,
+      'lat': lat,
+      'lng': lng,
+      'prefecture': prefecture,
+      'line_number': lineNumber,
+      'line_name': lineName,
+    };
+  }
 }
