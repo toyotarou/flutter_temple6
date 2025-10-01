@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/http/client.dart';
 import '../../../data/http/path.dart';
 import '../../../extensions/extensions.dart';
+import '../../../models/dup_spot_model.dart';
 import '../../../models/station_model.dart';
 import '../../../utility/utility.dart';
 import '../dup_spot/dup_spot.dart';
@@ -40,7 +41,9 @@ class Station extends _$Station {
 
     try {
       //-----------------------------------------------------------//
-      var dupSpotMap = ref.watch(dupSpotProvider.select((value) => value.dupSpotMap));
+      final Map<String, DupSpotModel> dupSpotMap = ref.watch(
+        dupSpotProvider.select((DupSpotState value) => value.dupSpotMap),
+      );
       //-----------------------------------------------------------//
 
       final dynamic value = await client.post(path: APIPath.getAllStation);

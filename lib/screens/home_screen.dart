@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../const/const.dart';
@@ -19,6 +18,7 @@ import '../models/temple_photo_model.dart';
 import '../models/tokyo_municipal_model.dart';
 import '../utility/functions.dart';
 import '../utility/utility.dart';
+import 'components/city_town_temple_list_alert.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
@@ -346,43 +346,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       child: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(left: 10),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 60),
-
-              Text('jjjjjjjj'),
-
-              /*
-
-
-
+              const SizedBox(height: 60),
 
               TextButton(
                 onPressed: () {
-                  templeRankNotifier.clearTempleRankNameAndRank();
-
-                  appParamNotifier.setVisitedTempleSelectedRank(rank: '');
-
-                  TempleDialog(
-                    context: context,
-                    widget: VisitedTempleListAlert(
-                      templeVisitDateMap: templeState.templeVisitDateMap,
-                      dateTempleMap: templeState.dateTempleMap,
-                    ),
-                    executeFunctionWhenDialogClose: true,
-                    ref: ref,
-                    from: 'VisitedTempleListAlert',
-                    rotate: 0,
-                  );
+                  TempleDialog(context: context, widget: const CityTownTempleListAlert());
                 },
-                child: const Text('VisitedTempleListAlert'),
+                child: const Text('市区町村別神社リスト', style: TextStyle(color: Colors.white)),
               ),
 
-
-
-
-
+              /*
 
 
               TextButton(
