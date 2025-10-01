@@ -13,6 +13,7 @@ import '../models/common/search_result_model.dart';
 import '../models/common/temple_data_model.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
+import '../models/temple_list_model.dart';
 import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
 import '../models/tokyo_municipal_model.dart';
@@ -34,6 +35,7 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.tokyoMunicipalMap,
     required this.templePhotoMap,
     required this.templeLatLngList,
+    required this.templeListMap,
   });
 
   final List<TempleModel> templeList;
@@ -43,6 +45,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final List<TokyoMunicipalModel> tokyoMunicipalList;
   final Map<String, TokyoMunicipalModel> tokyoMunicipalMap;
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
+  final Map<String, TempleListModel> templeListMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -111,6 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
       appParamNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
+      appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
     });
 
     return Stack(

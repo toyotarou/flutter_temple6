@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '_get_data/station/station.dart';
 import '_get_data/temple/temple.dart';
 import '_get_data/temple_lat_lng/temple_lat_lng.dart';
+import '_get_data/temple_list/temple_list.dart';
 import '_get_data/temple_photo/temple_photo.dart';
 import '_get_data/tokyo_municipal/tokyo_municipal.dart';
 import 'app_param/app_param.dart';
@@ -43,6 +44,12 @@ mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   TemplePhotoState get templePhotoState => ref.watch(templePhotoProvider);
 
   TemplePhoto get templePhotoNotifier => ref.read(templePhotoProvider.notifier);
+
+  //==========================================//
+
+  TempleListState get templeListState => ref.watch(templeListProvider);
+
+  TempleList get templeListNotifier => ref.read(templeListProvider.notifier);
 
   //==========================================//
 }

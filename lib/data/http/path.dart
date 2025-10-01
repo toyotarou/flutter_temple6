@@ -1,4 +1,4 @@
-enum APIPath { getAllTemple, getTempleLatLng, getTempleDatePhoto, getAllStation, getDupSpot }
+enum APIPath { getAllTemple, getTempleLatLng, getTempleDatePhoto, getAllStation, getDupSpot, getTempleListTemple }
 
 extension APIPathExtension on APIPath {
   String? get value {
@@ -13,6 +13,8 @@ extension APIPathExtension on APIPath {
         return 'getAllStation';
       case APIPath.getDupSpot:
         return 'getDupSpot';
+      case APIPath.getTempleListTemple:
+        return 'getTempleListTemple';
     }
   }
 }

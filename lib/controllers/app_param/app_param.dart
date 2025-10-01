@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
+import '../../models/temple_list_model.dart';
 import '../../models/temple_model.dart';
 
 import '../../models/temple_photo_model.dart';
@@ -24,6 +25,7 @@ class AppParamState with _$AppParamState {
     @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
     @Default(<String, TokyoMunicipalModel>{}) Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
     @Default(<String, List<TemplePhotoModel>>{}) Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
+    @Default(<String, TempleListModel>{}) Map<String, TempleListModel> keepTempleListMap,
 
     ///
     @Default(0) double currentZoom,
@@ -74,6 +76,10 @@ class AppParam extends _$AppParam {
   ///
   void setKeepTokyoMunicipalMap({required Map<String, TokyoMunicipalModel> map}) =>
       state = state.copyWith(keepTokyoMunicipalMap: map);
+
+  ///
+  void setKeepTempleListMap({required Map<String, TempleListModel> map}) =>
+      state = state.copyWith(keepTempleListMap: map);
 
   //===================================================
 
