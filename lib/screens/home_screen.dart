@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../const/const.dart';
 import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
+import '../main.dart';
 import '../models/common/search_result_model.dart';
 import '../models/common/temple_data_model.dart';
 import '../models/station_model.dart';
@@ -125,6 +126,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
             centerTitle: true,
             backgroundColor: Colors.transparent,
             bottom: displayHomeAppBar(),
+            leading: IconButton(
+              onPressed: () => context.findAncestorStateOfType<AppRootState>()?.restartApp(),
+              icon: const Icon(Icons.refresh),
+            ),
           ),
 
           body: CustomScrollView(
@@ -323,11 +328,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         ),
 
         IconButton(
-          onPressed: (searchResultModelList.isNotEmpty)
-              ? () {
-                  callFirstBox();
-                }
-              : null,
+          onPressed: (searchResultModelList.isNotEmpty) ? () => callFirstBox() : null,
 
           icon: Icon(
             Icons.pages,
@@ -548,10 +549,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3)),
               child: Row(
                 children: <Widget>[
+                  const SizedBox(width: 10),
+
                   SizedBox(width: 100, child: Text(templeModel.date.yyyymmdd)),
 
                   Expanded(child: Text(templeModel.temple, maxLines: 1, overflow: TextOverflow.ellipsis)),
