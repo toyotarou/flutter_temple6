@@ -233,6 +233,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ),
+
+      endDrawer: _dispDrawer(),
     );
   }
 
@@ -316,11 +318,209 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
               : null,
 
           icon: Icon(
-            Icons.list,
+            Icons.pages,
             color: (searchResultModelList.isNotEmpty) ? Colors.yellowAccent : Colors.white.withValues(alpha: 0.3),
           ),
         ),
       ],
+    );
+  }
+
+  ///
+  Widget _dispDrawer() {
+    return Drawer(
+      backgroundColor: Colors.blueGrey.withOpacity(0.2),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(left: 10),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 60),
+
+              Text('jjjjjjjj'),
+
+              /*
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  templeRankNotifier.clearTempleRankNameAndRank();
+
+                  appParamNotifier.setVisitedTempleSelectedRank(rank: '');
+
+                  TempleDialog(
+                    context: context,
+                    widget: VisitedTempleListAlert(
+                      templeVisitDateMap: templeState.templeVisitDateMap,
+                      dateTempleMap: templeState.dateTempleMap,
+                    ),
+                    executeFunctionWhenDialogClose: true,
+                    ref: ref,
+                    from: 'VisitedTempleListAlert',
+                    rotate: 0,
+                  );
+                },
+                child: const Text('VisitedTempleListAlert'),
+              ),
+
+
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  appParamNotifier.setSelectedTokyoJinjachouTempleName(name: '');
+
+                  TempleDialog(
+                    context: context,
+                    widget: TokyoJinjachouTempleListAlert(
+                      templeVisitDateMap: templeState.templeVisitDateMap,
+                      idBaseComplementTempleVisitedDateMap:
+                      complementTempleVisitedDateState.idBaseComplementTempleVisitedDateMap,
+                      dateTempleMap: templeState.dateTempleMap,
+                    ),
+                    rotate: 0,
+                  );
+                },
+                child: const Text('TokyoJinjachouTempleListAlert'),
+              ),
+
+
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  TempleDialog(
+                    context: context,
+                    widget: const NeedleCompassMapAlert(),
+                    rotate: 0,
+                  );
+                },
+                child: const Text('NeedleCompassMapAlert'),
+              ),
+
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  TempleDialog(
+                    context: context,
+                    widget: const VisitedTempleFromHomeMapAlert(),
+                    executeFunctionWhenDialogClose: true,
+                    ref: ref,
+                    rotate: 0,
+                  );
+                },
+                child: const Text('VisitedTempleFromHomeMapAlert'),
+              ),
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  TempleDialog(context: context, widget: const PrefectureTempleListAlert(), rotate: 0);
+                },
+                child: const Text('PrefectureListAlert'),
+              ),
+
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  TempleDialog(context: context, widget: const SameDateVisitedTempleListAlert(), rotate: 0);
+                },
+                child: const Text('SameDateVisitedTempleListAlert'),
+              ),
+
+
+
+
+
+              Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  appParamNotifier.setHomeTextFormFieldVisible(flag: false);
+
+                  TempleDialog(
+                    context: context,
+                    widget: RouteTrainStationListAlert(
+                      tokyoStationMap: tokyoTrainState.tokyoStationMap,
+                      tokyoTrainList: tokyoTrainState.tokyoTrainList,
+                      templeVisitDateMap: templeState.templeVisitDateMap,
+                      dateTempleMap: templeState.dateTempleMap,
+                      tokyoTrainIdMap: tokyoTrainState.tokyoTrainIdMap,
+                    ),
+                    executeFunctionWhenDialogClose: true,
+                    ref: ref,
+                    from: 'RouteTrainStationListAlert',
+                    rotate: 0,
+                  );
+                },
+                child: const Text('RouteTrainStationListAlert'),
+              ),
+
+
+
+
+
+
+
+
+              TextButton(
+                onPressed: () {
+                  appParamNotifier.clearTrainList();
+
+                  latLngTempleNotifier.clearSelectedNearStation();
+
+                  appParamNotifier.setSelectTemple(name: '', lat: '', lng: '');
+
+                  appParamNotifier.setFirstOverlayParams(firstEntries: null);
+                  appParamNotifier.setSecondOverlayParams(secondEntries: null);
+
+                  TempleDialog(
+                    context: context,
+                    widget: NotReachTempleMapAlert(
+                      tokyoTrainIdMap: tokyoTrainState.tokyoTrainIdMap,
+                      tokyoTrainList: tokyoTrainState.tokyoTrainList,
+                      templeVisitDateMap: templeState.templeVisitDateMap,
+                      dateTempleMap: templeState.dateTempleMap,
+                    ),
+                    executeFunctionWhenDialogClose: true,
+                    ref: ref,
+                    rotate: 0,
+                  );
+                },
+                child: const Text('NotReachTempleMapAlert'),
+              ),
+
+
+
+
+              */
+            ],
+          ),
+        ),
+      ),
     );
   }
 
