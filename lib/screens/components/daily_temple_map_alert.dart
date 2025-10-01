@@ -9,7 +9,7 @@ import 'package:latlong2/latlong.dart';
 import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
-import '../../models/common/temple_data_model.dart';
+import '../../models/common/spot_data_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
@@ -27,7 +27,7 @@ class DailyTempleMapAlert extends ConsumerStatefulWidget {
   });
 
   final String date;
-  final List<TempleDataModel> templeDataList;
+  final List<SpotDataModel> templeDataList;
   final List<String> templeMunicipalList;
 
   @override
@@ -280,7 +280,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   Widget displayDailyTempleList() {
     final List<Widget> list = <Widget>[];
 
-    for (final TempleDataModel element in widget.templeDataList) {
+    for (final SpotDataModel element in widget.templeDataList) {
       list.add(
         Container(
           decoration: BoxDecoration(
@@ -491,11 +491,11 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     municipalTempleMarkerList.clear();
 
     //-------------------------------------------------------------//
-    final List<TempleDataModel> list = <TempleDataModel>[];
+    final List<SpotDataModel> list = <SpotDataModel>[];
 
     for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
       list.add(
-        TempleDataModel(
+        SpotDataModel(
           name: element.temple,
           address: element.address,
           latitude: element.lat,
@@ -506,15 +506,15 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     }
     //-------------------------------------------------------------//
 
-    final List<TempleDataModel> uniqueTemples = getUniqueTemples(list);
+    final List<SpotDataModel> uniqueTemples = getUniqueTemples(list);
 
-    final List<TempleDataModel> filteredTemples = uniqueTemples.where((TempleDataModel t) {
-      return !widget.templeDataList.any((TempleDataModel w) => w.latitude == t.latitude && w.longitude == t.longitude);
+    final List<SpotDataModel> filteredTemples = uniqueTemples.where((SpotDataModel t) {
+      return !widget.templeDataList.any((SpotDataModel w) => w.latitude == t.latitude && w.longitude == t.longitude);
     }).toList();
 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
-        for (final TempleDataModel element2 in filteredTemples) {
+        for (final SpotDataModel element2 in filteredTemples) {
           if (pointInMunicipality(
             element2.latitude.toDouble(),
             element2.longitude.toDouble(),

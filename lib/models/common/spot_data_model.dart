@@ -1,5 +1,5 @@
-class TempleDataModel {
-  TempleDataModel({
+class SpotDataModel {
+  SpotDataModel({
     required this.name,
     required this.address,
     required this.latitude,

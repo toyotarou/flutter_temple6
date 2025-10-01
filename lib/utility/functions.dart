@@ -1,4 +1,4 @@
-import '../models/common/temple_data_model.dart';
+import '../models/common/spot_data_model.dart';
 import '../models/tokyo_municipal_model.dart';
 
 const double _eps = 1e-12;
@@ -127,27 +127,27 @@ bool _pointOnSegment(double pLat, double pLng, double aLat, double aLng, double 
 }
 
 ///
-List<TempleDataModel> getUniqueTemples(List<TempleDataModel> input) {
-  final Map<String, List<TempleDataModel>> map = <String, List<TempleDataModel>>{};
-  for (final TempleDataModel t in input) {
-    map.putIfAbsent(t.name, () => <TempleDataModel>[]).add(t);
+List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
+  final Map<String, List<SpotDataModel>> map = <String, List<SpotDataModel>>{};
+  for (final SpotDataModel t in input) {
+    map.putIfAbsent(t.name, () => <SpotDataModel>[]).add(t);
   }
 
-  final List<TempleDataModel> result = <TempleDataModel>[];
+  final List<SpotDataModel> result = <SpotDataModel>[];
 
-  for (final MapEntry<String, List<TempleDataModel>> entry in map.entries) {
+  for (final MapEntry<String, List<SpotDataModel>> entry in map.entries) {
     if (entry.value.length == 1) {
       result.add(entry.value.first);
     } else {
-      final double avgLat = averageOf<TempleDataModel>(entry.value, (TempleDataModel e) => double.tryParse(e.latitude));
+      final double avgLat = averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.latitude));
 
-      final double avgLng = averageOf<TempleDataModel>(
+      final double avgLng = averageOf<SpotDataModel>(
         entry.value,
-        (TempleDataModel e) => double.tryParse(e.longitude),
+        (SpotDataModel e) => double.tryParse(e.longitude),
       );
 
       result.add(
-        TempleDataModel(
+        SpotDataModel(
           name: entry.key,
           address: '',
           latitude: avgLat.toString(),

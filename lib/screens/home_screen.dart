@@ -10,7 +10,7 @@ import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
 import '../main.dart';
 import '../models/common/search_result_model.dart';
-import '../models/common/temple_data_model.dart';
+import '../models/common/spot_data_model.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_list_model.dart';
@@ -36,6 +36,7 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.templePhotoMap,
     required this.templeLatLngList,
     required this.templeListMap,
+    required this.templeListList,
   });
 
   final List<TempleModel> templeList;
@@ -45,6 +46,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final List<TokyoMunicipalModel> tokyoMunicipalList;
   final Map<String, TokyoMunicipalModel> tokyoMunicipalMap;
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
+  final List<TempleListModel> templeListList;
   final Map<String, TempleListModel> templeListMap;
 
   @override
@@ -114,6 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
       appParamNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
+      appParamNotifier.setKeepTempleListList(list: widget.templeListList);
       appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
     });
 
@@ -560,7 +563,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                         ///////////////////////////////////////////////////////////////////////////
 
-                        final List<TempleDataModel> templeDataList = <TempleDataModel>[];
+                        final List<SpotDataModel> templeDataList = <SpotDataModel>[];
 
                         final List<String> templeMunicipalList = <String>[];
 
@@ -568,7 +571,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                           switch (templeModel.startPoint) {
                             case '自宅':
                               templeDataList.add(
-                                TempleDataModel(
+                                SpotDataModel(
                                   name: templeModel.startPoint,
                                   address: '千葉県船橋市二子町492-25-101',
                                   latitude: funabashiLat.toString(),
@@ -579,7 +582,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                             case '実家':
                               templeDataList.add(
-                                TempleDataModel(
+                                SpotDataModel(
                                   name: templeModel.startPoint,
                                   address: '東京都杉並区善福寺4-22-11',
                                   latitude: zenpukujiLat.toString(),
@@ -593,7 +596,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                               if (stationModel != null) {
                                 templeDataList.add(
-                                  TempleDataModel(
+                                  SpotDataModel(
                                     name: stationModel.stationName,
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
@@ -617,7 +620,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                           if (templeLatLngModel != null) {
                             templeDataList.add(
-                              TempleDataModel(
+                              SpotDataModel(
                                 name: templeLatLngModel.temple,
                                 address: templeLatLngModel.address,
                                 latitude: templeLatLngModel.lat,
@@ -643,7 +646,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                           switch (templeModel.endPoint) {
                             case '自宅':
                               templeDataList.add(
-                                TempleDataModel(
+                                SpotDataModel(
                                   name: templeModel.endPoint,
                                   address: '千葉県船橋市二子町492-25-101',
                                   latitude: funabashiLat.toString(),
@@ -654,7 +657,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                             case '実家':
                               templeDataList.add(
-                                TempleDataModel(
+                                SpotDataModel(
                                   name: templeModel.endPoint,
                                   address: '東京都杉並区善福寺4-22-11',
                                   latitude: zenpukujiLat.toString(),
@@ -668,7 +671,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                               if (stationModel != null) {
                                 templeDataList.add(
-                                  TempleDataModel(
+                                  SpotDataModel(
                                     name: stationModel.stationName,
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
