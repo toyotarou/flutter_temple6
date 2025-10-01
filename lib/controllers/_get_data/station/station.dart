@@ -6,6 +6,7 @@ import '../../../data/http/path.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/station_model.dart';
 import '../../../utility/utility.dart';
+import '../dup_spot/dup_spot.dart';
 
 part 'station.freezed.dart';
 
@@ -16,6 +17,10 @@ class StationState with _$StationState {
   const factory StationState({
     @Default(<StationModel>[]) List<StationModel> stationList,
     @Default(<String, StationModel>{}) Map<String, StationModel> stationMap,
+
+    ///
+    @Default(<StationModel>[]) List<StationModel> stationNameList,
+    @Default(<String, StationModel>{}) Map<String, StationModel> stationNameMap,
   }) = _StationState;
 }
 
@@ -34,11 +39,18 @@ class Station extends _$Station {
     final HttpClient client = ref.read(httpClientProvider);
 
     try {
+      //-----------------------------------------------------------//
+      var dupSpotMap = ref.watch(dupSpotProvider.select((value) => value.dupSpotMap));
+      //-----------------------------------------------------------//
+
       final dynamic value = await client.post(path: APIPath.getAllStation);
 
       final List<StationModel> list = <StationModel>[];
 
       final Map<String, StationModel> map = <String, StationModel>{};
+
+      final List<StationModel> list2 = <StationModel>[];
+      final Map<String, StationModel> map2 = <String, StationModel>{};
 
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -49,9 +61,17 @@ class Station extends _$Station {
 
         list.add(val);
         map[val.id.toString()] = val;
+
+        if (dupSpotMap[val.stationName] != null && val.prefecture == dupSpotMap[val.stationName]!.area) {
+          list2.add(val);
+          map2[val.stationName] = val;
+        } else {
+          list2.add(val);
+          map2[val.stationName] = val;
+        }
       }
 
-      return state.copyWith(stationList: list, stationMap: map);
+      return state.copyWith(stationList: list, stationMap: map, stationNameList: list2, stationNameMap: map2);
     } catch (e) {
       utility.showError('予期せぬエラーが発生しました');
       rethrow; // これにより呼び出し元でキャッチできる
@@ -67,5 +87,5 @@ class Station extends _$Station {
     } catch (_) {}
   }
 
-//============================================== api
+  //============================================== api
 }
