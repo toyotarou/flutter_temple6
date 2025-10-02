@@ -50,6 +50,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   List<TokyoMunicipalModel> neighborsList = <TokyoMunicipalModel>[];
 
+  List<String> neighborAreaNameList = <String>[];
+
   ///
   @override
   void initState() {
@@ -136,6 +138,39 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ],
             ),
 
+            Positioned(
+              bottom: 5,
+              right: 5,
+              left: 5,
+              child: SizedBox(
+                height: 60,
+
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: neighborAreaNameList.map((String e) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            appParamNotifier.setNeighborAreaNameList(name: e);
+                          },
+
+                          child: CircleAvatar(
+                            backgroundColor: (appParamState.neighborAreaNameList.contains(e))
+                                ? Colors.yellowAccent.withValues(alpha: 0.4)
+                                : Colors.blueAccent.withValues(alpha: 0.4),
+
+                            child: Text(e, style: const TextStyle(fontSize: 10, color: Colors.black)),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
+
             if (isLoading) ...<Widget>[const Center(child: CircularProgressIndicator())],
           ],
         ),
@@ -170,10 +205,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     return polygonList;
   }
 
+  bool isSetNeighborAreaNameList = false;
+
   ///
   // ignore: always_specify_types
   List<Polygon> getNeighborArea() {
     neighborsList.clear();
+
+    final List<String> list = <String>[];
 
     // ignore: always_specify_types
     final List<Polygon<Object>> polygonList = <Polygon>[];
@@ -186,6 +225,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
       if (neighborsList.isNotEmpty) {
         for (final TokyoMunicipalModel element in neighborsList) {
+          list.add(element.name);
+
           for (final List<List<List<double>>> element2 in element.polygons) {
             final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.blueAccent);
 
@@ -195,6 +236,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           }
         }
       }
+    }
+
+    if (!isSetNeighborAreaNameList) {
+      setState(() => neighborAreaNameList = list);
+
+      Future(() => appParamNotifier.setDefaultNeighborAreaNameList(list: list));
+
+      isSetNeighborAreaNameList = true;
     }
 
     return polygonList;

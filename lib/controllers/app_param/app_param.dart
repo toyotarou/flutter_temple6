@@ -41,6 +41,8 @@ class AppParamState with _$AppParamState {
     @Default(<String>[]) List<String> selectedMunicipalNameList,
 
     @Default('') String searchWord,
+
+    @Default(<String>[]) List<String> neighborAreaNameList,
   }) = _AppParamState;
 }
 
@@ -123,4 +125,21 @@ class AppParam extends _$AppParam {
 
   ///
   void setSearchWord({required String word}) => state = state.copyWith(searchWord: word);
+
+  ///
+  void setDefaultNeighborAreaNameList({required List<String> list}) =>
+      state = state.copyWith(neighborAreaNameList: list);
+
+  ///
+  void setNeighborAreaNameList({required String name}) {
+    final List<String> list = <String>[...state.neighborAreaNameList];
+
+    if (list.contains(name)) {
+      list.remove(name);
+    } else {
+      list.add(name);
+    }
+
+    state = state.copyWith(neighborAreaNameList: list);
+  }
 }
