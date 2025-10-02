@@ -188,16 +188,30 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                     Positioned(
                       top: 5,
                       right: 60,
-                      child: GestureDetector(
-                        onTap: () {
-                          setDefaultBoundsMap();
-                        },
-                        child: const CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Color(0x66000000),
+                      child: Row(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {},
+                            child: const CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0x66000000),
 
-                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
-                        ),
+                              child: Icon(Icons.train, size: 18, color: Colors.white),
+                            ),
+                          ),
+
+                          const SizedBox(width: 15),
+
+                          GestureDetector(
+                            onTap: () => setDefaultBoundsMap(),
+                            child: const CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0x66000000),
+
+                              child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

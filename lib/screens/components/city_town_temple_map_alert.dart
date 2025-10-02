@@ -190,30 +190,30 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     Positioned(
                       top: 5,
                       right: 60,
-                      child: GestureDetector(
-                        onTap: () {
-                          setDefaultBoundsMap();
-                        },
-                        child: const CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Color(0x66000000),
+                      child: Row(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {},
+                            child: const CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0x66000000),
 
-                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
-                        ),
-                      ),
-                    ),
+                              child: Icon(Icons.train, size: 18, color: Colors.white),
+                            ),
+                          ),
 
-                    Positioned(
-                      top: 5,
-                      right: 105,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: const CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Color(0x66000000),
+                          const SizedBox(width: 15),
 
-                          child: Icon(Icons.train, size: 18, color: Colors.white),
-                        ),
+                          GestureDetector(
+                            onTap: () => setDefaultBoundsMap(),
+                            child: const CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0x66000000),
+
+                              child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -383,9 +383,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: GestureDetector(
-                  onTap: () {
-                    appParamNotifier.setNeighborAreaNameList(name: e);
-                  },
+                  onTap: () => appParamNotifier.setNeighborAreaNameList(name: e),
 
                   child: CircleAvatar(
                     backgroundColor: (appParamState.neighborAreaNameList.contains(e))

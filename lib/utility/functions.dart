@@ -133,6 +133,7 @@ bool _pointOnSegment(double pLat, double pLng, double aLat, double aLng, double 
 ///
 List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
   final Map<String, List<SpotDataModel>> map = <String, List<SpotDataModel>>{};
+
   for (final SpotDataModel t in input) {
     map.putIfAbsent(t.name, () => <SpotDataModel>[]).add(t);
   }
@@ -164,12 +165,16 @@ List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
 ///
 double averageOf<T>(Iterable<T> items, double? Function(T) selector) {
   double sum = 0.0;
+
   int count = 0;
+
   // ignore: always_specify_types
   for (final it in items) {
     final double? v = selector(it);
+
     if (v != null && v.isFinite) {
       sum += v;
+
       count++;
     }
   }
@@ -207,7 +212,10 @@ Polygon? getColorPaintPolygon({required List<List<List<double>>> polygon, requir
 }
 
 ///
-List<TokyoMunicipalModel> getNeighborsArea({required TokyoMunicipalModel target, required List<TokyoMunicipalModel> all}) {
+List<TokyoMunicipalModel> getNeighborsArea({
+  required TokyoMunicipalModel target,
+  required List<TokyoMunicipalModel> all,
+}) {
   final List<TokyoMunicipalModel> out = <TokyoMunicipalModel>[];
 
   for (final TokyoMunicipalModel m in all) {
@@ -306,7 +314,6 @@ bool ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
 }
 
 ///
-
 bool segmentsIntersectOrTouch(List<double> aStart, List<double> aEnd, List<double> bStart, List<double> bEnd) {
   final Coordinate a1 = Coordinate(aStart[0], aStart[1]);
 
@@ -369,13 +376,13 @@ int orientation(Coordinate a, Coordinate b, Coordinate c) {
 
 ///
 bool onSegment(Coordinate a, Coordinate b, Coordinate p) {
-  final double minx = a.x < b.x ? a.x : b.x;
+  final double minX = a.x < b.x ? a.x : b.x;
 
-  final double maxx = a.x > b.x ? a.x : b.x;
+  final double maxX = a.x > b.x ? a.x : b.x;
 
-  final double miny = a.y < b.y ? a.y : b.y;
+  final double minY = a.y < b.y ? a.y : b.y;
 
-  final double maxy = a.y > b.y ? a.y : b.y;
+  final double maxY = a.y > b.y ? a.y : b.y;
 
-  return p.x <= maxx + _eps && p.x >= minx - _eps && p.y <= maxy + _eps && p.y >= miny - _eps;
+  return p.x <= maxX + _eps && p.x >= minX - _eps && p.y <= maxY + _eps && p.y >= minY - _eps;
 }
