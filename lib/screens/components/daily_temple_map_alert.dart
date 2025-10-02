@@ -446,7 +446,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
         for (final List<List<List<double>>> element2 in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
-          final Polygon<Object>? polygon = getRedPaintPolygon(polygon: element2);
+          final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.redAccent);
 
           if (polygon != null) {
             polygonList.add(polygon);

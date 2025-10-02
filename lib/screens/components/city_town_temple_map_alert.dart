@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../controllers/controllers_mixin.dart';
 import '../../models/common/spot_data_model.dart';
+import '../../models/tokyo_municipal_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 
@@ -46,6 +47,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   double? currentZoom;
 
   double currentZoomEightTeen = 18;
+
+  List<TokyoMunicipalModel> neighborsList = <TokyoMunicipalModel>[];
 
   ///
   @override
@@ -94,6 +97,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   Widget build(BuildContext context) {
     makeMinMaxLatLng();
 
+    getNeighborArea();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -123,6 +128,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   // ignore: always_specify_types
                   PolygonLayer(polygons: makeAreaPolygons()),
                 ],
+
+                if (neighborsList.isNotEmpty) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolygonLayer(polygons: getNeighborArea()),
+                ],
               ],
             ),
 
@@ -150,10 +160,40 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
     for (final List<List<List<double>>> element in widget.polygons!) {
-      final Polygon<Object>? polygon = getRedPaintPolygon(polygon: element);
+      final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element, color: Colors.redAccent);
 
       if (polygon != null) {
         polygonList.add(polygon);
+      }
+    }
+
+    return polygonList;
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polygon> getNeighborArea() {
+    neighborsList.clear();
+
+    // ignore: always_specify_types
+    final List<Polygon<Object>> polygonList = <Polygon>[];
+
+    if (appParamState.keepTokyoMunicipalMap[widget.cityTownName] != null) {
+      neighborsList = getNeighborsArea(
+        target: appParamState.keepTokyoMunicipalMap[widget.cityTownName]!,
+        all: appParamState.keepTokyoMunicipalList,
+      );
+
+      if (neighborsList.isNotEmpty) {
+        for (final TokyoMunicipalModel element in neighborsList) {
+          for (final List<List<List<double>>> element2 in element.polygons) {
+            final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.blueAccent);
+
+            if (polygon != null) {
+              polygonList.add(polygon);
+            }
+          }
+        }
       }
     }
 

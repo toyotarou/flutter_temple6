@@ -178,7 +178,7 @@ double averageOf<T>(Iterable<T> items, double? Function(T) selector) {
 
 ///
 // ignore: always_specify_types
-Polygon? getRedPaintPolygon({required List<List<List<double>>> polygon}) {
+Polygon? getColorPaintPolygon({required List<List<List<double>>> polygon, required Color color}) {
   if (polygon.isEmpty) {
     return null;
   }
@@ -200,8 +200,182 @@ Polygon? getRedPaintPolygon({required List<List<List<double>>> polygon}) {
     points: outer,
     holePointsList: holes.isEmpty ? null : holes,
     isFilled: true,
-    color: const Color(0x33FF0000),
-    borderColor: const Color(0xFFFF0000),
+    color: color.withValues(alpha: 0.3),
+    borderColor: color.withValues(alpha: 0.8),
     borderStrokeWidth: 1.5,
   );
+}
+
+///
+List<TokyoMunicipalModel> getNeighborsArea({required TokyoMunicipalModel target, required List<TokyoMunicipalModel> all}) {
+  final List<TokyoMunicipalModel> out = <TokyoMunicipalModel>[];
+
+  for (final TokyoMunicipalModel m in all) {
+    if (identical(m, target)) {
+      continue;
+    }
+
+    if (areAdjacent(target, m)) {
+      out.add(m);
+    }
+  }
+
+  out.sort((TokyoMunicipalModel a, TokyoMunicipalModel b) {
+    final double da = (a.centroidLat - target.centroidLat).abs() + (a.centroidLng - target.centroidLng).abs();
+
+    final double db = (b.centroidLat - target.centroidLat).abs() + (b.centroidLng - target.centroidLng).abs();
+
+    return da.compareTo(db);
+  });
+
+  return out;
+}
+
+///
+bool areAdjacent(TokyoMunicipalModel a, TokyoMunicipalModel b) {
+  if (!bBoxOverlap(a, b)) {
+    return false;
+  }
+
+  for (final List<List<List<double>>> polyA in a.polygons) {
+    for (final List<List<List<double>>> polyB in b.polygons) {
+      if (polygonsTouchOrIntersect(polyA, polyB)) {
+        return true;
+      }
+
+      if (polyA.isNotEmpty && polyB.isNotEmpty) {
+        final List<double> pa = polyA.first.first;
+
+        final List<double> pb = polyB.first.first;
+
+        if (pointInMunicipality(pa[1], pa[0], b)) {
+          return true;
+        }
+
+        if (pointInMunicipality(pb[1], pb[0], a)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+///
+bool bBoxOverlap(TokyoMunicipalModel a, TokyoMunicipalModel b) {
+  final bool latOverlap = !(a.maxLat < b.minLat - _eps || b.maxLat < a.minLat - _eps);
+
+  final bool lngOverlap = !(a.maxLng < b.minLng - _eps || b.maxLng < a.minLng - _eps);
+
+  return latOverlap && lngOverlap;
+}
+
+///
+bool polygonsTouchOrIntersect(List<List<List<double>>> polyA, List<List<List<double>>> polyB) {
+  for (final List<List<double>> ringA in polyA) {
+    for (final List<List<double>> ringB in polyB) {
+      if (ringsTouchOrIntersect(ringA, ringB)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+///
+bool ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
+  for (int i = 0; i < ringA.length; i++) {
+    final List<double> a1 = ringA[i];
+
+    final List<double> a2 = ringA[(i + 1) % ringA.length];
+
+    for (int j = 0; j < ringB.length; j++) {
+      final List<double> b1 = ringB[j];
+
+      final List<double> b2 = ringB[(j + 1) % ringB.length];
+
+      if (segmentsIntersectOrTouch(a1, a2, b1, b2)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+///
+
+bool segmentsIntersectOrTouch(List<double> aStart, List<double> aEnd, List<double> bStart, List<double> bEnd) {
+  final Coordinate a1 = Coordinate(aStart[0], aStart[1]);
+
+  final Coordinate a2 = Coordinate(aEnd[0], aEnd[1]);
+
+  final Coordinate b1 = Coordinate(bStart[0], bStart[1]);
+
+  final Coordinate b2 = Coordinate(bEnd[0], bEnd[1]);
+
+  final int o1 = orientation(a1, a2, b1);
+
+  final int o2 = orientation(a1, a2, b2);
+
+  final int o3 = orientation(b1, b2, a1);
+
+  final int o4 = orientation(b1, b2, a2);
+
+  if (o1 * o2 < 0 && o3 * o4 < 0) {
+    return true;
+  }
+
+  if (o1 == 0 && onSegment(a1, a2, b1)) {
+    return true;
+  }
+
+  if (o2 == 0 && onSegment(a1, a2, b2)) {
+    return true;
+  }
+
+  if (o3 == 0 && onSegment(b1, b2, a1)) {
+    return true;
+  }
+
+  if (o4 == 0 && onSegment(b1, b2, a2)) {
+    return true;
+  }
+
+  return false;
+}
+
+///
+class Coordinate {
+  const Coordinate(this.x, this.y);
+
+  final double x;
+
+  final double y;
+}
+
+///
+int orientation(Coordinate a, Coordinate b, Coordinate c) {
+  final double val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
+
+  if (val.abs() <= _eps) {
+    return 0;
+  }
+
+  return (val > 0) ? 1 : -1;
+}
+
+///
+bool onSegment(Coordinate a, Coordinate b, Coordinate p) {
+  final double minx = a.x < b.x ? a.x : b.x;
+
+  final double maxx = a.x > b.x ? a.x : b.x;
+
+  final double miny = a.y < b.y ? a.y : b.y;
+
+  final double maxy = a.y > b.y ? a.y : b.y;
+
+  return p.x <= maxx + _eps && p.x >= minx - _eps && p.y <= maxy + _eps && p.y >= miny - _eps;
 }
