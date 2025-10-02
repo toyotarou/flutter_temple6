@@ -227,11 +227,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         for (final TokyoMunicipalModel element in neighborsList) {
           list.add(element.name);
 
-          for (final List<List<List<double>>> element2 in element.polygons) {
-            final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.blueAccent);
+          if (appParamState.neighborAreaNameList.contains(element.name)) {
+            for (final List<List<List<double>>> element2 in element.polygons) {
+              final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.blueAccent);
 
-            if (polygon != null) {
-              polygonList.add(polygon);
+              if (polygon != null) {
+                polygonList.add(polygon);
+              }
             }
           }
         }
@@ -241,6 +243,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     if (!isSetNeighborAreaNameList) {
       setState(() => neighborAreaNameList = list);
 
+      // ignore: always_specify_types
       Future(() => appParamNotifier.setDefaultNeighborAreaNameList(list: list));
 
       isSetNeighborAreaNameList = true;
