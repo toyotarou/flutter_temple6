@@ -11,6 +11,7 @@ import '../../models/common/spot_data_model.dart';
 import '../../models/tokyo_municipal_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
+import '../parts/expandable_box.dart';
 
 class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   const CityTownTempleMapAlert({
@@ -155,37 +156,69 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ],
             ),
 
-            Positioned(
-              bottom: 5,
-              right: 5,
-              left: 5,
-              child: SizedBox(
-                height: 60,
+            Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    ExpandableBox(
+                      alignment: Alignment.topCenter,
+                      keepFullWidth: true,
 
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: neighborAreaNameList.map((String e) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: GestureDetector(
-                          onTap: () {
-                            appParamNotifier.setNeighborAreaNameList(name: e);
-                          },
+                      collapsedSize: Size(0, context.screenSize.height * 0.05),
+                      expandedSize: Size(0, context.screenSize.height * 0.2),
 
-                          child: CircleAvatar(
-                            backgroundColor: (appParamState.neighborAreaNameList.contains(e))
-                                ? Colors.yellowAccent.withValues(alpha: 0.4)
-                                : Colors.blueAccent.withValues(alpha: 0.4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      ),
+                      collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
+                      expandedChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 30),
 
-                            child: Text(e, style: const TextStyle(fontSize: 10, color: Colors.black)),
-                          ),
+                          Expanded(child: displayVisitedNoReachTempleCountList()),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20)),
+                    ),
+
+                    Positioned(
+                      top: 5,
+                      right: 60,
+                      child: GestureDetector(
+                        onTap: () {
+                          setDefaultBoundsMap();
+                        },
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
                         ),
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                    ),
+
+                    Positioned(
+                      top: 5,
+                      right: 105,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(Icons.train, size: 18, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
 
             if (isLoading) ...<Widget>[const Center(child: CircularProgressIndicator())],
@@ -295,5 +328,92 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ),
       );
     });
+  }
+
+  ///
+  Widget displayVisitedNoReachTempleCountList() {
+    final List<Widget> list = <Widget>[];
+
+    list.add(const SizedBox(height: 20));
+
+    list.add(
+      Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+        ),
+
+        padding: const EdgeInsets.symmetric(vertical: 5),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text('Visited'),
+            Text((widget.visitedMunicipalSpotData != null) ? widget.visitedMunicipalSpotData!.length.toString() : '0'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+        ),
+
+        padding: const EdgeInsets.symmetric(vertical: 5),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text('No Reach'),
+            Text((widget.noReachMunicipalSpotData != null) ? widget.noReachMunicipalSpotData!.length.toString() : '0'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      SizedBox(
+        height: 60,
+
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: neighborAreaNameList.map((String e) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    appParamNotifier.setNeighborAreaNameList(name: e);
+                  },
+
+                  child: CircleAvatar(
+                    backgroundColor: (appParamState.neighborAreaNameList.contains(e))
+                        ? Colors.yellowAccent.withValues(alpha: 0.4)
+                        : Colors.blueAccent.withValues(alpha: 0.4),
+
+                    child: Text(e, style: const TextStyle(fontSize: 10, color: Colors.black)),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) => list[index],
+              childCount: list.length,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
