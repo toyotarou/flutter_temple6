@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../controllers/controllers_mixin.dart';
+import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/tokyo_municipal_model.dart';
 import '../../utility/functions.dart';
@@ -51,6 +52,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   List<TokyoMunicipalModel> neighborsList = <TokyoMunicipalModel>[];
 
   List<String> neighborAreaNameList = <String>[];
+
+  List<Marker> visitedMunicipalMarkerList = <Marker>[];
+
+  List<Marker> noReachMunicipalMarkerList = <Marker>[];
 
   ///
   @override
@@ -101,6 +106,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     getNeighborArea();
 
+    makeVisitedMunicipalSpotDataMarker();
+
+    makeNoReachMunicipalSpotDataMarker();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -134,6 +143,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 if (neighborsList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: getNeighborArea()),
+                ],
+
+                if (visitedMunicipalMarkerList.isNotEmpty) ...<Widget>[
+                  MarkerLayer(markers: visitedMunicipalMarkerList),
+                ],
+
+                if (noReachMunicipalMarkerList.isNotEmpty) ...<Widget>[
+                  MarkerLayer(markers: noReachMunicipalMarkerList),
                 ],
               ],
             ),
@@ -250,5 +267,33 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     }
 
     return polygonList;
+  }
+
+  ///
+  void makeVisitedMunicipalSpotDataMarker() {
+    visitedMunicipalMarkerList.clear();
+
+    widget.visitedMunicipalSpotData?.forEach((SpotDataModel element) {
+      visitedMunicipalMarkerList.add(
+        Marker(
+          point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
+          child: CircleAvatar(backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4), child: Text(element.rank)),
+        ),
+      );
+    });
+  }
+
+  ///
+  void makeNoReachMunicipalSpotDataMarker() {
+    noReachMunicipalMarkerList.clear();
+
+    widget.noReachMunicipalSpotData?.forEach((SpotDataModel element) {
+      noReachMunicipalMarkerList.add(
+        Marker(
+          point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
+          child: CircleAvatar(backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4)),
+        ),
+      );
+    });
   }
 }

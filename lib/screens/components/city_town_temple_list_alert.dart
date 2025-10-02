@@ -31,12 +31,21 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
   int allNoReachCount = 0;
 
+  Map<String, String> visitedTempleNameRankMap = <String, String>{};
+
   ///
   @override
   void initState() {
     super.initState();
 
     cityTownNameList = cityTownNames.split('\n').where((String e) => e.trim().isNotEmpty).toList();
+
+    // ignore: always_specify_types
+    Future(() {
+      for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
+        visitedTempleNameRankMap[element.temple] = element.rank;
+      }
+    });
   }
 
   ///
@@ -118,6 +127,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                 address: element.address,
                 latitude: element.lat,
                 longitude: element.lng,
+                rank: visitedTempleNameRankMap[element.name] ?? '',
               ),
             );
           } else {
