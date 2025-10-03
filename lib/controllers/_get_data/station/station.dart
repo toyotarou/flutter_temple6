@@ -4,10 +4,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../data/http/client.dart';
 import '../../../data/http/path.dart';
 import '../../../extensions/extensions.dart';
-import '../../../models/dup_spot_model.dart';
 import '../../../models/station_model.dart';
+import '../../../models/tokyo_municipal_model.dart';
+import '../../../utility/functions.dart';
 import '../../../utility/utility.dart';
-import '../dup_spot/dup_spot.dart';
+import '../tokyo_municipal/tokyo_municipal.dart';
 
 part 'station.freezed.dart';
 
@@ -18,6 +19,9 @@ class StationState with _$StationState {
   const factory StationState({
     @Default(<StationModel>[]) List<StationModel> stationList,
     @Default(<String, StationModel>{}) Map<String, StationModel> stationMap,
+
+    @Default(<StationModel>[]) List<StationModel> tokyoStationList,
+    @Default(<String, StationModel>{}) Map<String, StationModel> tokyoStationMap,
   }) = _StationState;
 }
 
@@ -36,11 +40,23 @@ class Station extends _$Station {
     final HttpClient client = ref.read(httpClientProvider);
 
     try {
+      //===================================================//
+
+      final List<TokyoMunicipalModel> tokyoMunicipalList = ref.watch(
+        tokyoMunicipalProvider.select((TokyoMunicipalState value) => value.tokyoMunicipalList),
+      );
+
+      //===================================================//
+
       final dynamic value = await client.post(path: APIPath.getAllStation);
 
       final List<StationModel> list = <StationModel>[];
 
       final Map<String, StationModel> map = <String, StationModel>{};
+
+      final List<StationModel> list2 = <StationModel>[];
+
+      final Map<String, StationModel> map2 = <String, StationModel>{};
 
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -51,6 +67,14 @@ class Station extends _$Station {
 
         list.add(val);
         map[val.id.toString()] = val;
+
+        for (final TokyoMunicipalModel element in tokyoMunicipalList) {
+          if (pointInMunicipality(val.lat.toDouble(), val.lng.toDouble(), element)) {
+            list2.add(val);
+
+            map2[val.stationName] = val;
+          }
+        }
       }
 
       return state.copyWith(stationList: list, stationMap: map);
