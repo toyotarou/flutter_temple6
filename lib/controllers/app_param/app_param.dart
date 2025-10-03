@@ -29,6 +29,10 @@ class AppParamState with _$AppParamState {
     @Default(<String, TempleListModel>{}) Map<String, TempleListModel> keepTempleListMap,
 
     ///
+    @Default(<StationModel>[]) List<StationModel> keepTokyoStationList,
+    @Default(<String, StationModel>{}) Map<String, StationModel> keepTokyoStationMap,
+
+    ///
     @Default(0) double currentZoom,
     @Default(5) int currentPaddingIndex,
 
@@ -86,6 +90,16 @@ class AppParam extends _$AppParam {
 
   ///
   void setKeepTempleListList({required List<TempleListModel> list}) => state = state.copyWith(keepTempleListList: list);
+
+  //===================================================
+
+  ///
+  void setKeepTokyoStationList({required List<StationModel> list}) =>
+      state = state.copyWith(keepTokyoStationList: list);
+
+  ///
+  void setKeepTokyoStationMap({required Map<String, StationModel> map}) =>
+      state = state.copyWith(keepTokyoStationMap: map);
 
   //===================================================
 

@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
+import '../../models/station_model.dart';
 import '../../models/tokyo_municipal_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
@@ -54,9 +55,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   List<String> neighborAreaNameList = <String>[];
 
-  List<Marker> visitedMunicipalMarkerList = <Marker>[];
+  List<Marker> visitedTemplesMarkerList = <Marker>[];
 
-  List<Marker> noReachMunicipalMarkerList = <Marker>[];
+  List<Marker> noReachTemplesMarkerList = <Marker>[];
+
+  List<Marker> tokyoStationMarkerList = <Marker>[];
+
+  bool displayStation = false;
 
   ///
   @override
@@ -111,6 +116,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeNoReachMunicipalSpotDataMarker();
 
+    makeTokyoStationMarkerList();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -146,12 +153,12 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolygonLayer(polygons: getNeighborArea()),
                 ],
 
-                if (visitedMunicipalMarkerList.isNotEmpty) ...<Widget>[
-                  MarkerLayer(markers: visitedMunicipalMarkerList),
-                ],
+                if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
 
-                if (noReachMunicipalMarkerList.isNotEmpty) ...<Widget>[
-                  MarkerLayer(markers: noReachMunicipalMarkerList),
+                if (noReachTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: noReachTemplesMarkerList)],
+
+                if (tokyoStationMarkerList.isNotEmpty && displayStation) ...<Widget>[
+                  MarkerLayer(markers: tokyoStationMarkerList),
                 ],
               ],
             ),
@@ -193,7 +200,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       child: Row(
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              setState(() {
+                                displayStation = !displayStation;
+                              });
+                            },
                             child: const CircleAvatar(
                               radius: 15,
                               backgroundColor: Color(0x66000000),
@@ -304,10 +315,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   void makeVisitedMunicipalSpotDataMarker() {
-    visitedMunicipalMarkerList.clear();
+    visitedTemplesMarkerList.clear();
 
     widget.visitedMunicipalSpotData?.forEach((SpotDataModel element) {
-      visitedMunicipalMarkerList.add(
+      visitedTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
           child: CircleAvatar(backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4), child: Text(element.rank)),
@@ -318,10 +329,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   void makeNoReachMunicipalSpotDataMarker() {
-    noReachMunicipalMarkerList.clear();
+    noReachTemplesMarkerList.clear();
 
     widget.noReachMunicipalSpotData?.forEach((SpotDataModel element) {
-      noReachMunicipalMarkerList.add(
+      noReachTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
           child: CircleAvatar(backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4)),
@@ -413,5 +424,19 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ],
       ),
     );
+  }
+
+  ///
+  void makeTokyoStationMarkerList() {
+    tokyoStationMarkerList.clear();
+
+    for (final StationModel element in appParamState.keepTokyoStationList) {
+      tokyoStationMarkerList.add(
+        Marker(
+          point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
+          child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+        ),
+      );
+    }
   }
 }

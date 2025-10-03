@@ -87,6 +87,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
     super.dispose();
   }
 
+  bool tokyoStationSettedFlag = false;
+
   ///
   @override
   Widget build(BuildContext context) {
@@ -118,6 +120,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
       appParamNotifier.setKeepTempleListList(list: widget.templeListList);
       appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
+
+      if (!tokyoStationSettedFlag) {
+        final List<StationModel> tokyoStationList = <StationModel>[];
+        final Map<String, StationModel> tokyoStationMap = <String, StationModel>{};
+
+        widget.stationMap.forEach((String key, StationModel value) {
+          for (final TokyoMunicipalModel element in widget.tokyoMunicipalList) {
+            if (pointInMunicipality(value.lat.toDouble(), value.lng.toDouble(), element)) {
+              tokyoStationList.add(value);
+
+              tokyoStationMap[value.stationName] = value;
+            }
+          }
+        });
+
+        // ignore: always_specify_types
+        Future(() {
+          appParamNotifier.setKeepTokyoStationList(list: tokyoStationList);
+          appParamNotifier.setKeepTokyoStationMap(map: tokyoStationMap);
+        });
+
+        tokyoStationSettedFlag = true;
+      }
     });
 
     return Stack(
