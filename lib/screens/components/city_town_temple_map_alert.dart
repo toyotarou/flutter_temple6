@@ -64,7 +64,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   bool displayStation = false;
 
-  List<Marker> neighborTempleMarkerList = [];
+  List<Marker> neighborTempleMarkerList = <Marker>[];
 
   bool displayNeighborTemple = false;
 
@@ -181,7 +181,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       keepFullWidth: true,
 
                       collapsedSize: Size(0, context.screenSize.height * 0.05),
-                      expandedSize: Size(0, context.screenSize.height * 0.2),
+                      expandedSize: Size(0, context.screenSize.height * 0.3),
 
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.3),
@@ -500,8 +500,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeNeighborTempleMarkerList() {
     neighborTempleMarkerList.clear();
 
-    appParamState.neighborAreaNameList.forEach((element) {
-      widget.visitedMunicipalSpotDataListMap[element]?.forEach((element2) {
+    for (final String element in appParamState.neighborAreaNameList) {
+      widget.visitedMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
         neighborTempleMarkerList.add(
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
@@ -523,7 +523,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         );
       });
 
-      widget.noReachMunicipalSpotDataListMap[element]?.forEach((element2) {
+      widget.noReachMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
         neighborTempleMarkerList.add(
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
@@ -538,6 +538,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           ),
         );
       });
-    });
+    }
   }
 }
