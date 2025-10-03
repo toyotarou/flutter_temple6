@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../controllers/controllers_mixin.dart';
@@ -18,19 +19,19 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   const CityTownTempleMapAlert({
     super.key,
     required this.cityTownName,
-    this.visitedMunicipalSpotData,
-    this.noReachMunicipalSpotData,
     required this.latList,
     required this.lngList,
     this.polygons,
+    required this.visitedMunicipalSpotDataListMap,
+    required this.noReachMunicipalSpotDataListMap,
   });
 
   final String cityTownName;
-  final List<SpotDataModel>? visitedMunicipalSpotData;
-  final List<SpotDataModel>? noReachMunicipalSpotData;
   final List<double> latList;
   final List<double> lngList;
   final List<List<List<List<double>>>>? polygons;
+  final Map<String, List<SpotDataModel>> visitedMunicipalSpotDataListMap;
+  final Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap;
 
   @override
   ConsumerState<CityTownTempleMapAlert> createState() => _CityTownTempleMapAlertState();
@@ -62,6 +63,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   List<Marker> tokyoStationMarkerList = <Marker>[];
 
   bool displayStation = false;
+
+  List<Marker> neighborTempleMarkerList = [];
+
+  bool displayNeighborTemple = false;
 
   ///
   @override
@@ -160,6 +165,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 if (tokyoStationMarkerList.isNotEmpty && displayStation) ...<Widget>[
                   MarkerLayer(markers: tokyoStationMarkerList),
                 ],
+
+                if (neighborTempleMarkerList.isNotEmpty && displayNeighborTemple) ...<Widget>[
+                  MarkerLayer(markers: neighborTempleMarkerList),
+                ],
               ],
             ),
 
@@ -182,7 +191,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       expandedChild: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 15),
 
                           Expanded(child: displayVisitedNoReachTempleCountList()),
                         ],
@@ -199,6 +208,22 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       right: 60,
                       child: Row(
                         children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              makeNeighborTempleMarkerList();
+
+                              setState(() => displayNeighborTemple = !displayNeighborTemple);
+                            },
+                            child: const CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0x66000000),
+
+                              child: Icon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
+                            ),
+                          ),
+
+                          const SizedBox(width: 15),
+
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -317,11 +342,24 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeVisitedMunicipalSpotDataMarker() {
     visitedTemplesMarkerList.clear();
 
-    widget.visitedMunicipalSpotData?.forEach((SpotDataModel element) {
+    widget.visitedMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
       visitedTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
-          child: CircleAvatar(backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4), child: Text(element.rank)),
+
+          child: Stack(
+            children: <Widget>[
+              Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
+
+              CircleAvatar(
+                backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                child: Text(
+                  element.mark.padLeft(3, '0'),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });
@@ -331,11 +369,17 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeNoReachMunicipalSpotDataMarker() {
     noReachTemplesMarkerList.clear();
 
-    widget.noReachMunicipalSpotData?.forEach((SpotDataModel element) {
+    widget.noReachMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
       noReachTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
-          child: CircleAvatar(backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4)),
+          child: CircleAvatar(
+            backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
+            child: Text(
+              element.mark.padLeft(3, '0'),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
         ),
       );
     });
@@ -359,7 +403,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Text('Visited'),
-            Text((widget.visitedMunicipalSpotData != null) ? widget.visitedMunicipalSpotData!.length.toString() : '0'),
+            Text(
+              (widget.visitedMunicipalSpotDataListMap[widget.cityTownName] != null)
+                  ? widget.visitedMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                  : '0',
+            ),
           ],
         ),
       ),
@@ -377,7 +425,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Text('No Reach'),
-            Text((widget.noReachMunicipalSpotData != null) ? widget.noReachMunicipalSpotData!.length.toString() : '0'),
+            Text(
+              (widget.noReachMunicipalSpotDataListMap[widget.cityTownName] != null)
+                  ? widget.noReachMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                  : '0',
+            ),
           ],
         ),
       ),
@@ -394,7 +446,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: GestureDetector(
-                  onTap: () => appParamNotifier.setNeighborAreaNameList(name: e),
+                  onTap: () {
+                    appParamNotifier.setNeighborAreaNameList(name: e);
+
+                    setState(() => displayNeighborTemple = false);
+                  },
 
                   child: CircleAvatar(
                     backgroundColor: (appParamState.neighborAreaNameList.contains(e))
@@ -438,5 +494,50 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ),
       );
     }
+  }
+
+  ///
+  void makeNeighborTempleMarkerList() {
+    neighborTempleMarkerList.clear();
+
+    appParamState.neighborAreaNameList.forEach((element) {
+      widget.visitedMunicipalSpotDataListMap[element]?.forEach((element2) {
+        neighborTempleMarkerList.add(
+          Marker(
+            point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
+
+            child: Stack(
+              children: <Widget>[
+                Positioned(bottom: 0, right: 0, child: Text(element2.rank, style: const TextStyle(fontSize: 30))),
+
+                CircleAvatar(
+                  backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                  child: Text(
+                    element2.mark.padLeft(3, '0'),
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      });
+
+      widget.noReachMunicipalSpotDataListMap[element]?.forEach((element2) {
+        neighborTempleMarkerList.add(
+          Marker(
+            point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
+
+            child: CircleAvatar(
+              backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
+              child: Text(
+                element2.mark.padLeft(3, '0'),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          ),
+        );
+      });
+    });
   }
 }

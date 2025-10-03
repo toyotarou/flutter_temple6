@@ -123,6 +123,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           if (visitedTemples.contains(element.name)) {
             (visitedMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
               SpotDataModel(
+                mark: element.id.toString(),
+
                 name: element.name,
                 address: element.address,
                 latitude: element.lat,
@@ -133,6 +135,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           } else {
             (noReachMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
               SpotDataModel(
+                mark: element.id.toString(),
                 name: element.name,
                 address: element.address,
                 latitude: element.lat,
@@ -233,8 +236,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                       latList: latList,
                       lngList: lngList,
 
-                      visitedMunicipalSpotData: visitedMunicipalSpotDataListMap[element],
-                      noReachMunicipalSpotData: noReachMunicipalSpotDataListMap[element],
+                      visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
+                      noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
 
                       polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
                     ),
