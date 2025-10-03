@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../models/common/spot_data_model.dart';
 import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_list_model.dart';
@@ -47,6 +48,8 @@ class AppParamState with _$AppParamState {
     @Default('') String searchWord,
 
     @Default(<String>[]) List<String> neighborAreaNameList,
+
+    SpotDataModel? selectedSpotDataModel,
   }) = _AppParamState;
 }
 
@@ -156,4 +159,11 @@ class AppParam extends _$AppParam {
 
     state = state.copyWith(neighborAreaNameList: list);
   }
+
+  ///
+  void setSelectedSpotDataModel({required SpotDataModel spotDataModel}) =>
+      state = state.copyWith(selectedSpotDataModel: spotDataModel);
+
+  ///
+  void clearSelectedSpotDataModel() => state = state.copyWith(selectedSpotDataModel: null);
 }

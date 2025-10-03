@@ -651,6 +651,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                                 latitude: templeLatLngModel.lat,
                                 longitude: templeLatLngModel.lng,
                                 mark: i.toString(),
+                                rank: templeLatLngModel.rank,
                               ),
                             );
 

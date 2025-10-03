@@ -238,7 +238,11 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
           height: 20,
 
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              appParamNotifier.setSelectedSpotDataModel(spotDataModel: widget.templeDataList[i]);
+
+              callSecondBox();
+            },
 
             child: (int.tryParse(widget.templeDataList[i].mark) != null)
                 ? Stack(
@@ -310,7 +314,9 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
               children: <Widget>[
                 CircleAvatar(
-                  backgroundColor: Colors.pinkAccent.withValues(alpha: 0.5),
+                  backgroundColor: (int.tryParse(element.mark) != null)
+                      ? Colors.pinkAccent.withValues(alpha: 0.5)
+                      : Colors.green[900]?.withValues(alpha: 0.5),
 
                   radius: 15,
                   child: Text(
@@ -321,14 +327,20 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                 const SizedBox(width: 10),
 
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: <Widget>[
-                      Text(element.name),
+                      Text(element.rank, style: const TextStyle(fontSize: 40, color: Color(0xFFFBB6CE))),
 
-                      Text('${element.latitude} / ${element.longitude}', style: const TextStyle(fontSize: 10)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(element.name),
 
-                      Text(element.address),
+                          Text('${element.latitude} / ${element.longitude}', style: const TextStyle(fontSize: 10)),
+
+                          Text(element.address),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -529,5 +541,64 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
         }
       }
     }
+  }
+
+  ///
+  void callSecondBox() {
+    appParamNotifier.setSecondOverlayParams(secondEntries: _secondEntries);
+
+    addSecondOverlay(
+      context: context,
+      secondEntries: _secondEntries,
+      setStateCallback: setState,
+      width: context.screenSize.width,
+      height: context.screenSize.height * 0.2,
+      color: Colors.blueGrey.withOpacity(0.3),
+      initialPosition: Offset(0, context.screenSize.height * 0.8),
+
+      widget: displaySelectedSpotDataModel(),
+
+      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+      fixedFlag: true,
+    );
+  }
+
+  ///
+  Widget displaySelectedSpotDataModel() {
+    if (appParamState.selectedSpotDataModel == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 5,
+          right: 5,
+          child: Text(
+            appParamState.selectedSpotDataModel!.rank,
+
+            style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+          ),
+        ),
+
+        DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(width: double.infinity),
+
+              Text(appParamState.selectedSpotDataModel!.name, style: const TextStyle(fontSize: 16)),
+              Text(appParamState.selectedSpotDataModel!.address),
+              Text(
+                '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
+              ),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
