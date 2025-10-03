@@ -19,9 +19,6 @@ mixin _$StationState {
   List<StationModel> get stationList => throw _privateConstructorUsedError;
   Map<String, StationModel> get stationMap =>
       throw _privateConstructorUsedError;
-  List<StationModel> get tokyoStationList => throw _privateConstructorUsedError;
-  Map<String, StationModel> get tokyoStationMap =>
-      throw _privateConstructorUsedError;
 
   /// Create a copy of StationState
   /// with the given fields replaced by the non-null parameter values.
@@ -37,10 +34,7 @@ abstract class $StationStateCopyWith<$Res> {
       _$StationStateCopyWithImpl<$Res, StationState>;
   @useResult
   $Res call(
-      {List<StationModel> stationList,
-      Map<String, StationModel> stationMap,
-      List<StationModel> tokyoStationList,
-      Map<String, StationModel> tokyoStationMap});
+      {List<StationModel> stationList, Map<String, StationModel> stationMap});
 }
 
 /// @nodoc
@@ -60,8 +54,6 @@ class _$StationStateCopyWithImpl<$Res, $Val extends StationState>
   $Res call({
     Object? stationList = null,
     Object? stationMap = null,
-    Object? tokyoStationList = null,
-    Object? tokyoStationMap = null,
   }) {
     return _then(_value.copyWith(
       stationList: null == stationList
@@ -71,14 +63,6 @@ class _$StationStateCopyWithImpl<$Res, $Val extends StationState>
       stationMap: null == stationMap
           ? _value.stationMap
           : stationMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, StationModel>,
-      tokyoStationList: null == tokyoStationList
-          ? _value.tokyoStationList
-          : tokyoStationList // ignore: cast_nullable_to_non_nullable
-              as List<StationModel>,
-      tokyoStationMap: null == tokyoStationMap
-          ? _value.tokyoStationMap
-          : tokyoStationMap // ignore: cast_nullable_to_non_nullable
               as Map<String, StationModel>,
     ) as $Val);
   }
@@ -93,10 +77,7 @@ abstract class _$$StationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<StationModel> stationList,
-      Map<String, StationModel> stationMap,
-      List<StationModel> tokyoStationList,
-      Map<String, StationModel> tokyoStationMap});
+      {List<StationModel> stationList, Map<String, StationModel> stationMap});
 }
 
 /// @nodoc
@@ -114,8 +95,6 @@ class __$$StationStateImplCopyWithImpl<$Res>
   $Res call({
     Object? stationList = null,
     Object? stationMap = null,
-    Object? tokyoStationList = null,
-    Object? tokyoStationMap = null,
   }) {
     return _then(_$StationStateImpl(
       stationList: null == stationList
@@ -125,14 +104,6 @@ class __$$StationStateImplCopyWithImpl<$Res>
       stationMap: null == stationMap
           ? _value._stationMap
           : stationMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, StationModel>,
-      tokyoStationList: null == tokyoStationList
-          ? _value._tokyoStationList
-          : tokyoStationList // ignore: cast_nullable_to_non_nullable
-              as List<StationModel>,
-      tokyoStationMap: null == tokyoStationMap
-          ? _value._tokyoStationMap
-          : tokyoStationMap // ignore: cast_nullable_to_non_nullable
               as Map<String, StationModel>,
     ));
   }
@@ -144,14 +115,9 @@ class _$StationStateImpl implements _StationState {
   const _$StationStateImpl(
       {final List<StationModel> stationList = const <StationModel>[],
       final Map<String, StationModel> stationMap =
-          const <String, StationModel>{},
-      final List<StationModel> tokyoStationList = const <StationModel>[],
-      final Map<String, StationModel> tokyoStationMap =
           const <String, StationModel>{}})
       : _stationList = stationList,
-        _stationMap = stationMap,
-        _tokyoStationList = tokyoStationList,
-        _tokyoStationMap = tokyoStationMap;
+        _stationMap = stationMap;
 
   final List<StationModel> _stationList;
   @override
@@ -171,28 +137,9 @@ class _$StationStateImpl implements _StationState {
     return EqualUnmodifiableMapView(_stationMap);
   }
 
-  final List<StationModel> _tokyoStationList;
-  @override
-  @JsonKey()
-  List<StationModel> get tokyoStationList {
-    if (_tokyoStationList is EqualUnmodifiableListView)
-      return _tokyoStationList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tokyoStationList);
-  }
-
-  final Map<String, StationModel> _tokyoStationMap;
-  @override
-  @JsonKey()
-  Map<String, StationModel> get tokyoStationMap {
-    if (_tokyoStationMap is EqualUnmodifiableMapView) return _tokyoStationMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_tokyoStationMap);
-  }
-
   @override
   String toString() {
-    return 'StationState(stationList: $stationList, stationMap: $stationMap, tokyoStationList: $tokyoStationList, tokyoStationMap: $tokyoStationMap)';
+    return 'StationState(stationList: $stationList, stationMap: $stationMap)';
   }
 
   @override
@@ -203,20 +150,14 @@ class _$StationStateImpl implements _StationState {
             const DeepCollectionEquality()
                 .equals(other._stationList, _stationList) &&
             const DeepCollectionEquality()
-                .equals(other._stationMap, _stationMap) &&
-            const DeepCollectionEquality()
-                .equals(other._tokyoStationList, _tokyoStationList) &&
-            const DeepCollectionEquality()
-                .equals(other._tokyoStationMap, _tokyoStationMap));
+                .equals(other._stationMap, _stationMap));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_stationList),
-      const DeepCollectionEquality().hash(_stationMap),
-      const DeepCollectionEquality().hash(_tokyoStationList),
-      const DeepCollectionEquality().hash(_tokyoStationMap));
+      const DeepCollectionEquality().hash(_stationMap));
 
   /// Create a copy of StationState
   /// with the given fields replaced by the non-null parameter values.
@@ -230,18 +171,12 @@ class _$StationStateImpl implements _StationState {
 abstract class _StationState implements StationState {
   const factory _StationState(
       {final List<StationModel> stationList,
-      final Map<String, StationModel> stationMap,
-      final List<StationModel> tokyoStationList,
-      final Map<String, StationModel> tokyoStationMap}) = _$StationStateImpl;
+      final Map<String, StationModel> stationMap}) = _$StationStateImpl;
 
   @override
   List<StationModel> get stationList;
   @override
   Map<String, StationModel> get stationMap;
-  @override
-  List<StationModel> get tokyoStationList;
-  @override
-  Map<String, StationModel> get tokyoStationMap;
 
   /// Create a copy of StationState
   /// with the given fields replaced by the non-null parameter values.
