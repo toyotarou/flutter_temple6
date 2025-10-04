@@ -64,11 +64,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   List<Marker> tokyoStationMarkerList = <Marker>[];
 
-  bool displayStation = false;
+  bool displayStations = false;
 
-  List<Marker> neighborTempleMarkerList = <Marker>[];
+  List<Marker> neighborTemplesMarkerList = <Marker>[];
 
-  bool displayNeighborTemple = false;
+  bool displayNeighborTemples = false;
 
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
@@ -167,12 +167,12 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                 if (noReachTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: noReachTemplesMarkerList)],
 
-                if (tokyoStationMarkerList.isNotEmpty && displayStation) ...<Widget>[
+                if (tokyoStationMarkerList.isNotEmpty && displayStations) ...<Widget>[
                   MarkerLayer(markers: tokyoStationMarkerList),
                 ],
 
-                if (neighborTempleMarkerList.isNotEmpty && displayNeighborTemple) ...<Widget>[
-                  MarkerLayer(markers: neighborTempleMarkerList),
+                if (neighborTemplesMarkerList.isNotEmpty && displayNeighborTemples) ...<Widget>[
+                  MarkerLayer(markers: neighborTemplesMarkerList),
                 ],
               ],
             ),
@@ -217,7 +217,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                             onTap: () {
                               makeNeighborTempleMarker();
 
-                              setState(() => displayNeighborTemple = !displayNeighborTemple);
+                              setState(() => displayNeighborTemples = !displayNeighborTemples);
                             },
                             child: const CircleAvatar(
                               radius: 15,
@@ -230,11 +230,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                           const SizedBox(width: 15),
 
                           GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                displayStation = !displayStation;
-                              });
-                            },
+                            onTap: () => setState(() => displayStations = !displayStations),
                             child: const CircleAvatar(
                               radius: 15,
                               backgroundColor: Color(0x66000000),
@@ -478,7 +474,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   onTap: () {
                     appParamNotifier.setNeighborAreaNameList(name: e);
 
-                    setState(() => displayNeighborTemple = false);
+                    setState(() => displayNeighborTemples = false);
                   },
 
                   child: CircleAvatar(
@@ -601,7 +597,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   void makeNeighborTempleMarker() {
-    neighborTempleMarkerList.clear();
+    neighborTemplesMarkerList.clear();
 
     for (final String element in appParamState.neighborAreaNameList) {
       widget.visitedMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
@@ -614,7 +610,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         }
 
         if (flag) {
-          neighborTempleMarkerList.add(
+          neighborTemplesMarkerList.add(
             Marker(
               point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
@@ -644,7 +640,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       });
 
       widget.noReachMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
-        neighborTempleMarkerList.add(
+        neighborTemplesMarkerList.add(
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
