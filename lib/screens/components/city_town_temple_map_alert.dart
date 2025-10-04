@@ -829,7 +829,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           return displaySelectedSpotDataModel(
             type: type,
 
-            addRouteSpotDataModelList: ref.watch(appParamProvider.select((value) => value.addRouteSpotDataModelList)),
+            addRouteSpotDataModelList: ref.watch(
+              appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
+            ),
           );
         },
       ),
@@ -925,7 +927,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
                     child: Text(
-                      (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel!))
+                      (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel))
                           ? 'remove from route'
                           : 'add to route',
                     ),
