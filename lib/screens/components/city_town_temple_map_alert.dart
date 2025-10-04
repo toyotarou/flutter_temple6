@@ -599,6 +599,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   onTap: () {
                     appParamNotifier.setSelectedSpotDataModel(
                       spotDataModel: SpotDataModel(
+                        type: 'station',
                         name: element.stationName,
                         address: element.address,
                         latitude: element.lat,

@@ -117,12 +117,19 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
       for (final TempleListModel element in appParamState.keepTempleListList) {
         if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
           (cityTownMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
-            SpotDataModel(name: element.name, address: element.address, latitude: element.lat, longitude: element.lng),
+            SpotDataModel(
+              type: 'temple',
+              name: element.name,
+              address: element.address,
+              latitude: element.lat,
+              longitude: element.lng,
+            ),
           );
 
           if (visitedTemples.contains(element.name)) {
             (visitedMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
               SpotDataModel(
+                type: 'temple',
                 mark: element.id.toString(),
 
                 name: element.name,
@@ -135,6 +142,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           } else {
             (noReachMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
               SpotDataModel(
+                type: 'temple',
                 mark: element.id.toString(),
                 name: element.name,
                 address: element.address,

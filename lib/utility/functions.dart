@@ -150,6 +150,7 @@ List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
 
       result.add(
         SpotDataModel(
+          type: 'temple',
           name: entry.key,
           address: '',
           latitude: avgLat.toString(),

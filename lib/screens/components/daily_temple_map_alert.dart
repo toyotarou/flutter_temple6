@@ -494,6 +494,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
       list.add(
         SpotDataModel(
+          type: 'temple',
           name: element.temple,
           address: element.address,
           latitude: element.lat,

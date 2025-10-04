@@ -1,5 +1,6 @@
 class SpotDataModel {
   SpotDataModel({
+    required this.type,
     required this.name,
     required this.address,
     required this.latitude,
@@ -9,6 +10,7 @@ class SpotDataModel {
     this.rank = '',
   });
 
+  String type;
   String name;
   String address;
   String latitude;
