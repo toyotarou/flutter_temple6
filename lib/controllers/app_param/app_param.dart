@@ -50,6 +50,8 @@ class AppParamState with _$AppParamState {
     @Default(<String>[]) List<String> neighborAreaNameList,
 
     SpotDataModel? selectedSpotDataModel,
+
+    @Default(<String>[]) List<String> selectedCityTownTempleMapRankList,
   }) = _AppParamState;
 }
 
@@ -166,4 +168,20 @@ class AppParam extends _$AppParam {
 
   ///
   void clearSelectedSpotDataModel() => state = state.copyWith(selectedSpotDataModel: null);
+
+  ///
+  void setSelectedCityTownTempleMapRankList({required String rank}) {
+    final List<String> list = <String>[...state.selectedCityTownTempleMapRankList];
+
+    if (list.contains(rank)) {
+      list.remove(rank);
+    } else {
+      list.add(rank);
+    }
+
+    state = state.copyWith(selectedCityTownTempleMapRankList: list);
+  }
+
+  ///
+  void clearSelectedCityTownTempleMapRankList() => state = state.copyWith(selectedCityTownTempleMapRankList: <String>[]);
 }

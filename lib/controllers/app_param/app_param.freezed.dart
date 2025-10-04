@@ -56,6 +56,8 @@ mixin _$AppParamState {
   List<String> get neighborAreaNameList => throw _privateConstructorUsedError;
   SpotDataModel? get selectedSpotDataModel =>
       throw _privateConstructorUsedError;
+  List<String> get selectedCityTownTempleMapRankList =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -90,7 +92,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<String> selectedMunicipalNameList,
       String searchWord,
       List<String> neighborAreaNameList,
-      SpotDataModel? selectedSpotDataModel});
+      SpotDataModel? selectedSpotDataModel,
+      List<String> selectedCityTownTempleMapRankList});
 }
 
 /// @nodoc
@@ -128,6 +131,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? searchWord = null,
     Object? neighborAreaNameList = null,
     Object? selectedSpotDataModel = freezed,
+    Object? selectedCityTownTempleMapRankList = null,
   }) {
     return _then(_value.copyWith(
       keepTempleList: null == keepTempleList
@@ -210,6 +214,11 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.selectedSpotDataModel
           : selectedSpotDataModel // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
+      selectedCityTownTempleMapRankList: null ==
+              selectedCityTownTempleMapRankList
+          ? _value.selectedCityTownTempleMapRankList
+          : selectedCityTownTempleMapRankList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -242,7 +251,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<String> selectedMunicipalNameList,
       String searchWord,
       List<String> neighborAreaNameList,
-      SpotDataModel? selectedSpotDataModel});
+      SpotDataModel? selectedSpotDataModel,
+      List<String> selectedCityTownTempleMapRankList});
 }
 
 /// @nodoc
@@ -278,6 +288,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? searchWord = null,
     Object? neighborAreaNameList = null,
     Object? selectedSpotDataModel = freezed,
+    Object? selectedCityTownTempleMapRankList = null,
   }) {
     return _then(_$AppParamStateImpl(
       keepTempleList: null == keepTempleList
@@ -360,6 +371,11 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.selectedSpotDataModel
           : selectedSpotDataModel // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
+      selectedCityTownTempleMapRankList: null ==
+              selectedCityTownTempleMapRankList
+          ? _value._selectedCityTownTempleMapRankList
+          : selectedCityTownTempleMapRankList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -396,7 +412,8 @@ class _$AppParamStateImpl implements _AppParamState {
       final List<String> selectedMunicipalNameList = const <String>[],
       this.searchWord = '',
       final List<String> neighborAreaNameList = const <String>[],
-      this.selectedSpotDataModel})
+      this.selectedSpotDataModel,
+      final List<String> selectedCityTownTempleMapRankList = const <String>[]})
       : _keepTempleList = keepTempleList,
         _keepTempleLatLngList = keepTempleLatLngList,
         _keepTempleLatLngMap = keepTempleLatLngMap,
@@ -411,7 +428,8 @@ class _$AppParamStateImpl implements _AppParamState {
         _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
-        _neighborAreaNameList = neighborAreaNameList;
+        _neighborAreaNameList = neighborAreaNameList,
+        _selectedCityTownTempleMapRankList = selectedCityTownTempleMapRankList;
 
   final List<TempleModel> _keepTempleList;
   @override
@@ -586,10 +604,19 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   final SpotDataModel? selectedSpotDataModel;
+  final List<String> _selectedCityTownTempleMapRankList;
+  @override
+  @JsonKey()
+  List<String> get selectedCityTownTempleMapRankList {
+    if (_selectedCityTownTempleMapRankList is EqualUnmodifiableListView)
+      return _selectedCityTownTempleMapRankList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedCityTownTempleMapRankList);
+  }
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListList: $keepTempleListList, keepTempleListMap: $keepTempleListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListList: $keepTempleListList, keepTempleListMap: $keepTempleListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList)';
   }
 
   @override
@@ -636,7 +663,10 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality()
                 .equals(other._neighborAreaNameList, _neighborAreaNameList) &&
             (identical(other.selectedSpotDataModel, selectedSpotDataModel) ||
-                other.selectedSpotDataModel == selectedSpotDataModel));
+                other.selectedSpotDataModel == selectedSpotDataModel) &&
+            const DeepCollectionEquality().equals(
+                other._selectedCityTownTempleMapRankList,
+                _selectedCityTownTempleMapRankList));
   }
 
   @override
@@ -661,7 +691,8 @@ class _$AppParamStateImpl implements _AppParamState {
         const DeepCollectionEquality().hash(_selectedMunicipalNameList),
         searchWord,
         const DeepCollectionEquality().hash(_neighborAreaNameList),
-        selectedSpotDataModel
+        selectedSpotDataModel,
+        const DeepCollectionEquality().hash(_selectedCityTownTempleMapRankList)
       ]);
 
   /// Create a copy of AppParamState
@@ -675,26 +706,28 @@ class _$AppParamStateImpl implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-      {final List<TempleModel> keepTempleList,
-      final List<TempleLatLngModel> keepTempleLatLngList,
-      final Map<String, TempleLatLngModel> keepTempleLatLngMap,
-      final Map<String, StationModel> keepStationMap,
-      final List<TokyoMunicipalModel> keepTokyoMunicipalList,
-      final Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
-      final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
-      final List<TempleListModel> keepTempleListList,
-      final Map<String, TempleListModel> keepTempleListMap,
-      final List<StationModel> keepTokyoStationList,
-      final Map<String, StationModel> keepTokyoStationMap,
-      final double currentZoom,
-      final int currentPaddingIndex,
-      final List<OverlayEntry>? firstEntries,
-      final List<OverlayEntry>? secondEntries,
-      final Offset? overlayPosition,
-      final List<String> selectedMunicipalNameList,
-      final String searchWord,
-      final List<String> neighborAreaNameList,
-      final SpotDataModel? selectedSpotDataModel}) = _$AppParamStateImpl;
+          {final List<TempleModel> keepTempleList,
+          final List<TempleLatLngModel> keepTempleLatLngList,
+          final Map<String, TempleLatLngModel> keepTempleLatLngMap,
+          final Map<String, StationModel> keepStationMap,
+          final List<TokyoMunicipalModel> keepTokyoMunicipalList,
+          final Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
+          final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
+          final List<TempleListModel> keepTempleListList,
+          final Map<String, TempleListModel> keepTempleListMap,
+          final List<StationModel> keepTokyoStationList,
+          final Map<String, StationModel> keepTokyoStationMap,
+          final double currentZoom,
+          final int currentPaddingIndex,
+          final List<OverlayEntry>? firstEntries,
+          final List<OverlayEntry>? secondEntries,
+          final Offset? overlayPosition,
+          final List<String> selectedMunicipalNameList,
+          final String searchWord,
+          final List<String> neighborAreaNameList,
+          final SpotDataModel? selectedSpotDataModel,
+          final List<String> selectedCityTownTempleMapRankList}) =
+      _$AppParamStateImpl;
 
   @override
   List<TempleModel> get keepTempleList;
@@ -744,6 +777,8 @@ abstract class _AppParamState implements AppParamState {
   List<String> get neighborAreaNameList;
   @override
   SpotDataModel? get selectedSpotDataModel;
+  @override
+  List<String> get selectedCityTownTempleMapRankList;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.

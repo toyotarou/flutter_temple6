@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../const/const.dart';
 import '../controllers/controllers_mixin.dart';
@@ -383,161 +384,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
             children: <Widget>[
               const SizedBox(height: 60),
 
-              TextButton(
-                onPressed: () {
-                  TempleDialog(context: context, widget: const CityTownTempleListAlert());
-                },
-                child: const Text('市区町村別神社リスト', style: TextStyle(color: Colors.white)),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                ),
+                padding: const EdgeInsets.all(5),
+
+                child: GestureDetector(
+                  onTap: () {
+                    TempleDialog(context: context, widget: const CityTownTempleListAlert());
+                  },
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.toriiGate),
+                      SizedBox(width: 20),
+                      Text('市区町村別神社リスト', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
               ),
-
-              /*
-
-
-              TextButton(
-                onPressed: () {
-                  appParamNotifier.setSelectedTokyoJinjachouTempleName(name: '');
-
-                  TempleDialog(
-                    context: context,
-                    widget: TokyoJinjachouTempleListAlert(
-                      templeVisitDateMap: templeState.templeVisitDateMap,
-                      idBaseComplementTempleVisitedDateMap:
-                      complementTempleVisitedDateState.idBaseComplementTempleVisitedDateMap,
-                      dateTempleMap: templeState.dateTempleMap,
-                    ),
-                    rotate: 0,
-                  );
-                },
-                child: const Text('TokyoJinjachouTempleListAlert'),
-              ),
-
-
-
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  TempleDialog(
-                    context: context,
-                    widget: const NeedleCompassMapAlert(),
-                    rotate: 0,
-                  );
-                },
-                child: const Text('NeedleCompassMapAlert'),
-              ),
-
-
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  TempleDialog(
-                    context: context,
-                    widget: const VisitedTempleFromHomeMapAlert(),
-                    executeFunctionWhenDialogClose: true,
-                    ref: ref,
-                    rotate: 0,
-                  );
-                },
-                child: const Text('VisitedTempleFromHomeMapAlert'),
-              ),
-
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  TempleDialog(context: context, widget: const PrefectureTempleListAlert(), rotate: 0);
-                },
-                child: const Text('PrefectureListAlert'),
-              ),
-
-
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  TempleDialog(context: context, widget: const SameDateVisitedTempleListAlert(), rotate: 0);
-                },
-                child: const Text('SameDateVisitedTempleListAlert'),
-              ),
-
-
-
-
-
-              Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  appParamNotifier.setHomeTextFormFieldVisible(flag: false);
-
-                  TempleDialog(
-                    context: context,
-                    widget: RouteTrainStationListAlert(
-                      tokyoStationMap: tokyoTrainState.tokyoStationMap,
-                      tokyoTrainList: tokyoTrainState.tokyoTrainList,
-                      templeVisitDateMap: templeState.templeVisitDateMap,
-                      dateTempleMap: templeState.dateTempleMap,
-                      tokyoTrainIdMap: tokyoTrainState.tokyoTrainIdMap,
-                    ),
-                    executeFunctionWhenDialogClose: true,
-                    ref: ref,
-                    from: 'RouteTrainStationListAlert',
-                    rotate: 0,
-                  );
-                },
-                child: const Text('RouteTrainStationListAlert'),
-              ),
-
-
-
-
-
-
-
-
-              TextButton(
-                onPressed: () {
-                  appParamNotifier.clearTrainList();
-
-                  latLngTempleNotifier.clearSelectedNearStation();
-
-                  appParamNotifier.setSelectTemple(name: '', lat: '', lng: '');
-
-                  appParamNotifier.setFirstOverlayParams(firstEntries: null);
-                  appParamNotifier.setSecondOverlayParams(secondEntries: null);
-
-                  TempleDialog(
-                    context: context,
-                    widget: NotReachTempleMapAlert(
-                      tokyoTrainIdMap: tokyoTrainState.tokyoTrainIdMap,
-                      tokyoTrainList: tokyoTrainState.tokyoTrainList,
-                      templeVisitDateMap: templeState.templeVisitDateMap,
-                      dateTempleMap: templeState.dateTempleMap,
-                    ),
-                    executeFunctionWhenDialogClose: true,
-                    ref: ref,
-                    rotate: 0,
-                  );
-                },
-                child: const Text('NotReachTempleMapAlert'),
-              ),
-
-
-
-
-              */
             ],
           ),
         ),

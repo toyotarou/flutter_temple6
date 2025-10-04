@@ -215,7 +215,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              makeNeighborTempleMarkerList();
+                              makeNeighborTempleMarker();
 
                               setState(() => displayNeighborTemple = !displayNeighborTemple);
                             },
@@ -490,15 +490,28 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Row(
-          children: <String>['S', 'A', 'B', 'C'].map((String e) {
+          children: <String>['-', 'S', 'A', 'B', 'C'].map((String e) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                if (e == '-') {
+                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
+                } else {
+                  appParamNotifier.setSelectedCityTownTempleMapRankList(rank: e);
+                }
+              },
               child: Container(
-                width: context.screenSize.width / 6,
+                width: context.screenSize.width / 8,
                 margin: const EdgeInsets.all(3),
                 padding: const EdgeInsets.all(3),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(color: const Color(0xFFFBB6CE).withValues(alpha: 0.5)),
+                decoration: BoxDecoration(
+                  color: (e == '-')
+                      ? Colors.black.withValues(alpha: 0.3)
+                      : (appParamState.selectedCityTownTempleMapRankList.contains(e))
+                      ? Colors.yellowAccent.withValues(alpha: 0.3)
+                      : const Color(0xFFFBB6CE).withValues(alpha: 0.5),
+                ),
+
                 child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
             );
@@ -537,7 +550,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  void makeNeighborTempleMarkerList() {
+  void makeNeighborTempleMarker() {
     neighborTempleMarkerList.clear();
 
     for (final String element in appParamState.neighborAreaNameList) {
@@ -546,18 +559,25 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
-            child: Stack(
-              children: <Widget>[
-                Positioned(bottom: 0, right: 0, child: Text(element2.rank, style: const TextStyle(fontSize: 30))),
+            child: GestureDetector(
+              onTap: () {
+                appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
 
-                CircleAvatar(
-                  backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
-                  child: Text(
-                    element2.mark.padLeft(3, '0'),
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                callSecondBox();
+              },
+              child: Stack(
+                children: <Widget>[
+                  Positioned(bottom: 0, right: 0, child: Text(element2.rank, style: const TextStyle(fontSize: 30))),
+
+                  CircleAvatar(
+                    backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                    child: Text(
+                      element2.mark.padLeft(3, '0'),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -568,11 +588,18 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
-            child: CircleAvatar(
-              backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
-              child: Text(
-                element2.mark.padLeft(3, '0'),
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+            child: GestureDetector(
+              onTap: () {
+                appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
+
+                callSecondBox();
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
+                child: Text(
+                  element2.mark.padLeft(3, '0'),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -613,9 +640,18 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           Positioned(
             top: 5,
             right: 5,
-            child: Text(
-              appParamState.selectedSpotDataModel!.rank,
-              style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Text(appParamState.selectedSpotDataModel!.mark.padLeft(3, '0')),
+
+                const SizedBox(width: 10),
+
+                Text(
+                  appParamState.selectedSpotDataModel!.rank,
+                  style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+                ),
+              ],
             ),
           ),
         ],
