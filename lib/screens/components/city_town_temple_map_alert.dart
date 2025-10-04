@@ -185,9 +185,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ],
             ),
 
-            Column(
+            Stack(
               children: <Widget>[
-                Stack(
+                Column(
                   children: <Widget>[
                     ExpandableBox(
                       alignment: Alignment.topCenter,
@@ -211,57 +211,73 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       ),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20)),
-                    ),
+                    if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
+                      const SizedBox(height: 10),
 
-                    Positioned(
-                      top: 5,
-                      right: 60,
-                      child: Row(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              makeNeighborTempleMarker();
-
-                              setState(() => displayNeighborTemples = !displayNeighborTemples);
-                            },
-                            child: const CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Color(0x66000000),
-
-                              child: Icon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
-                            ),
-                          ),
-
-                          const SizedBox(width: 15),
-
-                          GestureDetector(
-                            onTap: () => setState(() => displayStations = !displayStations),
-                            child: const CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Color(0x66000000),
-
-                              child: Icon(Icons.train, size: 18, color: Colors.white),
-                            ),
-                          ),
-
-                          const SizedBox(width: 15),
-
-                          GestureDetector(
-                            onTap: () => setDefaultBoundsMap(),
-                            child: const CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Color(0x66000000),
-
-                              child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
-                            ),
-                          ),
-                        ],
+                      ExpandableBox(
+                        alignment: Alignment.topLeft,
+                        collapsedSize: Size(context.screenSize.width * 0.1, 80),
+                        expandedSize: Size(context.screenSize.width * 0.6, context.screenSize.height * 0.2),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.3),
+                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        ),
+                        collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
+                        expandedChild: displayAddedSpotDataList(),
                       ),
-                    ),
+                    ],
                   ],
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20)),
+                ),
+
+                Positioned(
+                  top: 5,
+                  right: 60,
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          makeNeighborTempleMarker();
+
+                          setState(() => displayNeighborTemples = !displayNeighborTemples);
+                        },
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
+                        ),
+                      ),
+
+                      const SizedBox(width: 15),
+
+                      GestureDetector(
+                        onTap: () => setState(() => displayStations = !displayStations),
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(Icons.train, size: 18, color: Colors.white),
+                        ),
+                      ),
+
+                      const SizedBox(width: 15),
+
+                      GestureDetector(
+                        onTap: () => setDefaultBoundsMap(),
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+
+                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -806,14 +822,24 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       height: context.screenSize.height * 0.3,
       color: Colors.blueGrey.withOpacity(0.3),
       initialPosition: Offset(0, context.screenSize.height * 0.7),
-      widget: displaySelectedSpotDataModel(type: type),
+
+      widget: Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          return displaySelectedSpotDataModel(
+            type: type,
+
+            addRouteSpotDataModelList: ref.watch(appParamProvider.select((value) => value.addRouteSpotDataModelList)),
+          );
+        },
+      ),
+
       onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
       fixedFlag: true,
     );
   }
 
   ///
-  Widget displaySelectedSpotDataModel({required String type}) {
+  Widget displaySelectedSpotDataModel({required String type, required List<SpotDataModel> addRouteSpotDataModelList}) {
     if (appParamState.selectedSpotDataModel == null) {
       return const SizedBox.shrink();
     }
@@ -882,6 +908,29 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         ),
                       ),
               ),
+
+              const SizedBox(height: 10),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const SizedBox.shrink(),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      appParamNotifier.setAddRouteSpotDataModelList(
+                        spotDataModel: appParamState.selectedSpotDataModel!,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                    child: Text(
+                      (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel!))
+                          ? 'remove from route'
+                          : 'add to route',
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -904,5 +953,48 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           strokeWidth: 5,
         ),
     ];
+  }
+
+  ///
+  Widget displayAddedSpotDataList() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: DefaultTextStyle(
+                    style: const TextStyle(fontSize: 12),
+
+                    child: ListView.separated(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: <Widget>[
+                            CircleAvatar(radius: 15, child: Text(index.toString())),
+
+                            const SizedBox(width: 20),
+
+                            Expanded(child: Text(appParamState.addRouteSpotDataModelList[index].name)),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(color: Colors.white.withValues(alpha: 0.5), thickness: 1),
+                      itemCount: appParamState.addRouteSpotDataModelList.length,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const Icon(Icons.input),
+        ],
+      ),
+    );
   }
 }

@@ -71,7 +71,10 @@ class AppParamState with _$AppParamState {
 
     @Default(<String>[]) List<String> selectedCityTownTempleMapRankList,
 
+    ///
     @Default('') String selectedTrainName,
+
+    @Default(<SpotDataModel>[]) List<SpotDataModel> addRouteSpotDataModelList,
   }) = _AppParamState;
 }
 
@@ -241,4 +244,22 @@ class AppParam extends _$AppParam {
 
     state = state.copyWith(selectedTrainName: trainName);
   }
+
+  //===================================================
+
+  ///
+  void setAddRouteSpotDataModelList({required SpotDataModel spotDataModel}) {
+    final List<SpotDataModel> list = <SpotDataModel>[...state.addRouteSpotDataModelList];
+
+    if (list.contains(spotDataModel)) {
+      list.remove(spotDataModel);
+    } else {
+      list.add(spotDataModel);
+    }
+
+    state = state.copyWith(addRouteSpotDataModelList: list);
+  }
+
+  ///
+  void clearAddRouteSpotDataModelList() => state = state.copyWith(addRouteSpotDataModelList: <SpotDataModel>[]);
 }

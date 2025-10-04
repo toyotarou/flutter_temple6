@@ -232,6 +232,12 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                   appParamNotifier.setSelectedTrainName(name: '');
 
+                  appParamNotifier.clearAddRouteSpotDataModelList();
+
+                  appParamNotifier.clearSelectedMunicipalNameList();
+
+                  appParamNotifier.clearSelectedSpotDataModel();
+
                   TempleDialog(
                     context: context,
                     widget: CityTownTempleMapAlert(
