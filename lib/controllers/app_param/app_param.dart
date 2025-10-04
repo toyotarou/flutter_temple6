@@ -20,16 +20,30 @@ part 'app_param.g.dart';
 @freezed
 class AppParamState with _$AppParamState {
   const factory AppParamState({
+    //---
     @Default(<TempleModel>[]) List<TempleModel> keepTempleList,
+
+    //---
     @Default(<TempleLatLngModel>[]) List<TempleLatLngModel> keepTempleLatLngList,
     @Default(<String, TempleLatLngModel>{}) Map<String, TempleLatLngModel> keepTempleLatLngMap,
+
+    //---
     @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
+
+    //---
     @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
     @Default(<String, TokyoMunicipalModel>{}) Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
+
+    //---
     @Default(<String, List<TemplePhotoModel>>{}) Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
-    @Default(<TempleListModel>[]) List<TempleListModel> keepTempleListList,
+
+    //---
     @Default(<String, TempleListModel>{}) Map<String, TempleListModel> keepTempleListMap,
+    @Default(<TempleListModel>[]) List<TempleListModel> keepTempleListList,
+
+    //---
     @Default(<TokyoTrainModel>[]) List<TokyoTrainModel> keepTokyoTrainList,
+    @Default(<String, TokyoTrainModel>{}) Map<String, TokyoTrainModel> keepTokyoTrainMap,
     @Default(<String, List<TokyoTrainModel>>{})
     Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
 
@@ -67,8 +81,12 @@ class AppParam extends _$AppParam {
   @override
   AppParamState build() => const AppParamState();
 
+  //---
+
   ///
   void setKeepTempleList({required List<TempleModel> list}) => state = state.copyWith(keepTempleList: list);
+
+  //---
 
   ///
   void setKeepTempleLatLngList({required List<TempleLatLngModel> list}) =>
@@ -78,20 +96,28 @@ class AppParam extends _$AppParam {
   void setKeepTempleLatLngMap({required Map<String, TempleLatLngModel> map}) =>
       state = state.copyWith(keepTempleLatLngMap: map);
 
+  //---
+
   ///
   void setKeepStationMap({required Map<String, StationModel> map}) => state = state.copyWith(keepStationMap: map);
+
+  //---
 
   ///
   void setKeepTokyoMunicipalList({required List<TokyoMunicipalModel> list}) =>
       state = state.copyWith(keepTokyoMunicipalList: list);
 
   ///
+  void setKeepTokyoMunicipalMap({required Map<String, TokyoMunicipalModel> map}) =>
+      state = state.copyWith(keepTokyoMunicipalMap: map);
+
+  //---
+
+  ///
   void setKeepTemplePhotoMap({required Map<String, List<TemplePhotoModel>> map}) =>
       state = state.copyWith(keepTemplePhotoMap: map);
 
-  ///
-  void setKeepTokyoMunicipalMap({required Map<String, TokyoMunicipalModel> map}) =>
-      state = state.copyWith(keepTokyoMunicipalMap: map);
+  //---
 
   ///
   void setKeepTempleListMap({required Map<String, TempleListModel> map}) =>
@@ -100,8 +126,14 @@ class AppParam extends _$AppParam {
   ///
   void setKeepTempleListList({required List<TempleListModel> list}) => state = state.copyWith(keepTempleListList: list);
 
+  //---
+
   ///
   void setKeepTokyoTrainList({required List<TokyoTrainModel> list}) => state = state.copyWith(keepTokyoTrainList: list);
+
+  ///
+  void setKeepTokyoTrainMap({required Map<String, TokyoTrainModel> map}) =>
+      state = state.copyWith(keepTokyoTrainMap: map);
 
   ///
   void setKeepTokyoStationTokyoTrainModelListMap({required Map<String, List<TokyoTrainModel>> map}) =>

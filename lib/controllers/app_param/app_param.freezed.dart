@@ -16,24 +16,28 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppParamState {
-  List<TempleModel> get keepTempleList => throw _privateConstructorUsedError;
+//---
+  List<TempleModel> get keepTempleList =>
+      throw _privateConstructorUsedError; //---
   List<TempleLatLngModel> get keepTempleLatLngList =>
       throw _privateConstructorUsedError;
   Map<String, TempleLatLngModel> get keepTempleLatLngMap =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //---
   Map<String, StationModel> get keepStationMap =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //---
   List<TokyoMunicipalModel> get keepTokyoMunicipalList =>
       throw _privateConstructorUsedError;
   Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //---
   Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap =>
-      throw _privateConstructorUsedError;
-  List<TempleListModel> get keepTempleListList =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //---
   Map<String, TempleListModel> get keepTempleListMap =>
       throw _privateConstructorUsedError;
+  List<TempleListModel> get keepTempleListList =>
+      throw _privateConstructorUsedError; //---
   List<TokyoTrainModel> get keepTokyoTrainList =>
+      throw _privateConstructorUsedError;
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap =>
       throw _privateConstructorUsedError;
   Map<String, List<TokyoTrainModel>>
       get keepTokyoStationTokyoTrainModelListMap =>
@@ -85,9 +89,10 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<TokyoMunicipalModel> keepTokyoMunicipalList,
       Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
       Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
-      List<TempleListModel> keepTempleListList,
       Map<String, TempleListModel> keepTempleListMap,
+      List<TempleListModel> keepTempleListList,
       List<TokyoTrainModel> keepTokyoTrainList,
+      Map<String, TokyoTrainModel> keepTokyoTrainMap,
       Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
       List<StationModel> keepTokyoStationList,
       Map<String, StationModel> keepTokyoStationMap,
@@ -125,9 +130,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? keepTokyoMunicipalList = null,
     Object? keepTokyoMunicipalMap = null,
     Object? keepTemplePhotoMap = null,
-    Object? keepTempleListList = null,
     Object? keepTempleListMap = null,
+    Object? keepTempleListList = null,
     Object? keepTokyoTrainList = null,
+    Object? keepTokyoTrainMap = null,
     Object? keepTokyoStationTokyoTrainModelListMap = null,
     Object? keepTokyoStationList = null,
     Object? keepTokyoStationMap = null,
@@ -171,18 +177,22 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.keepTemplePhotoMap
           : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<TemplePhotoModel>>,
-      keepTempleListList: null == keepTempleListList
-          ? _value.keepTempleListList
-          : keepTempleListList // ignore: cast_nullable_to_non_nullable
-              as List<TempleListModel>,
       keepTempleListMap: null == keepTempleListMap
           ? _value.keepTempleListMap
           : keepTempleListMap // ignore: cast_nullable_to_non_nullable
               as Map<String, TempleListModel>,
+      keepTempleListList: null == keepTempleListList
+          ? _value.keepTempleListList
+          : keepTempleListList // ignore: cast_nullable_to_non_nullable
+              as List<TempleListModel>,
       keepTokyoTrainList: null == keepTokyoTrainList
           ? _value.keepTokyoTrainList
           : keepTokyoTrainList // ignore: cast_nullable_to_non_nullable
               as List<TokyoTrainModel>,
+      keepTokyoTrainMap: null == keepTokyoTrainMap
+          ? _value.keepTokyoTrainMap
+          : keepTokyoTrainMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoTrainModel>,
       keepTokyoStationTokyoTrainModelListMap: null ==
               keepTokyoStationTokyoTrainModelListMap
           ? _value.keepTokyoStationTokyoTrainModelListMap
@@ -257,9 +267,10 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<TokyoMunicipalModel> keepTokyoMunicipalList,
       Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
       Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
-      List<TempleListModel> keepTempleListList,
       Map<String, TempleListModel> keepTempleListMap,
+      List<TempleListModel> keepTempleListList,
       List<TokyoTrainModel> keepTokyoTrainList,
+      Map<String, TokyoTrainModel> keepTokyoTrainMap,
       Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
       List<StationModel> keepTokyoStationList,
       Map<String, StationModel> keepTokyoStationMap,
@@ -295,9 +306,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? keepTokyoMunicipalList = null,
     Object? keepTokyoMunicipalMap = null,
     Object? keepTemplePhotoMap = null,
-    Object? keepTempleListList = null,
     Object? keepTempleListMap = null,
+    Object? keepTempleListList = null,
     Object? keepTokyoTrainList = null,
+    Object? keepTokyoTrainMap = null,
     Object? keepTokyoStationTokyoTrainModelListMap = null,
     Object? keepTokyoStationList = null,
     Object? keepTokyoStationMap = null,
@@ -341,18 +353,22 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value._keepTemplePhotoMap
           : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<TemplePhotoModel>>,
-      keepTempleListList: null == keepTempleListList
-          ? _value._keepTempleListList
-          : keepTempleListList // ignore: cast_nullable_to_non_nullable
-              as List<TempleListModel>,
       keepTempleListMap: null == keepTempleListMap
           ? _value._keepTempleListMap
           : keepTempleListMap // ignore: cast_nullable_to_non_nullable
               as Map<String, TempleListModel>,
+      keepTempleListList: null == keepTempleListList
+          ? _value._keepTempleListList
+          : keepTempleListList // ignore: cast_nullable_to_non_nullable
+              as List<TempleListModel>,
       keepTokyoTrainList: null == keepTokyoTrainList
           ? _value._keepTokyoTrainList
           : keepTokyoTrainList // ignore: cast_nullable_to_non_nullable
               as List<TokyoTrainModel>,
+      keepTokyoTrainMap: null == keepTokyoTrainMap
+          ? _value._keepTokyoTrainMap
+          : keepTokyoTrainMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoTrainModel>,
       keepTokyoStationTokyoTrainModelListMap: null ==
               keepTokyoStationTokyoTrainModelListMap
           ? _value._keepTokyoStationTokyoTrainModelListMap
@@ -428,12 +444,14 @@ class _$AppParamStateImpl implements _AppParamState {
           const <String, TokyoMunicipalModel>{},
       final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap =
           const <String, List<TemplePhotoModel>>{},
-      final List<TempleListModel> keepTempleListList =
-          const <TempleListModel>[],
       final Map<String, TempleListModel> keepTempleListMap =
           const <String, TempleListModel>{},
+      final List<TempleListModel> keepTempleListList =
+          const <TempleListModel>[],
       final List<TokyoTrainModel> keepTokyoTrainList =
           const <TokyoTrainModel>[],
+      final Map<String, TokyoTrainModel> keepTokyoTrainMap =
+          const <String, TokyoTrainModel>{},
       final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap =
           const <String, List<TokyoTrainModel>>{},
       final List<StationModel> keepTokyoStationList = const <StationModel>[],
@@ -456,9 +474,10 @@ class _$AppParamStateImpl implements _AppParamState {
         _keepTokyoMunicipalList = keepTokyoMunicipalList,
         _keepTokyoMunicipalMap = keepTokyoMunicipalMap,
         _keepTemplePhotoMap = keepTemplePhotoMap,
-        _keepTempleListList = keepTempleListList,
         _keepTempleListMap = keepTempleListMap,
+        _keepTempleListList = keepTempleListList,
         _keepTokyoTrainList = keepTokyoTrainList,
+        _keepTokyoTrainMap = keepTokyoTrainMap,
         _keepTokyoStationTokyoTrainModelListMap =
             keepTokyoStationTokyoTrainModelListMap,
         _keepTokyoStationList = keepTokyoStationList,
@@ -469,7 +488,9 @@ class _$AppParamStateImpl implements _AppParamState {
         _neighborAreaNameList = neighborAreaNameList,
         _selectedCityTownTempleMapRankList = selectedCityTownTempleMapRankList;
 
+//---
   final List<TempleModel> _keepTempleList;
+//---
   @override
   @JsonKey()
   List<TempleModel> get keepTempleList {
@@ -478,7 +499,9 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableListView(_keepTempleList);
   }
 
+//---
   final List<TempleLatLngModel> _keepTempleLatLngList;
+//---
   @override
   @JsonKey()
   List<TempleLatLngModel> get keepTempleLatLngList {
@@ -498,7 +521,9 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableMapView(_keepTempleLatLngMap);
   }
 
+//---
   final Map<String, StationModel> _keepStationMap;
+//---
   @override
   @JsonKey()
   Map<String, StationModel> get keepStationMap {
@@ -507,7 +532,9 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableMapView(_keepStationMap);
   }
 
+//---
   final List<TokyoMunicipalModel> _keepTokyoMunicipalList;
+//---
   @override
   @JsonKey()
   List<TokyoMunicipalModel> get keepTokyoMunicipalList {
@@ -527,7 +554,9 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableMapView(_keepTokyoMunicipalMap);
   }
 
+//---
   final Map<String, List<TemplePhotoModel>> _keepTemplePhotoMap;
+//---
   @override
   @JsonKey()
   Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap {
@@ -535,6 +564,18 @@ class _$AppParamStateImpl implements _AppParamState {
       return _keepTemplePhotoMap;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_keepTemplePhotoMap);
+  }
+
+//---
+  final Map<String, TempleListModel> _keepTempleListMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, TempleListModel> get keepTempleListMap {
+    if (_keepTempleListMap is EqualUnmodifiableMapView)
+      return _keepTempleListMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTempleListMap);
   }
 
   final List<TempleListModel> _keepTempleListList;
@@ -547,17 +588,9 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableListView(_keepTempleListList);
   }
 
-  final Map<String, TempleListModel> _keepTempleListMap;
-  @override
-  @JsonKey()
-  Map<String, TempleListModel> get keepTempleListMap {
-    if (_keepTempleListMap is EqualUnmodifiableMapView)
-      return _keepTempleListMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_keepTempleListMap);
-  }
-
+//---
   final List<TokyoTrainModel> _keepTokyoTrainList;
+//---
   @override
   @JsonKey()
   List<TokyoTrainModel> get keepTokyoTrainList {
@@ -565,6 +598,16 @@ class _$AppParamStateImpl implements _AppParamState {
       return _keepTokyoTrainList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_keepTokyoTrainList);
+  }
+
+  final Map<String, TokyoTrainModel> _keepTokyoTrainMap;
+  @override
+  @JsonKey()
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap {
+    if (_keepTokyoTrainMap is EqualUnmodifiableMapView)
+      return _keepTokyoTrainMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoTrainMap);
   }
 
   final Map<String, List<TokyoTrainModel>>
@@ -676,7 +719,7 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListList: $keepTempleListList, keepTempleListMap: $keepTempleListMap, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList)';
   }
 
   @override
@@ -699,11 +742,13 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality()
                 .equals(other._keepTemplePhotoMap, _keepTemplePhotoMap) &&
             const DeepCollectionEquality()
-                .equals(other._keepTempleListList, _keepTempleListList) &&
-            const DeepCollectionEquality()
                 .equals(other._keepTempleListMap, _keepTempleListMap) &&
             const DeepCollectionEquality()
+                .equals(other._keepTempleListList, _keepTempleListList) &&
+            const DeepCollectionEquality()
                 .equals(other._keepTokyoTrainList, _keepTokyoTrainList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoTrainMap, _keepTokyoTrainMap) &&
             const DeepCollectionEquality().equals(
                 other._keepTokyoStationTokyoTrainModelListMap,
                 _keepTokyoStationTokyoTrainModelListMap) &&
@@ -744,9 +789,10 @@ class _$AppParamStateImpl implements _AppParamState {
         const DeepCollectionEquality().hash(_keepTokyoMunicipalList),
         const DeepCollectionEquality().hash(_keepTokyoMunicipalMap),
         const DeepCollectionEquality().hash(_keepTemplePhotoMap),
-        const DeepCollectionEquality().hash(_keepTempleListList),
         const DeepCollectionEquality().hash(_keepTempleListMap),
+        const DeepCollectionEquality().hash(_keepTempleListList),
         const DeepCollectionEquality().hash(_keepTokyoTrainList),
+        const DeepCollectionEquality().hash(_keepTokyoTrainMap),
         const DeepCollectionEquality()
             .hash(_keepTokyoStationTokyoTrainModelListMap),
         const DeepCollectionEquality().hash(_keepTokyoStationList),
@@ -781,9 +827,10 @@ abstract class _AppParamState implements AppParamState {
           final List<TokyoMunicipalModel> keepTokyoMunicipalList,
           final Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
           final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
-          final List<TempleListModel> keepTempleListList,
           final Map<String, TempleListModel> keepTempleListMap,
+          final List<TempleListModel> keepTempleListList,
           final List<TokyoTrainModel> keepTokyoTrainList,
+          final Map<String, TokyoTrainModel> keepTokyoTrainMap,
           final Map<String, List<TokyoTrainModel>>
               keepTokyoStationTokyoTrainModelListMap,
           final List<StationModel> keepTokyoStationList,
@@ -800,26 +847,29 @@ abstract class _AppParamState implements AppParamState {
           final List<String> selectedCityTownTempleMapRankList}) =
       _$AppParamStateImpl;
 
+//---
   @override
-  List<TempleModel> get keepTempleList;
+  List<TempleModel> get keepTempleList; //---
   @override
   List<TempleLatLngModel> get keepTempleLatLngList;
   @override
-  Map<String, TempleLatLngModel> get keepTempleLatLngMap;
+  Map<String, TempleLatLngModel> get keepTempleLatLngMap; //---
   @override
-  Map<String, StationModel> get keepStationMap;
+  Map<String, StationModel> get keepStationMap; //---
   @override
   List<TokyoMunicipalModel> get keepTokyoMunicipalList;
   @override
-  Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap;
+  Map<String, TokyoMunicipalModel> get keepTokyoMunicipalMap; //---
   @override
-  Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap;
-  @override
-  List<TempleListModel> get keepTempleListList;
+  Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap; //---
   @override
   Map<String, TempleListModel> get keepTempleListMap;
   @override
+  List<TempleListModel> get keepTempleListList; //---
+  @override
   List<TokyoTrainModel> get keepTokyoTrainList;
+  @override
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap;
   @override
   Map<String, List<TokyoTrainModel>> get keepTokyoStationTokyoTrainModelListMap;
 

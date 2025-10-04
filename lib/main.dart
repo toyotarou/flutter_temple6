@@ -81,16 +81,30 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
       home: GestureDetector(
         onTap: () => primaryFocus?.unfocus(),
         child: HomeScreen(
+          //---
           templeList: templeState.templeList,
+
+          //---
           templeLatLngList: templeLatLngState.templeLatLngList,
           templeLatLngMap: templeLatLngState.templeLatLngMap,
+
+          //---
           stationMap: stationState.stationMap,
+
+          //---
           tokyoMunicipalList: tokyoMunicipalState.tokyoMunicipalList,
           tokyoMunicipalMap: tokyoMunicipalState.tokyoMunicipalMap,
+
+          //---
           templePhotoMap: templePhotoState.templePhotoMap,
+
+          //---
           templeListMap: templeListState.templeListMap,
           templeListList: templeListState.templeListList,
+
+          //---
           tokyoTrainList: tokyoTrainState.tokyoTrainList,
+          tokyoTrainMap: tokyoTrainState.tokyoTrainMap,
           tokyoStationTokyoTrainModelListMap: tokyoTrainState.tokyoStationTokyoTrainModelListMap,
         ),
       ),

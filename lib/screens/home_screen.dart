@@ -30,30 +30,58 @@ import 'parts/temple_overlay.dart';
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({
     super.key,
+    //---
     required this.templeList,
+
+    //---
+    required this.templeLatLngList,
     required this.templeLatLngMap,
+
+    //---
     required this.stationMap,
+
+    //---
     required this.tokyoMunicipalList,
     required this.tokyoMunicipalMap,
+
+    //---
     required this.templePhotoMap,
-    required this.templeLatLngList,
-    required this.templeListMap,
+
+    //---
     required this.templeListList,
-    required this.tokyoStationTokyoTrainModelListMap,
+    required this.templeListMap,
+
+    //---
     required this.tokyoTrainList,
+    required this.tokyoTrainMap,
+    required this.tokyoStationTokyoTrainModelListMap,
   });
 
+  //---
   final List<TempleModel> templeList;
+
+  //---
   final List<TempleLatLngModel> templeLatLngList;
   final Map<String, TempleLatLngModel> templeLatLngMap;
+
+  //---
   final Map<String, StationModel> stationMap;
+
+  //---
   final List<TokyoMunicipalModel> tokyoMunicipalList;
   final Map<String, TokyoMunicipalModel> tokyoMunicipalMap;
+
+  //---
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
-  final List<TempleListModel> templeListList;
+
+  //---
   final Map<String, TempleListModel> templeListMap;
-  final Map<String, List<TokyoTrainModel>> tokyoStationTokyoTrainModelListMap;
+  final List<TempleListModel> templeListList;
+
+  //---
   final List<TokyoTrainModel> tokyoTrainList;
+  final Map<String, TokyoTrainModel> tokyoTrainMap;
+  final Map<String, List<TokyoTrainModel>> tokyoStationTokyoTrainModelListMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -117,16 +145,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
     final double dpr = MediaQuery.of(context).devicePixelRatio;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      //---
       appParamNotifier.setKeepTempleList(list: widget.templeList);
+
+      //---
       appParamNotifier.setKeepTempleLatLngList(list: widget.templeLatLngList);
       appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
+
+      //---
       appParamNotifier.setKeepStationMap(map: widget.stationMap);
+
+      //---
       appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
       appParamNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
+
+      //---
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
-      appParamNotifier.setKeepTempleListList(list: widget.templeListList);
+
+      //---
       appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
+      appParamNotifier.setKeepTempleListList(list: widget.templeListList);
+
+      //---
       appParamNotifier.setKeepTokyoTrainList(list: widget.tokyoTrainList);
+      appParamNotifier.setKeepTokyoTrainMap(map: widget.tokyoTrainMap);
       appParamNotifier.setKeepTokyoStationTokyoTrainModelListMap(map: widget.tokyoStationTokyoTrainModelListMap);
 
       if (!tokyoStationSettedFlag) {
