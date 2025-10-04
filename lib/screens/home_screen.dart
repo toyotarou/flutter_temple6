@@ -511,7 +511,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             case '自宅':
                               templeDataList.add(
                                 SpotDataModel(
-                                  type: 'startPoint',
+                                  type: '',
                                   name: templeModel.startPoint,
                                   address: '千葉県船橋市二子町492-25-101',
                                   latitude: funabashiLat.toString(),
@@ -523,7 +523,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             case '実家':
                               templeDataList.add(
                                 SpotDataModel(
-                                  type: 'startPoint',
+                                  type: '',
                                   name: templeModel.startPoint,
                                   address: '東京都杉並区善福寺4-22-11',
                                   latitude: zenpukujiLat.toString(),
@@ -538,7 +538,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                               if (stationModel != null) {
                                 templeDataList.add(
                                   SpotDataModel(
-                                    type: 'startPoint',
+                                    type: 'station',
                                     name: stationModel.stationName,
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
@@ -591,7 +591,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             case '自宅':
                               templeDataList.add(
                                 SpotDataModel(
-                                  type: 'endPont',
+                                  type: '',
                                   name: templeModel.endPoint,
                                   address: '千葉県船橋市二子町492-25-101',
                                   latitude: funabashiLat.toString(),
@@ -603,7 +603,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                             case '実家':
                               templeDataList.add(
                                 SpotDataModel(
-                                  type: 'endPoint',
+                                  type: '',
                                   name: templeModel.endPoint,
                                   address: '東京都杉並区善福寺4-22-11',
                                   latitude: zenpukujiLat.toString(),
@@ -618,7 +618,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                               if (stationModel != null) {
                                 templeDataList.add(
                                   SpotDataModel(
-                                    type: 'endPoint',
+                                    type: 'station',
                                     name: stationModel.stationName,
                                     address: stationModel.address,
                                     latitude: stationModel.lat,
