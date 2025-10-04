@@ -1,4 +1,3 @@
-///
 class TokyoStationModel {
   TokyoStationModel({
     required this.id,
@@ -29,16 +28,16 @@ class TokyoStationModel {
   }
 }
 
-///
 class TokyoTrainModel {
   TokyoTrainModel({required this.trainNumber, required this.trainName, required this.station});
 
   factory TokyoTrainModel.fromJson(Map<String, dynamic> json) {
-    final List<TokyoStationModel> list = json['station'] as List<TokyoStationModel>;
+    final List<dynamic> list = (json['station'] ?? <dynamic>[]) as List<dynamic>;
     return TokyoTrainModel(
       trainNumber: json['train_number'] as int,
       trainName: json['train_name'] as String,
-      station: list.map((TokyoStationModel e) => TokyoStationModel.fromJson(e as Map<String, dynamic>)).toList(),
+      // ignore: always_specify_types
+      station: list.map((e) => TokyoStationModel.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
 

@@ -36,30 +36,29 @@ class TokyoTrain extends _$TokyoTrain {
     final HttpClient client = ref.read(httpClientProvider);
 
     try {
-      final dynamic value = await client.post(path: APIPath.getTokyoTrainStation);
-
       final List<TokyoTrainModel> list = <TokyoTrainModel>[];
-
       final Map<String, TokyoTrainModel> map = <String, TokyoTrainModel>{};
 
       final Map<String, List<TokyoTrainModel>> map2 = <String, List<TokyoTrainModel>>{};
 
-      // ignore: avoid_dynamic_calls
-      for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
-        final TokyoTrainModel val = TokyoTrainModel.fromJson(
+      // ignore: always_specify_types
+      await client.post(path: APIPath.getTokyoTrainStation).then((value) {
+        // ignore: avoid_dynamic_calls
+        for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
           // ignore: avoid_dynamic_calls
-          value['data'][i] as Map<String, dynamic>,
-        );
+          final TokyoTrainModel val = TokyoTrainModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
-        list.add(val);
-        map[val.trainNumber.toString()] = val;
+          list.add(val);
 
-        for (final TokyoStationModel element in val.station) {
-          (map2[element.stationName] ??= <TokyoTrainModel>[]).add(
-            TokyoTrainModel(trainNumber: val.trainNumber, trainName: val.trainName, station: <TokyoStationModel>[]),
-          );
+          map[val.trainName] = val;
+
+          for (final TokyoStationModel element in val.station) {
+            (map2[element.stationName] ??= <TokyoTrainModel>[]).add(
+              TokyoTrainModel(trainNumber: val.trainNumber, trainName: val.trainName, station: <TokyoStationModel>[]),
+            );
+          }
         }
-      }
+      });
 
       return state.copyWith(tokyoTrainList: list, tokyoTrainMap: map, tokyoStationTokyoTrainModelListMap: map2);
     } catch (e) {

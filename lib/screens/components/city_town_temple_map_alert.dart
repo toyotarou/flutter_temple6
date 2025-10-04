@@ -11,6 +11,7 @@ import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/station_model.dart';
 import '../../models/tokyo_municipal_model.dart';
+import '../../models/tokyo_train_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
@@ -667,6 +668,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
+    final List<TokyoTrainModel>? tokyoStation =
+        appParamState.keepTokyoStationTokyoTrainModelListMap[appParamState.selectedSpotDataModel!.name];
+
     return Stack(
       children: <Widget>[
         if (type == 'temple' && appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
@@ -702,7 +706,28 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(
+                height: 30,
+                child: (type == 'temple')
+                    ? null
+                    : (tokyoStation == null)
+                    ? null
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: tokyoStation.map((TokyoTrainModel e) {
+                            return Container(
+                              width: context.screenSize.width / 3,
+                              margin: const EdgeInsets.all(3),
+                              padding: const EdgeInsets.all(3),
+                              decoration: const BoxDecoration(color: Colors.blueAccent),
+
+                              child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+              ),
             ],
           ),
         ),

@@ -396,7 +396,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                 child: GestureDetector(
                   onTap: () {
-                    TempleDialog(context: context, widget: const CityTownTempleListAlert());
+                    TempleDialog(context: context, widget: const CityTownTempleListAlert(), clearBarrierColor: true);
                   },
                   child: const Row(
                     children: <Widget>[

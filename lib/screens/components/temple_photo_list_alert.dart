@@ -74,6 +74,8 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
 
               paddingTop: context.screenSize.height * 0.1,
               paddingBottom: context.screenSize.height * 0.1,
+
+              clearBarrierColor: true,
             ),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 5),
