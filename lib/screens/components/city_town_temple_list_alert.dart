@@ -230,6 +230,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                 onPressed: () {
                   appParamNotifier.clearSelectedCityTownTempleMapRankList();
 
+                  appParamNotifier.setSelectedTrainName(name: '');
+
                   TempleDialog(
                     context: context,
                     widget: CityTownTempleMapAlert(

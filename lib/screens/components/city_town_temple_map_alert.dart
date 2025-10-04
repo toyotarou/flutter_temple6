@@ -866,13 +866,17 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: tokyoStation.map((TokyoTrainModel e) {
-                            return Container(
-                              width: context.screenSize.width / 3,
-                              margin: const EdgeInsets.all(3),
-                              padding: const EdgeInsets.all(3),
-                              decoration: const BoxDecoration(color: Colors.blueAccent),
+                            return GestureDetector(
+                              onTap: () => appParamNotifier.setSelectedTrainName(name: e.trainName),
 
-                              child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
+                              child: Container(
+                                width: context.screenSize.width / 3,
+                                margin: const EdgeInsets.all(3),
+                                padding: const EdgeInsets.all(3),
+                                decoration: const BoxDecoration(color: Colors.blueAccent),
+
+                                child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
+                              ),
                             );
                           }).toList(),
                         ),
