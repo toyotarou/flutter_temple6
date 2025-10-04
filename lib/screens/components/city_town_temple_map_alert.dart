@@ -164,6 +164,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolygonLayer(polygons: getNeighborArea()),
                 ],
 
+                if (appParamState.selectedTrainName != '' &&
+                    appParamState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
+                    appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolylineLayer(polylines: makeTrainPolyline()),
+                ],
+
                 if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
 
                 if (noReachTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: noReachTemplesMarkerList)],
@@ -697,6 +704,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     final List<String> tokyoTrainNameList = <String>[];
 
+    final RegExp reg = RegExp('新幹線');
+
     for (final TokyoMunicipalModel? element in <TokyoMunicipalModel?>[
       appParamState.keepTokyoMunicipalMap[widget.cityTownName],
       ...neighborsTokyoMunicipalModelList,
@@ -705,7 +714,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         for (final TokyoTrainModel element2 in appParamState.keepTokyoTrainList) {
           for (final TokyoStationModel element3 in element2.station) {
             if (spotInMunicipality(element3.lat, element3.lng, element)) {
-              tokyoTrainNameList.add(element2.trainName);
+              if (reg.firstMatch(element2.trainName) == null) {
+                tokyoTrainNameList.add(element2.trainName);
+              }
             }
           }
         }
@@ -872,5 +883,22 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ),
       ],
     );
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polyline> makeTrainPolyline() {
+    return <Polyline<Object>>[
+      for (int i = 0; i < appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.length; i++)
+        // ignore: always_specify_types
+        Polyline(
+          points: appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station
+              .map((TokyoStationModel e) => LatLng(e.lat, e.lng))
+              .toList(),
+
+          color: Colors.redAccent,
+          strokeWidth: 5,
+        ),
+    ];
   }
 }
