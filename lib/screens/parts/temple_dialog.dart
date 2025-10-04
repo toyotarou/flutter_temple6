@@ -37,7 +37,7 @@ Future<void> TempleDialog({
     // ignore: use_if_null_to_convert_nulls_to_bools
     if (executeFunctionWhenDialogClose == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (from == 'DailyTempleMapAlert') {
+        if (from == 'DailyTempleMapAlert' || from == 'CityTownTempleMapAlert') {
           if (ref != null) {
             try {
               closeAllOverlays(ref: ref);

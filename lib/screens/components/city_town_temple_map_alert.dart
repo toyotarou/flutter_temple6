@@ -14,6 +14,7 @@ import '../../models/tokyo_municipal_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
+import '../parts/temple_overlay.dart';
 
 class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   const CityTownTempleMapAlert({
@@ -67,6 +68,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   List<Marker> neighborTempleMarkerList = <Marker>[];
 
   bool displayNeighborTemple = false;
+
+  // ignore: unused_field
+  final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
+  final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
 
   ///
   @override
@@ -193,7 +198,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         children: <Widget>[
                           const SizedBox(height: 15),
 
-                          Expanded(child: displayVisitedNoReachTempleCountList()),
+                          Expanded(child: buildExpandedChildContents()),
                         ],
                       ),
                     ),
@@ -347,18 +352,25 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
 
-          child: Stack(
-            children: <Widget>[
-              Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
+          child: GestureDetector(
+            onTap: () {
+              appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
 
-              CircleAvatar(
-                backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
-                child: Text(
-                  element.mark.padLeft(3, '0'),
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              callSecondBox();
+            },
+            child: Stack(
+              children: <Widget>[
+                Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
+
+                CircleAvatar(
+                  backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                  child: Text(
+                    element.mark.padLeft(3, '0'),
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -373,11 +385,18 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       noReachTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
-          child: CircleAvatar(
-            backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
-            child: Text(
-              element.mark.padLeft(3, '0'),
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+          child: GestureDetector(
+            onTap: () {
+              appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
+
+              callSecondBox();
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
+              child: Text(
+                element.mark.padLeft(3, '0'),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
             ),
           ),
         ),
@@ -386,7 +405,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  Widget displayVisitedNoReachTempleCountList() {
+  Widget buildExpandedChildContents() {
     final List<Widget> list = <Widget>[];
 
     list.add(const SizedBox(height: 20));
@@ -467,6 +486,27 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       ),
     );
 
+    list.add(
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Row(
+          children: <String>['S', 'A', 'B', 'C'].map((String e) {
+            return GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: context.screenSize.width / 6,
+                margin: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(color: const Color(0xFFFBB6CE).withValues(alpha: 0.5)),
+                child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: CustomScrollView(
@@ -539,5 +579,65 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         );
       });
     }
+  }
+
+  ///
+  void callSecondBox() {
+    appParamNotifier.setSecondOverlayParams(secondEntries: _secondEntries);
+
+    addSecondOverlay(
+      context: context,
+      secondEntries: _secondEntries,
+      setStateCallback: setState,
+      width: context.screenSize.width,
+      height: context.screenSize.height * 0.2,
+      color: Colors.blueGrey.withOpacity(0.3),
+      initialPosition: Offset(0, context.screenSize.height * 0.8),
+
+      widget: displaySelectedSpotDataModel(),
+
+      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+      fixedFlag: true,
+    );
+  }
+
+  ///
+  Widget displaySelectedSpotDataModel() {
+    if (appParamState.selectedSpotDataModel == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Stack(
+      children: <Widget>[
+        if (appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
+          Positioned(
+            top: 5,
+            right: 5,
+            child: Text(
+              appParamState.selectedSpotDataModel!.rank,
+              style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+            ),
+          ),
+        ],
+
+        DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(width: double.infinity),
+
+              Text(appParamState.selectedSpotDataModel!.name, style: const TextStyle(fontSize: 16)),
+              Text(appParamState.selectedSpotDataModel!.address),
+              Text(
+                '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
+              ),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

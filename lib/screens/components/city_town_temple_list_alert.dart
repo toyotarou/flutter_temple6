@@ -241,6 +241,12 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                       polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
                     ),
+
+                    clearBarrierColor: true,
+
+                    executeFunctionWhenDialogClose: true,
+                    ref: ref,
+                    from: 'CityTownTempleMapAlert',
                   );
                 },
                 icon: Icon(Icons.map, color: Colors.white.withValues(alpha: 0.4)),
