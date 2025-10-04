@@ -10,6 +10,7 @@ import '../../models/temple_model.dart';
 
 import '../../models/temple_photo_model.dart';
 import '../../models/tokyo_municipal_model.dart';
+import '../../models/tokyo_train_model.dart';
 import '../../utility/utility.dart';
 
 part 'app_param.freezed.dart';
@@ -28,6 +29,8 @@ class AppParamState with _$AppParamState {
     @Default(<String, List<TemplePhotoModel>>{}) Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
     @Default(<TempleListModel>[]) List<TempleListModel> keepTempleListList,
     @Default(<String, TempleListModel>{}) Map<String, TempleListModel> keepTempleListMap,
+    @Default(<String, List<TokyoTrainModel>>{})
+    Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
 
     ///
     @Default(<StationModel>[]) List<StationModel> keepTokyoStationList,
@@ -95,6 +98,10 @@ class AppParam extends _$AppParam {
 
   ///
   void setKeepTempleListList({required List<TempleListModel> list}) => state = state.copyWith(keepTempleListList: list);
+
+  ///
+  void setKeepTokyoStationTokyoTrainModelListMap({required Map<String, List<TokyoTrainModel>> map}) =>
+      state = state.copyWith(keepTokyoStationTokyoTrainModelListMap: map);
 
   //===================================================
 
@@ -183,5 +190,6 @@ class AppParam extends _$AppParam {
   }
 
   ///
-  void clearSelectedCityTownTempleMapRankList() => state = state.copyWith(selectedCityTownTempleMapRankList: <String>[]);
+  void clearSelectedCityTownTempleMapRankList() =>
+      state = state.copyWith(selectedCityTownTempleMapRankList: <String>[]);
 }

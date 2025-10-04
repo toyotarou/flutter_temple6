@@ -18,6 +18,7 @@ import '../models/temple_list_model.dart';
 import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
 import '../models/tokyo_municipal_model.dart';
+import '../models/tokyo_train_model.dart';
 import '../utility/functions.dart';
 import '../utility/utility.dart';
 import 'components/city_town_temple_list_alert.dart';
@@ -38,6 +39,7 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.templeLatLngList,
     required this.templeListMap,
     required this.templeListList,
+    required this.tokyoStationTokyoTrainModelListMap,
   });
 
   final List<TempleModel> templeList;
@@ -49,6 +51,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
   final List<TempleListModel> templeListList;
   final Map<String, TempleListModel> templeListMap;
+  final Map<String, List<TokyoTrainModel>> tokyoStationTokyoTrainModelListMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -121,6 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
       appParamNotifier.setKeepTempleListList(list: widget.templeListList);
       appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
+      appParamNotifier.setKeepTokyoStationTokyoTrainModelListMap(map: widget.tokyoStationTokyoTrainModelListMap);
 
       if (!tokyoStationSettedFlag) {
         final List<StationModel> tokyoStationList = <StationModel>[];
