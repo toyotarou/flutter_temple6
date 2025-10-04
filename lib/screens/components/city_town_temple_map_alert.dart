@@ -692,15 +692,29 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   Widget displayTokyoTrainList() {
     final List<Widget> list = <Widget>[];
 
-    for (final TokyoTrainModel element in appParamState.keepTokyoTrainList) {
-      list.add(
-        Theme(
-          data: Theme.of(context).copyWith(
-            dividerColor: Colors.transparent,
-            colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
-          ),
+    final List<String> tokyoTrainNameList = <String>[];
 
-          child: ExpansionTile(
+    for (final TokyoMunicipalModel? element in <TokyoMunicipalModel?>[
+      appParamState.keepTokyoMunicipalMap[widget.cityTownName],
+      ...neighborsTokyoMunicipalModelList,
+    ]) {
+      if (element != null) {
+        for (final TokyoTrainModel element2 in appParamState.keepTokyoTrainList) {
+          for (final TokyoStationModel element3 in element2.station) {
+            if (spotInMunicipality(element3.lat, element3.lng, element)) {
+              tokyoTrainNameList.add(element2.trainName);
+            }
+          }
+        }
+      }
+    }
+
+    final List<String> uniqueTrainNameList = tokyoTrainNameList.toSet().toList();
+
+    for (final String element in uniqueTrainNameList) {
+      if (appParamState.keepTokyoTrainMap[element] != null) {
+        list.add(
+          ExpansionTile(
             collapsedIconColor: Colors.white,
             backgroundColor: Colors.blueAccent.withOpacity(0.1),
             title: Container(
@@ -714,7 +728,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   const SizedBox(width: 20),
 
                   Text(
-                    element.trainName,
+                    element,
 
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -725,21 +739,21 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ),
             ),
 
-            children: element.station.map((TokyoStationModel e2) {
+            children: appParamState.keepTokyoTrainMap[element]!.station.map((TokyoStationModel e) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(e2.stationName, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(e.stationName, maxLines: 1, overflow: TextOverflow.ellipsis),
                     const SizedBox.shrink(),
                   ],
                 ),
               );
             }).toList(),
           ),
-        ),
-      );
+        );
+      }
     }
 
     return SizedBox(
