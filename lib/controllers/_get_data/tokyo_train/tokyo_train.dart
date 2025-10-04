@@ -16,7 +16,6 @@ class TokyoTrainState with _$TokyoTrainState {
   const factory TokyoTrainState({
     @Default(<TokyoTrainModel>[]) List<TokyoTrainModel> tokyoTrainList,
     @Default(<String, TokyoTrainModel>{}) Map<String, TokyoTrainModel> tokyoTrainMap,
-
     @Default(<String, List<TokyoTrainModel>>{}) Map<String, List<TokyoTrainModel>> tokyoStationTokyoTrainModelListMap,
   }) = _TokyoTrainState;
 }
@@ -38,7 +37,6 @@ class TokyoTrain extends _$TokyoTrain {
     try {
       final List<TokyoTrainModel> list = <TokyoTrainModel>[];
       final Map<String, TokyoTrainModel> map = <String, TokyoTrainModel>{};
-
       final Map<String, List<TokyoTrainModel>> map2 = <String, List<TokyoTrainModel>>{};
 
       // ignore: always_specify_types

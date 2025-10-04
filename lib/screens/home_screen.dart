@@ -40,6 +40,7 @@ class HomeScreen extends ConsumerStatefulWidget {
     required this.templeListMap,
     required this.templeListList,
     required this.tokyoStationTokyoTrainModelListMap,
+    required this.tokyoTrainList,
   });
 
   final List<TempleModel> templeList;
@@ -52,6 +53,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final List<TempleListModel> templeListList;
   final Map<String, TempleListModel> templeListMap;
   final Map<String, List<TokyoTrainModel>> tokyoStationTokyoTrainModelListMap;
+  final List<TokyoTrainModel> tokyoTrainList;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -124,6 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
       appParamNotifier.setKeepTempleListList(list: widget.templeListList);
       appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
+      appParamNotifier.setKeepTokyoTrainList(list: widget.tokyoTrainList);
       appParamNotifier.setKeepTokyoStationTokyoTrainModelListMap(map: widget.tokyoStationTokyoTrainModelListMap);
 
       if (!tokyoStationSettedFlag) {

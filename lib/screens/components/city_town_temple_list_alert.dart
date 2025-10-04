@@ -228,6 +228,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
               IconButton(
                 onPressed: () {
+                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
+
                   TempleDialog(
                     context: context,
                     widget: CityTownTempleMapAlert(

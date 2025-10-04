@@ -70,7 +70,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   bool displayNeighborTemple = false;
 
-  // ignore: unused_field
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
 
@@ -501,32 +500,48 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Row(
-          children: <String>['-', 'S', 'A', 'B', 'C'].map((String e) {
-            return GestureDetector(
-              onTap: () {
-                if (e == '-') {
-                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
-                } else {
-                  appParamNotifier.setSelectedCityTownTempleMapRankList(rank: e);
-                }
-              },
-              child: Container(
-                width: context.screenSize.width / 8,
-                margin: const EdgeInsets.all(3),
-                padding: const EdgeInsets.all(3),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: (e == '-')
-                      ? Colors.black.withValues(alpha: 0.3)
-                      : (appParamState.selectedCityTownTempleMapRankList.contains(e))
-                      ? Colors.yellowAccent.withValues(alpha: 0.3)
-                      : const Color(0xFFFBB6CE).withValues(alpha: 0.5),
-                ),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <String>['-', 'S', 'A', 'B', 'C'].map((String e) {
+                return GestureDetector(
+                  onTap: () {
+                    if (e == '-') {
+                      appParamNotifier.clearSelectedCityTownTempleMapRankList();
+                    } else {
+                      appParamNotifier.setSelectedCityTownTempleMapRankList(rank: e);
+                    }
 
-                child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    makeNeighborTempleMarker();
+                  },
+                  child: Container(
+                    width: context.screenSize.width / 10,
+                    margin: const EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: (e == '-')
+                          ? Colors.black.withValues(alpha: 0.3)
+                          : (appParamState.selectedCityTownTempleMapRankList.contains(e))
+                          ? Colors.yellowAccent.withValues(alpha: 0.3)
+                          : const Color(0xFFFBB6CE).withValues(alpha: 0.5),
+                    ),
+
+                    child: Text(e, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                );
+              }).toList(),
+            ),
+
+            GestureDetector(
+              onTap: () => callFirstBox(),
+              child: CircleAvatar(
+                backgroundColor: Colors.green[900]?.withValues(alpha: 0.6),
+
+                child: const Icon(Icons.stacked_line_chart, color: Colors.white),
               ),
-            );
-          }).toList(),
+            ),
+          ],
         ),
       ),
     );
@@ -642,6 +657,87 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         );
       });
     }
+  }
+
+  ///
+  void callFirstBox() {
+    appParamNotifier.setFirstOverlayParams(firstEntries: _firstEntries);
+
+    addFirstOverlay(
+      context: context,
+      setStateCallback: setState,
+      width: MediaQuery.of(context).size.width * 0.7,
+      height: 300,
+      color: Colors.blueGrey.withOpacity(0.3),
+      initialPosition: const Offset(20, 120),
+
+      widget: displayTokyoTrainList(),
+
+      firstEntries: _firstEntries,
+      secondEntries: _secondEntries,
+      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+    );
+  }
+
+  ///
+  Widget displayTokyoTrainList() {
+    final List<Widget> list = <Widget>[];
+
+    for (final TokyoTrainModel element in appParamState.keepTokyoTrainList) {
+      list.add(
+        Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: Colors.transparent,
+            colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+          ),
+
+          child: ExpansionTile(
+            collapsedIconColor: Colors.white,
+            backgroundColor: Colors.blueAccent.withOpacity(0.1),
+            title: Container(
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+              ),
+              child: Row(
+                children: <Widget>[
+                  const Icon(Icons.check_circle, color: Colors.white),
+
+                  const SizedBox(width: 20),
+
+                  Text(
+                    element.trainName,
+
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+
+            children: element.station.map((TokyoStationModel e2) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(e2.stationName, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    const SizedBox.shrink(),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    }
+
+    return SizedBox(
+      height: context.screenSize.height * 0.25,
+
+      child: SingleChildScrollView(child: Column(children: list)),
+    );
   }
 
   ///
