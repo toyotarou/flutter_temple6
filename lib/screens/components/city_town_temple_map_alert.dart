@@ -54,7 +54,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   double currentZoomEightTeen = 18;
 
-  List<TokyoMunicipalModel> neighborsList = <TokyoMunicipalModel>[];
+  List<TokyoMunicipalModel> neighborsTokyoMunicipalModelList = <TokyoMunicipalModel>[];
 
   List<String> neighborAreaNameList = <String>[];
 
@@ -158,7 +158,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolygonLayer(polygons: makeAreaPolygons()),
                 ],
 
-                if (neighborsList.isNotEmpty) ...<Widget>[
+                if (neighborsTokyoMunicipalModelList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: getNeighborArea()),
                 ],
@@ -301,7 +301,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   ///
   // ignore: always_specify_types
   List<Polygon> getNeighborArea() {
-    neighborsList.clear();
+    neighborsTokyoMunicipalModelList.clear();
 
     final List<String> list = <String>[];
 
@@ -309,13 +309,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
     if (appParamState.keepTokyoMunicipalMap[widget.cityTownName] != null) {
-      neighborsList = getNeighborsArea(
+      neighborsTokyoMunicipalModelList = getNeighborsArea(
         target: appParamState.keepTokyoMunicipalMap[widget.cityTownName]!,
         all: appParamState.keepTokyoMunicipalList,
       );
 
-      if (neighborsList.isNotEmpty) {
-        for (final TokyoMunicipalModel element in neighborsList) {
+      if (neighborsTokyoMunicipalModelList.isNotEmpty) {
+        for (final TokyoMunicipalModel element in neighborsTokyoMunicipalModelList) {
           list.add(element.name);
 
           if (appParamState.neighborAreaNameList.contains(element.name)) {
@@ -566,27 +566,36 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     tokyoStationMarkerList.clear();
 
     for (final StationModel element in appParamState.keepTokyoStationList) {
-      tokyoStationMarkerList.add(
-        Marker(
-          point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
-          child: GestureDetector(
-            onTap: () {
-              appParamNotifier.setSelectedSpotDataModel(
-                spotDataModel: SpotDataModel(
-                  name: element.stationName,
-                  address: element.address,
-                  latitude: element.lat,
-                  longitude: element.lng,
+      for (final TokyoMunicipalModel? element2 in <TokyoMunicipalModel?>[
+        appParamState.keepTokyoMunicipalMap[widget.cityTownName],
+        ...neighborsTokyoMunicipalModelList,
+      ]) {
+        if (element2 != null) {
+          if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), element2)) {
+            tokyoStationMarkerList.add(
+              Marker(
+                point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
+                child: GestureDetector(
+                  onTap: () {
+                    appParamNotifier.setSelectedSpotDataModel(
+                      spotDataModel: SpotDataModel(
+                        name: element.stationName,
+                        address: element.address,
+                        latitude: element.lat,
+                        longitude: element.lng,
+                      ),
+                    );
+
+                    callSecondBox(type: 'station');
+                  },
+
+                  child: Icon(Icons.circle_outlined, color: Colors.green[900]),
                 ),
-              );
-
-              callSecondBox(type: 'station');
-            },
-
-            child: Icon(Icons.circle_outlined, color: Colors.green[900]),
-          ),
-        ),
-      );
+              ),
+            );
+          }
+        }
+      }
     }
   }
 

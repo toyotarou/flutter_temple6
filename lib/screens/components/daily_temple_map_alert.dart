@@ -513,7 +513,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (appParamState.keepTokyoMunicipalMap[element] != null) {
         for (final SpotDataModel element2 in filteredTemples) {
-          if (pointInMunicipality(
+          if (spotInMunicipality(
             element2.latitude.toDouble(),
             element2.longitude.toDouble(),
             appParamState.keepTokyoMunicipalMap[element]!,

@@ -115,7 +115,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
     appParamState.keepTokyoMunicipalMap.forEach((String key, TokyoMunicipalModel value) {
       for (final TempleListModel element in appParamState.keepTempleListList) {
-        if (pointInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
+        if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
           (cityTownMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
             SpotDataModel(name: element.name, address: element.address, latitude: element.lat, longitude: element.lng),
           );

@@ -135,7 +135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
         widget.stationMap.forEach((String key, StationModel value) {
           for (final TokyoMunicipalModel element in widget.tokyoMunicipalList) {
-            if (pointInMunicipality(value.lat.toDouble(), value.lng.toDouble(), element)) {
+            if (spotInMunicipality(value.lat.toDouble(), value.lng.toDouble(), element)) {
               tokyoStationList.add(value);
 
               tokyoStationMap[value.stationName] = value;
@@ -737,7 +737,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
   ///
   String? findMunicipalityForPoint(double lat, double lng) {
     for (final TokyoMunicipalModel m in widget.tokyoMunicipalList) {
-      if (pointInMunicipality(lat, lng, m)) {
+      if (spotInMunicipality(lat, lng, m)) {
         return m.name;
       }
     }

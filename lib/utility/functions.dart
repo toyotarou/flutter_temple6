@@ -8,7 +8,7 @@ import '../models/tokyo_municipal_model.dart';
 const double _eps = 1e-12;
 
 ///
-bool pointInMunicipality(double lat, double lng, TokyoMunicipalModel muni) {
+bool spotInMunicipality(double lat, double lng, TokyoMunicipalModel muni) {
   for (final List<List<List<double>>> polygon in muni.polygons) {
     if (polygon.isEmpty) {
       continue;
@@ -256,11 +256,11 @@ bool areAdjacent(TokyoMunicipalModel a, TokyoMunicipalModel b) {
 
         final List<double> pb = polyB.first.first;
 
-        if (pointInMunicipality(pa[1], pa[0], b)) {
+        if (spotInMunicipality(pa[1], pa[0], b)) {
           return true;
         }
 
-        if (pointInMunicipality(pb[1], pb[0], a)) {
+        if (spotInMunicipality(pb[1], pb[0], a)) {
           return true;
         }
       }
