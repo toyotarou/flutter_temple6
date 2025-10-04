@@ -126,7 +126,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeNoReachMunicipalSpotDataMarker();
 
-    makeTokyoStationMarkerList();
+    makeTokyoStationMarker();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -348,32 +348,42 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     visitedTemplesMarkerList.clear();
 
     widget.visitedMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
-      visitedTemplesMarkerList.add(
-        Marker(
-          point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
+      bool flag = true;
 
-          child: GestureDetector(
-            onTap: () {
-              appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
+      if (appParamState.selectedCityTownTempleMapRankList.isNotEmpty) {
+        if (!appParamState.selectedCityTownTempleMapRankList.contains(element.rank)) {
+          flag = false;
+        }
+      }
 
-              callSecondBox();
-            },
-            child: Stack(
-              children: <Widget>[
-                Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
+      if (flag) {
+        visitedTemplesMarkerList.add(
+          Marker(
+            point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
 
-                CircleAvatar(
-                  backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
-                  child: Text(
-                    element.mark.padLeft(3, '0'),
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            child: GestureDetector(
+              onTap: () {
+                appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
+
+                callSecondBox(type: 'temple');
+              },
+              child: Stack(
+                children: <Widget>[
+                  Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
+
+                  CircleAvatar(
+                    backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                    child: Text(
+                      element.mark.padLeft(3, '0'),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      );
+        );
+      }
     });
   }
 
@@ -389,7 +399,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             onTap: () {
               appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
 
-              callSecondBox();
+              callSecondBox(type: 'temple');
             },
             child: CircleAvatar(
               backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
@@ -536,14 +546,29 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  void makeTokyoStationMarkerList() {
+  void makeTokyoStationMarker() {
     tokyoStationMarkerList.clear();
 
     for (final StationModel element in appParamState.keepTokyoStationList) {
       tokyoStationMarkerList.add(
         Marker(
           point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
-          child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+          child: GestureDetector(
+            onTap: () {
+              appParamNotifier.setSelectedSpotDataModel(
+                spotDataModel: SpotDataModel(
+                  name: element.stationName,
+                  address: element.address,
+                  latitude: element.lat,
+                  longitude: element.lng,
+                ),
+              );
+
+              callSecondBox(type: 'station');
+            },
+
+            child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+          ),
         ),
       );
     }
@@ -555,32 +580,42 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     for (final String element in appParamState.neighborAreaNameList) {
       widget.visitedMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
-        neighborTempleMarkerList.add(
-          Marker(
-            point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
+        bool flag = true;
 
-            child: GestureDetector(
-              onTap: () {
-                appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
+        if (appParamState.selectedCityTownTempleMapRankList.isNotEmpty) {
+          if (!appParamState.selectedCityTownTempleMapRankList.contains(element2.rank)) {
+            flag = false;
+          }
+        }
 
-                callSecondBox();
-              },
-              child: Stack(
-                children: <Widget>[
-                  Positioned(bottom: 0, right: 0, child: Text(element2.rank, style: const TextStyle(fontSize: 30))),
+        if (flag) {
+          neighborTempleMarkerList.add(
+            Marker(
+              point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
-                  CircleAvatar(
-                    backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
-                    child: Text(
-                      element2.mark.padLeft(3, '0'),
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              child: GestureDetector(
+                onTap: () {
+                  appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
+
+                  callSecondBox(type: 'temple');
+                },
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(bottom: 0, right: 0, child: Text(element2.rank, style: const TextStyle(fontSize: 30))),
+
+                    CircleAvatar(
+                      backgroundColor: Colors.orangeAccent.withValues(alpha: 0.4),
+                      child: Text(
+                        element2.mark.padLeft(3, '0'),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
       });
 
       widget.noReachMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
@@ -592,7 +627,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               onTap: () {
                 appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
 
-                callSecondBox();
+                callSecondBox(type: 'temple');
               },
               child: CircleAvatar(
                 backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
@@ -609,7 +644,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  void callSecondBox() {
+  void callSecondBox({required String type}) {
     appParamNotifier.setSecondOverlayParams(secondEntries: _secondEntries);
 
     addSecondOverlay(
@@ -617,26 +652,24 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       secondEntries: _secondEntries,
       setStateCallback: setState,
       width: context.screenSize.width,
-      height: context.screenSize.height * 0.2,
+      height: context.screenSize.height * 0.3,
       color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: Offset(0, context.screenSize.height * 0.8),
-
-      widget: displaySelectedSpotDataModel(),
-
+      initialPosition: Offset(0, context.screenSize.height * 0.7),
+      widget: displaySelectedSpotDataModel(type: type),
       onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
       fixedFlag: true,
     );
   }
 
   ///
-  Widget displaySelectedSpotDataModel() {
+  Widget displaySelectedSpotDataModel({required String type}) {
     if (appParamState.selectedSpotDataModel == null) {
       return const SizedBox.shrink();
     }
 
     return Stack(
       children: <Widget>[
-        if (appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
+        if (type == 'temple' && appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
           Positioned(
             top: 5,
             right: 5,
