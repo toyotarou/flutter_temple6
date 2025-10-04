@@ -566,6 +566,31 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       ),
     );
 
+    list.add(
+      Container(
+        padding: const EdgeInsets.only(top: 10, right: 12),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const SizedBox.shrink(),
+            GestureDetector(
+              onTap: () {
+                appParamNotifier.setIsJrInclude(flag: !appParamState.isJrInclude);
+              },
+              child: Text(
+                'JR',
+                style: TextStyle(
+                  color: (appParamState.isJrInclude) ? Colors.yellowAccent : Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: CustomScrollView(
@@ -722,6 +747,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<String> tokyoTrainNameList = <String>[];
 
     final RegExp reg = RegExp('新幹線');
+    final RegExp reg2 = RegExp('JR');
 
     for (final TokyoMunicipalModel? element in <TokyoMunicipalModel?>[
       appParamState.keepTokyoMunicipalMap[widget.cityTownName],
@@ -732,7 +758,17 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           for (final TokyoStationModel element3 in element2.station) {
             if (spotInMunicipality(element3.lat, element3.lng, element)) {
               if (reg.firstMatch(element2.trainName) == null) {
-                tokyoTrainNameList.add(element2.trainName);
+                bool flag = true;
+
+                if (!appParamState.isJrInclude) {
+                  if (reg2.firstMatch(element2.trainName) != null) {
+                    flag = false;
+                  }
+                }
+
+                if (flag) {
+                  tokyoTrainNameList.add(element2.trainName);
+                }
               }
             }
           }

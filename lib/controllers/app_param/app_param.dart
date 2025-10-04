@@ -75,6 +75,8 @@ class AppParamState with _$AppParamState {
     @Default('') String selectedTrainName,
 
     @Default(<SpotDataModel>[]) List<SpotDataModel> addRouteSpotDataModelList,
+
+    @Default(true) bool isJrInclude,
   }) = _AppParamState;
 }
 
@@ -262,4 +264,7 @@ class AppParam extends _$AppParam {
 
   ///
   void clearAddRouteSpotDataModelList() => state = state.copyWith(addRouteSpotDataModelList: <SpotDataModel>[]);
+
+  ///
+  void setIsJrInclude({required bool flag}) => state = state.copyWith(isJrInclude: flag);
 }

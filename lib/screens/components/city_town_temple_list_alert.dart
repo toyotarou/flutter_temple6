@@ -202,74 +202,79 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           ),
           padding: const EdgeInsets.all(5),
 
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(child: Text(element)),
+          child: DefaultTextStyle(
+            style: TextStyle(fontSize: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(child: Text(element)),
 
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 50,
-                    alignment: Alignment.topRight,
-                    child: Text(cityTownMunicipalSpotDataCount.toString()),
-                  ),
-                  Container(
-                    width: 50,
-                    alignment: Alignment.topRight,
-                    child: Text(visitedMunicipalSpotDataCount.toString()),
-                  ),
-
-                  Container(
-                    width: 50,
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      noReachMunicipalSpotDataCount.toString(),
-
-                      style: TextStyle(color: (noReachMunicipalSpotDataCount > 0) ? Colors.yellowAccent : Colors.white),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 40,
+                      alignment: Alignment.topRight,
+                      child: Text(cityTownMunicipalSpotDataCount.toString()),
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(width: 20),
-
-              IconButton(
-                onPressed: () {
-                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
-
-                  appParamNotifier.setSelectedTrainName(name: '');
-
-                  appParamNotifier.clearAddRouteSpotDataModelList();
-
-                  appParamNotifier.clearSelectedMunicipalNameList();
-
-                  appParamNotifier.clearSelectedSpotDataModel();
-
-                  TempleDialog(
-                    context: context,
-                    widget: CityTownTempleMapAlert(
-                      cityTownName: element,
-
-                      latList: latList,
-                      lngList: lngList,
-
-                      visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
-                      noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
-
-                      polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                    Container(
+                      width: 40,
+                      alignment: Alignment.topRight,
+                      child: Text(visitedMunicipalSpotDataCount.toString()),
                     ),
 
-                    clearBarrierColor: true,
+                    Container(
+                      width: 40,
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        noReachMunicipalSpotDataCount.toString(),
 
-                    executeFunctionWhenDialogClose: true,
-                    ref: ref,
-                    from: 'CityTownTempleMapAlert',
-                  );
-                },
-                icon: Icon(Icons.map, color: Colors.white.withValues(alpha: 0.4)),
-              ),
-            ],
+                        style: TextStyle(
+                          color: (noReachMunicipalSpotDataCount > 0) ? Colors.yellowAccent : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(width: 20),
+
+                IconButton(
+                  onPressed: () {
+                    appParamNotifier.clearSelectedCityTownTempleMapRankList();
+
+                    appParamNotifier.setSelectedTrainName(name: '');
+
+                    appParamNotifier.clearAddRouteSpotDataModelList();
+
+                    appParamNotifier.clearSelectedMunicipalNameList();
+
+                    appParamNotifier.clearSelectedSpotDataModel();
+
+                    TempleDialog(
+                      context: context,
+                      widget: CityTownTempleMapAlert(
+                        cityTownName: element,
+
+                        latList: latList,
+                        lngList: lngList,
+
+                        visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
+                        noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
+
+                        polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                      ),
+
+                      clearBarrierColor: true,
+
+                      executeFunctionWhenDialogClose: true,
+                      ref: ref,
+                      from: 'CityTownTempleMapAlert',
+                    );
+                  },
+                  icon: Icon(Icons.map, color: Colors.white.withValues(alpha: 0.4)),
+                ),
+              ],
+            ),
           ),
         ),
       );
