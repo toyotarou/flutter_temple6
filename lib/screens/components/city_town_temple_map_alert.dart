@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
@@ -676,7 +677,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       color: Colors.blueGrey.withOpacity(0.3),
       initialPosition: const Offset(20, 120),
 
-      widget: displayTokyoTrainList(),
+      widget: Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          return displayTokyoTrainList(
+            selectedTrainName: ref.watch(appParamProvider.select((AppParamState value) => value.selectedTrainName)),
+          );
+        },
+      ),
 
       firstEntries: _firstEntries,
       secondEntries: _secondEntries,
@@ -685,7 +692,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  Widget displayTokyoTrainList() {
+  Widget displayTokyoTrainList({required String selectedTrainName}) {
     final List<Widget> list = <Widget>[];
 
     final List<String> tokyoTrainNameList = <String>[];
@@ -713,26 +720,39 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           ExpansionTile(
             collapsedIconColor: Colors.white,
             backgroundColor: Colors.blueAccent.withOpacity(0.1),
-            title: Container(
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
-              ),
-              child: Row(
-                children: <Widget>[
-                  const Icon(Icons.check_circle, color: Colors.white),
-
-                  const SizedBox(width: 20),
-
-                  Text(
-                    element,
-
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
+            title: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
                   ),
-                ],
-              ),
+                  child: Row(
+                    children: <Widget>[
+                      const SizedBox(width: 35),
+
+                      Text(
+                        element,
+
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+
+                        style: const TextStyle(fontSize: 12, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    appParamNotifier.setSelectedTrainName(name: element);
+                  },
+
+                  child: Icon(
+                    Icons.check_circle,
+                    color: (selectedTrainName == element) ? Colors.yellowAccent : Colors.white,
+                  ),
+                ),
+              ],
             ),
 
             children: appParamState.keepTokyoTrainMap[element]!.station.map((TokyoStationModel e) {
@@ -752,10 +772,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       }
     }
 
-    return SizedBox(
-      height: context.screenSize.height * 0.25,
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: context.screenSize.height * 0.25,
 
-      child: SingleChildScrollView(child: Column(children: list)),
+          child: SingleChildScrollView(child: Column(children: list)),
+        ),
+      ],
     );
   }
 

@@ -70,6 +70,8 @@ class AppParamState with _$AppParamState {
     SpotDataModel? selectedSpotDataModel,
 
     @Default(<String>[]) List<String> selectedCityTownTempleMapRankList,
+
+    @Default('') String selectedTrainName,
   }) = _AppParamState;
 }
 
@@ -228,4 +230,15 @@ class AppParam extends _$AppParam {
   ///
   void clearSelectedCityTownTempleMapRankList() =>
       state = state.copyWith(selectedCityTownTempleMapRankList: <String>[]);
+
+  ///
+  void setSelectedTrainName({required String name}) {
+    String trainName = '';
+
+    if (state.selectedTrainName != name) {
+      trainName = name;
+    }
+
+    state = state.copyWith(selectedTrainName: trainName);
+  }
 }
