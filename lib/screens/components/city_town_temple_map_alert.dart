@@ -15,6 +15,7 @@ import '../../models/tokyo_municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
+import '../parts/error_dialog.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_overlay.dart';
 
@@ -938,7 +939,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                                 width: context.screenSize.width / 3,
                                 margin: const EdgeInsets.all(3),
                                 padding: const EdgeInsets.all(3),
-                                decoration: const BoxDecoration(color: Colors.blueAccent),
+                                decoration: BoxDecoration(color: Colors.blueAccent.withValues(alpha: 0.4)),
 
                                 child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
                               ),
@@ -957,6 +958,23 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                   ElevatedButton(
                     onPressed: () {
+                      if (appParamState.addRouteSpotDataModelList.isEmpty) {
+                        if (appParamState.selectedSpotDataModel!.type != 'station') {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () => error_dialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              title: 'エラー',
+                              content: 'ひとつめはstationを選択してください。',
+                            ),
+                          );
+
+                          return;
+                        }
+                      }
+
                       appParamNotifier.setAddRouteSpotDataModelList(
                         spotDataModel: appParamState.selectedSpotDataModel!,
                       );
@@ -1017,7 +1035,16 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                             const SizedBox(width: 20),
 
-                            Expanded(child: Text(appParamState.addRouteSpotDataModelList[index].name)),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(appParamState.addRouteSpotDataModelList[index].name),
+
+                                  Text(appParamState.addRouteSpotDataModelList[index].type),
+                                ],
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -1031,7 +1058,28 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             ),
           ),
 
-          const Icon(Icons.input),
+          GestureDetector(
+            onTap: () {
+              if (appParamState.addRouteSpotDataModelList.isNotEmpty) {
+                if (appParamState.addRouteSpotDataModelList[appParamState.addRouteSpotDataModelList.length - 1].type !=
+                    'station') {
+                  // ignore: always_specify_types
+                  Future.delayed(
+                    Duration.zero,
+                    () => error_dialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      title: 'エラー',
+                      content: '最後の要素はstationを選択してください。',
+                    ),
+                  );
+
+                  return;
+                }
+              }
+            },
+            child: const Icon(Icons.input),
+          ),
         ],
       ),
     );
