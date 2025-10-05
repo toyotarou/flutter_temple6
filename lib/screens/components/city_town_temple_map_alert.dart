@@ -75,6 +75,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
 
+  List<Marker> selectedSpotsMarkerList = <Marker>[];
+
   ///
   @override
   void initState() {
@@ -130,6 +132,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeTokyoStationMarker();
 
+    makeSelectedSpotsMarkerList();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -171,6 +175,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   // ignore: always_specify_types
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
+
+                if (selectedSpotsMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: selectedSpotsMarkerList)],
 
                 if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
 
@@ -1083,5 +1089,22 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ],
       ),
     );
+  }
+
+  ///
+  void makeSelectedSpotsMarkerList() {
+    selectedSpotsMarkerList.clear();
+
+    for (int i = 0; i < appParamState.addRouteSpotDataModelList.length; i++) {
+      selectedSpotsMarkerList.add(
+        Marker(
+          point: LatLng(
+            appParamState.addRouteSpotDataModelList[i].latitude.toDouble(),
+            appParamState.addRouteSpotDataModelList[i].longitude.toDouble(),
+          ),
+          child: const Icon(Icons.location_on, color: Colors.redAccent, size: 40),
+        ),
+      );
+    }
   }
 }
