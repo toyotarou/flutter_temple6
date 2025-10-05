@@ -26,7 +26,7 @@ void main() {
 }
 
 ///
-final appInitProvider = FutureProvider<void>((ref) async {
+final FutureProvider<void> appInitProvider = FutureProvider<void>((FutureProviderRef<void> ref) async {
   await Future.wait<void>(<Future<void>>[
     ref.read(templeProvider.notifier).getAllTemple(),
     ref.read(templeLatLngProvider.notifier).getAllTempleLatLng(),
@@ -62,6 +62,7 @@ class AppRootState extends State<AppRoot> {
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key, required this.onRestart});
 
+  // ignore: unreachable_from_main
   final VoidCallback onRestart;
 
   @override
@@ -72,10 +73,11 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
   ///
   @override
   Widget build(BuildContext context) {
-    final init = ref.watch(appInitProvider);
+    final AsyncValue<void> init = ref.watch(appInitProvider);
 
     return init.when(
       loading: () => MaterialApp(
+        // ignore: always_specify_types
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -89,7 +91,8 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
         home: const Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
 
-      error: (e, st) => MaterialApp(
+      error: (Object e, StackTrace st) => MaterialApp(
+        // ignore: always_specify_types
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -108,7 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     const Icon(Icons.error_outline, size: 48),
                     const SizedBox(height: 12),
                     const Text('初期化に失敗しました'),
@@ -125,6 +128,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
       ),
 
       data: (_) => MaterialApp(
+        // ignore: always_specify_types
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
