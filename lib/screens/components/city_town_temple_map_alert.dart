@@ -176,6 +176,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
 
+                if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolylineLayer(polylines: makeAddSpotsPolyline()),
+                ],
+
                 if (selectedSpotsMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: selectedSpotsMarkerList)],
 
                 if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
@@ -964,21 +969,30 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                   ElevatedButton(
                     onPressed: () {
-                      if (appParamState.addRouteSpotDataModelList.isEmpty) {
-                        if (appParamState.selectedSpotDataModel!.type != 'station') {
-                          // ignore: always_specify_types
-                          Future.delayed(
-                            Duration.zero,
-                            () => error_dialog(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              title: 'エラー',
-                              content: 'ひとつめはstationを選択してください。',
-                            ),
-                          );
+                      final SpotDataModel selected = appParamState.selectedSpotDataModel!;
+                      final List<SpotDataModel> list = appParamState.addRouteSpotDataModelList;
 
-                          return;
-                        }
+                      final bool isAlreadyInList = list.contains(selected);
+
+                      final Map<String, String> spotAddCheckValueMap = getSpotAddCheckValueMap(
+                        list: list,
+                        selected: selected,
+                        isAlreadyInList: isAlreadyInList,
+                      );
+
+                      if (spotAddCheckValueMap.isNotEmpty) {
+                        // ignore: always_specify_types
+                        Future.delayed(
+                          Duration.zero,
+                          () => error_dialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            title: spotAddCheckValueMap['title'] ?? '',
+                            content: spotAddCheckValueMap['content'] ?? '',
+                          ),
+                        );
+
+                        return;
                       }
 
                       appParamNotifier.setAddRouteSpotDataModelList(
@@ -999,6 +1013,37 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         ),
       ],
     );
+  }
+
+  ///
+  Map<String, String> getSpotAddCheckValueMap({
+    required List<SpotDataModel> list,
+    required SpotDataModel selected,
+    required bool isAlreadyInList,
+  }) {
+    if (isAlreadyInList) {
+      return <String, String>{};
+    }
+
+    if (list.isEmpty) {
+      if (selected.type != 'station') {
+        return <String, String>{'title': 'エラー', 'content': 'ひとつめは station を選択してください。'};
+      }
+      return <String, String>{};
+    }
+
+    if (list.last.type == 'station' && selected.type == 'station') {
+      return <String, String>{'title': 'エラー', 'content': '連続で station を登録することはできません。'};
+    }
+
+    if (selected.type == 'station') {
+      final int stationCount = list.where((SpotDataModel e) => e.type == 'station').length;
+      if (stationCount >= 2) {
+        return <String, String>{'title': 'エラー', 'content': 'station は2件までです。現在$stationCount件登録済みです。'};
+      }
+    }
+
+    return <String, String>{};
   }
 
   ///
@@ -1067,8 +1112,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           GestureDetector(
             onTap: () {
               if (appParamState.addRouteSpotDataModelList.isNotEmpty) {
-                if (appParamState.addRouteSpotDataModelList[appParamState.addRouteSpotDataModelList.length - 1].type !=
-                    'station') {
+                if (appParamState.addRouteSpotDataModelList.last.type != 'station') {
                   // ignore: always_specify_types
                   Future.delayed(
                     Duration.zero,
@@ -1102,9 +1146,26 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             appParamState.addRouteSpotDataModelList[i].latitude.toDouble(),
             appParamState.addRouteSpotDataModelList[i].longitude.toDouble(),
           ),
-          child: const Icon(Icons.location_on, color: Colors.redAccent, size: 40),
+          child: const Icon(Icons.location_on, color: Colors.purpleAccent, size: 40),
         ),
       );
     }
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polyline> makeAddSpotsPolyline() {
+    return <Polyline<Object>>[
+      for (int i = 0; i < appParamState.addRouteSpotDataModelList.length; i++)
+        // ignore: always_specify_types
+        Polyline(
+          points: appParamState.addRouteSpotDataModelList
+              .map((SpotDataModel e) => LatLng(e.latitude.toDouble(), e.longitude.toDouble()))
+              .toList(),
+
+          color: Colors.purpleAccent,
+          strokeWidth: 5,
+        ),
+    ];
   }
 }
