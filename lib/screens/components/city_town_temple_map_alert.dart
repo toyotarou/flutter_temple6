@@ -242,10 +242,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   ],
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20)),
-                ),
+                Positioned(top: 5, left: 50, child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20))),
 
                 Positioned(
                   top: 5,
@@ -273,23 +270,27 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         child: const CircleAvatar(
                           radius: 15,
                           backgroundColor: Color(0x66000000),
-
-                          child: Icon(Icons.train, size: 18, color: Colors.white),
-                        ),
-                      ),
-
-                      const SizedBox(width: 15),
-
-                      GestureDetector(
-                        onTap: () => setDefaultBoundsMap(),
-                        child: const CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Color(0x66000000),
-
-                          child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                          child: Text(
+                            '駅',
+                            style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ],
+                  ),
+                ),
+
+                Positioned(
+                  top: 5,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: () => setDefaultBoundsMap(),
+                    child: const CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Color(0x66000000),
+
+                      child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
+                    ),
                   ),
                 ),
               ],
@@ -454,46 +455,92 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     list.add(const SizedBox(height: 20));
 
     list.add(
-      Container(
-        decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
-        ),
+      Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  ),
 
-        padding: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Text('Visited'),
-            Text(
-              (widget.visitedMunicipalSpotDataListMap[widget.cityTownName] != null)
-                  ? widget.visitedMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
-                  : '0',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text('Visited'),
+                      Text(
+                        (widget.visitedMunicipalSpotDataListMap[widget.cityTownName] != null)
+                            ? widget.visitedMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                            : '0',
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  ),
+
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text('No Reach'),
+                      Text(
+                        (widget.noReachMunicipalSpotDataListMap[widget.cityTownName] != null)
+                            ? widget.noReachMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                            : '0',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const SizedBox.shrink(),
 
-    list.add(
-      Container(
-        decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
-        ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        appParamNotifier.setIsJrInclude(flag: !appParamState.isJrInclude);
+                      },
+                      child: Text(
+                        'JR',
+                        style: TextStyle(
+                          color: (appParamState.isJrInclude) ? Colors.yellowAccent : Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
 
-        padding: const EdgeInsets.symmetric(vertical: 5),
+                    const SizedBox(width: 20),
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const Text('No Reach'),
-            Text(
-              (widget.noReachMunicipalSpotDataListMap[widget.cityTownName] != null)
-                  ? widget.noReachMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
-                  : '0',
+                    GestureDetector(
+                      onTap: () => callFirstBox(),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.green[900]?.withValues(alpha: 0.6),
+
+                        child: const Icon(Icons.stacked_line_chart, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
 
@@ -548,7 +595,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     makeNeighborTempleMarker();
                   },
                   child: Container(
-                    width: context.screenSize.width / 10,
+                    width: context.screenSize.width / 8,
                     margin: const EdgeInsets.all(3),
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
@@ -564,40 +611,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   ),
                 );
               }).toList(),
-            ),
-
-            GestureDetector(
-              onTap: () => callFirstBox(),
-              child: CircleAvatar(
-                backgroundColor: Colors.green[900]?.withValues(alpha: 0.6),
-
-                child: const Icon(Icons.stacked_line_chart, color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    list.add(
-      Container(
-        padding: const EdgeInsets.only(top: 10, right: 12),
-
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            const SizedBox.shrink(),
-            GestureDetector(
-              onTap: () {
-                appParamNotifier.setIsJrInclude(flag: !appParamState.isJrInclude);
-              },
-              child: Text(
-                'JR',
-                style: TextStyle(
-                  color: (appParamState.isJrInclude) ? Colors.yellowAccent : Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ),
           ],
         ),

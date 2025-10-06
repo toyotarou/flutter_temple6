@@ -250,6 +250,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                     appParamNotifier.clearSelectedSpotDataModel();
 
+                    appParamNotifier.setIsJrInclude(flag: true);
+
                     TempleDialog(
                       context: context,
                       widget: CityTownTempleMapAlert(
