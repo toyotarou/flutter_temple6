@@ -13,6 +13,7 @@ import '../../models/common/spot_data_model.dart';
 import '../../models/station_model.dart';
 import '../../models/tokyo_municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
+import '../../models/train_model.dart';
 import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/error_dialog.dart';
@@ -618,11 +619,19 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     );
   }
 
-  ////////////////////
-
   ///
   void makeTokyoStationMarker() {
     tokyoStationMarkerList.clear();
+
+    final RegExp reg = RegExp('JR');
+
+    final List<String?> jrTrainNumberList = appParamState.keepTrainList.map((TrainModel e) {
+      if (reg.firstMatch(e.trainName) != null) {
+        return e.trainNumber;
+      }
+    }).toList();
+
+    jrTrainNumberList.removeWhere((String? e) => e == null);
 
     for (final StationModel element in appParamState.keepTokyoStationList) {
       for (final TokyoMunicipalModel? element2 in <TokyoMunicipalModel?>[
@@ -631,35 +640,43 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       ]) {
         if (element2 != null) {
           if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), element2)) {
-            tokyoStationMarkerList.add(
-              Marker(
-                point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
-                child: GestureDetector(
-                  onTap: () {
-                    appParamNotifier.setSelectedSpotDataModel(
-                      spotDataModel: SpotDataModel(
-                        type: 'station',
-                        name: element.stationName,
-                        address: element.address,
-                        latitude: element.lat,
-                        longitude: element.lng,
-                      ),
-                    );
+            bool flag = true;
 
-                    callSecondBox(type: 'station');
-                  },
+            if (!appParamState.isJrInclude) {
+              if (jrTrainNumberList.contains(element.lineNumber)) {
+                flag = false;
+              }
+            }
 
-                  child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+            if (flag) {
+              tokyoStationMarkerList.add(
+                Marker(
+                  point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
+                  child: GestureDetector(
+                    onTap: () {
+                      appParamNotifier.setSelectedSpotDataModel(
+                        spotDataModel: SpotDataModel(
+                          type: 'station',
+                          name: element.stationName,
+                          address: element.address,
+                          latitude: element.lat,
+                          longitude: element.lng,
+                        ),
+                      );
+
+                      callSecondBox(type: 'station');
+                    },
+
+                    child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           }
         }
       }
     }
   }
-
-  ////////////////////
 
   ///
   void makeNeighborTempleMarker() {

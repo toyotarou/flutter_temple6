@@ -11,6 +11,7 @@ import '../../models/temple_model.dart';
 import '../../models/temple_photo_model.dart';
 import '../../models/tokyo_municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
+import '../../models/train_model.dart';
 import '../../utility/utility.dart';
 
 part 'app_param.freezed.dart';
@@ -50,6 +51,11 @@ class AppParamState with _$AppParamState {
     ///
     @Default(<StationModel>[]) List<StationModel> keepTokyoStationList,
     @Default(<String, StationModel>{}) Map<String, StationModel> keepTokyoStationMap,
+
+    ///
+    @Default(<TrainModel>[]) List<TrainModel> keepTrainList,
+
+    //////////////////////////////////////////////////
 
     ///
     @Default(0) double currentZoom,
@@ -145,6 +151,9 @@ class AppParam extends _$AppParam {
   ///
   void setKeepTokyoStationTokyoTrainModelListMap({required Map<String, List<TokyoTrainModel>> map}) =>
       state = state.copyWith(keepTokyoStationTokyoTrainModelListMap: map);
+
+  ///
+  void setKeepTrainList({required List<TrainModel> list}) => state = state.copyWith(keepTrainList: list);
 
   //===================================================
 
