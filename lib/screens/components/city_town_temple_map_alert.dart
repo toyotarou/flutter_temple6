@@ -623,10 +623,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeTokyoStationMarker() {
     tokyoStationMarkerList.clear();
 
-    final RegExp reg = RegExp('JR');
-
     final List<String?> jrTrainNumberList = appParamState.keepTrainList.map((TrainModel e) {
-      if (reg.firstMatch(e.trainName) != null) {
+      if (matchJrInTrainName(str: e.trainName)) {
         return e.trainNumber;
       }
     }).toList();
@@ -677,6 +675,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       }
     }
   }
+
+  ///
+  bool matchJrInTrainName({required String str}) => RegExp('JR').firstMatch(str) != null;
 
   ///
   void makeNeighborTempleMarker() {
@@ -780,7 +781,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<String> tokyoTrainNameList = <String>[];
 
     final RegExp reg = RegExp('新幹線');
-    final RegExp reg2 = RegExp('JR');
 
     for (final TokyoMunicipalModel? element in <TokyoMunicipalModel?>[
       appParamState.keepTokyoMunicipalMap[widget.cityTownName],
@@ -794,7 +794,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 bool flag = true;
 
                 if (!appParamState.isJrInclude) {
-                  if (reg2.firstMatch(element2.trainName) != null) {
+                  if (matchJrInTrainName(str: element2.trainName)) {
                     flag = false;
                   }
                 }
@@ -925,8 +925,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<TokyoTrainModel>? tokyoStation =
         appParamState.keepTokyoStationTokyoTrainModelListMap[appParamState.selectedSpotDataModel!.name];
 
-    final RegExp reg = RegExp('JR');
-
     return Stack(
       children: <Widget>[
         if (type == 'temple' && appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
@@ -975,7 +973,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                             bool flag = true;
 
                             if (!isJrInclude) {
-                              if (reg.firstMatch(e.trainName) != null) {
+                              if (matchJrInTrainName(str: e.trainName)) {
                                 flag = false;
                               }
                             }
