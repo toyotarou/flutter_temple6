@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,11 +38,6 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   List<double> latList = <double>[];
   List<double> lngList = <double>[];
 
-  double minLat = 0.0;
-  double maxLat = 0.0;
-  double minLng = 0.0;
-  double maxLng = 0.0;
-
   final MapController mapController = MapController();
 
   double? currentZoom;
@@ -52,8 +45,6 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   double currentZoomEightTeen = 18;
 
   List<Marker> markerList = <Marker>[];
-
-  List<LatLng> latLngList = <LatLng>[];
 
   final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
@@ -82,7 +73,9 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     if (widget.templeDataList.isNotEmpty) {
       mapController.rotate(0);
 
-      final LatLngBounds bounds = LatLngBounds.fromPoints(<LatLng>[LatLng(minLat, maxLng), LatLng(maxLat, minLng)]);
+      final LatLngBounds bounds = LatLngBounds.fromPoints(
+        widget.templeDataList.map((SpotDataModel e) => LatLng(e.latitude.toDouble(), e.longitude.toDouble())).toList(),
+      );
 
       final CameraFit cameraFit = CameraFit.bounds(
         bounds: bounds,
@@ -109,8 +102,6 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   ///
   @override
   Widget build(BuildContext context) {
-    makeMinMaxLatLng();
-
     makeMarker();
 
     makeMunicipalTempleMarkerList();
@@ -271,30 +262,6 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   }
 
   ///
-  void makeMinMaxLatLng() {
-    latList.clear();
-    lngList.clear();
-
-    latLngList.clear();
-
-    for (int i = 0; i < widget.templeDataList.length; i++) {
-      latList.add(widget.templeDataList[i].latitude.toDouble());
-      lngList.add(widget.templeDataList[i].longitude.toDouble());
-
-      latLngList.add(
-        LatLng(widget.templeDataList[i].latitude.toDouble(), widget.templeDataList[i].longitude.toDouble()),
-      );
-    }
-
-    if (latList.isNotEmpty && lngList.isNotEmpty) {
-      minLat = latList.reduce(min);
-      maxLat = latList.reduce(max);
-      minLng = lngList.reduce(min);
-      maxLng = lngList.reduce(max);
-    }
-  }
-
-  ///
   Widget displayDailyTempleList() {
     final List<Widget> list = <Widget>[];
 
@@ -398,7 +365,13 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     // ignore: always_specify_types
     return <Polyline<Object>>[
       // ignore: always_specify_types
-      Polyline(points: latLngList, color: Colors.redAccent.withValues(alpha: 0.5), strokeWidth: 5),
+      Polyline(
+        points: widget.templeDataList
+            .map((SpotDataModel e) => LatLng(e.latitude.toDouble(), e.longitude.toDouble()))
+            .toList(),
+        color: Colors.redAccent.withValues(alpha: 0.5),
+        strokeWidth: 5,
+      ),
     ];
   }
 

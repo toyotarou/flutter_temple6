@@ -229,7 +229,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       ExpandableBox(
                         alignment: Alignment.topLeft,
                         collapsedSize: Size(context.screenSize.width * 0.1, 80),
-                        expandedSize: Size(context.screenSize.width * 0.6, context.screenSize.height * 0.2),
+                        expandedSize: Size(context.screenSize.width * 0.7, context.screenSize.height * 0.2),
                         decoration: BoxDecoration(
                           color: Colors.black.withValues(alpha: 0.3),
                           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -1108,6 +1108,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ],
             ),
           ),
+
+          SizedBox(width: 10),
 
           GestureDetector(
             onTap: () {
