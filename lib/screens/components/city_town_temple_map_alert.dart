@@ -513,9 +513,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {
-                        appParamNotifier.setIsJrInclude(flag: !appParamState.isJrInclude);
-                      },
+                      onTap: () => appParamNotifier.setIsJrInclude(flag: !appParamState.isJrInclude),
                       child: Text(
                         'JR',
                         style: TextStyle(
@@ -902,9 +900,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       secondEntries: _secondEntries,
       setStateCallback: setState,
       width: context.screenSize.width,
-      height: context.screenSize.height * 0.3,
+      height: context.screenSize.height * 0.25,
       color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: Offset(0, context.screenSize.height * 0.7),
+      initialPosition: Offset(0, context.screenSize.height * 0.75),
 
       widget: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -940,20 +938,27 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     return Stack(
       children: <Widget>[
-        if (type == 'temple' && appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
+        if (type == 'temple') ...<Widget>[
           Positioned(
-            top: 5,
             right: 5,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(appParamState.selectedSpotDataModel!.mark.padLeft(3, '0')),
+                if (appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
+                  Text(
+                    appParamState.selectedSpotDataModel!.rank,
+                    style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+                  ),
+                ],
 
                 const SizedBox(width: 10),
 
-                Text(
-                  appParamState.selectedSpotDataModel!.rank,
-                  style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
+                Transform(
+                  transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
+                  child: Text(
+                    appParamState.selectedSpotDataModel!.mark.padLeft(3, '0'),
+                    style: TextStyle(fontSize: 40, color: Colors.white.withValues(alpha: 0.4)),
+                  ),
                 ),
               ],
             ),
@@ -1124,136 +1129,150 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Expanded(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: DefaultTextStyle(
-                    style: const TextStyle(fontSize: 12),
+            child: ReorderableListView.builder(
+              proxyDecorator: (Widget child, int index, Animation<double> animation) {
+                final ThemeData theme = Theme.of(context);
 
-                    child: ReorderableListView.builder(
-                      proxyDecorator: (Widget child, int index, Animation<double> animation) {
-                        final ThemeData theme = Theme.of(context);
+                return AnimatedBuilder(
+                  animation: animation,
 
-                        return AnimatedBuilder(
-                          animation: animation,
+                  builder: (BuildContext context, _) {
+                    return Material(
+                      elevation: 8 * animation.value,
 
-                          builder: (BuildContext context, _) {
-                            return Material(
-                              elevation: 8 * animation.value,
+                      color: Colors.transparent,
 
-                              color: Colors.transparent,
+                      child: Theme(
+                        data: theme.copyWith(
+                          listTileTheme: const ListTileThemeData(
+                            textColor: Colors.yellowAccent,
+                            iconColor: Colors.yellowAccent,
+                          ),
+                        ),
 
-                              child: Theme(
-                                data: theme.copyWith(
-                                  listTileTheme: const ListTileThemeData(
-                                    textColor: Colors.yellowAccent,
-                                    iconColor: Colors.yellowAccent,
-                                  ),
-                                ),
+                        child: child,
+                      ),
+                    );
+                  },
+                );
+              },
 
-                                child: child,
-                              ),
-                            );
-                          },
-                        );
-                      },
+              onReorder: (int oldIndex, int newIndex) {
+                if (oldIndex == 0 || newIndex == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('最初のスポットは並べ替えできません。')));
 
-                      onReorder: (int oldIndex, int newIndex) {
-                        if (oldIndex == 0 || newIndex == 0) {
-                          ScaffoldMessenger.of(
-                            context,
-                          ).showSnackBar(const SnackBar(content: Text('最初のスポットは並べ替えできません。')));
+                  return;
+                }
 
-                          return;
-                        }
+                appParamNotifier.reorderAddRouteSpotDataModelList(oldIndex: oldIndex, newIndex: newIndex);
+              },
 
-                        appParamNotifier.reorderAddRouteSpotDataModelList(oldIndex: oldIndex, newIndex: newIndex);
-                      },
+              buildDefaultDragHandles: false,
 
-                      buildDefaultDragHandles: false,
+              itemCount: appParamState.addRouteSpotDataModelList.length,
 
-                      itemBuilder: (BuildContext context, int index) {
-                        final bool isLocked = index == 0;
+              itemBuilder: (BuildContext context, int index) {
+                final bool isLocked = index == 0;
 
-                        return ListTile(
-                          // ignore: always_specify_types
-                          key: ValueKey(index),
+                return ListTile(
+                  // ignore: always_specify_types
+                  key: ValueKey(index),
 
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 4),
 
-                          trailing: isLocked
-                              ? const Icon(Icons.square_outlined, color: Colors.transparent)
-                              : ReorderableDragStartListener(index: index, child: const Icon(Icons.drag_handle)),
-
-                          title: Container(
-                            decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  title: Stack(
+                    children: <Widget>[
+                      if (index != 0) ...<Widget>[
+                        Positioned(
+                          right: 10,
+                          child: Transform(
+                            transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
+                            child: Text(
+                              appParamState.addRouteSpotDataModelList[index].mark.padLeft(3, '0'),
+                              style: TextStyle(fontSize: 20, color: Colors.white.withOpacity(0.6)),
                             ),
+                          ),
+                        ),
+                      ],
 
-                            child: Row(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundColor: (index == 0) ? Colors.blueAccent : Colors.black,
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                        ),
 
-                                  radius: 15,
-                                  child: Text(index.toString(), style: const TextStyle(color: Colors.white)),
-                                ),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Row(
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: (index == 0) ? Colors.blueAccent : Colors.black,
 
-                                const SizedBox(width: 10),
+                                    radius: 15,
+                                    child: Text(index.toString(), style: const TextStyle(color: Colors.white)),
+                                  ),
 
-                                Expanded(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      if (index == 0) ...<Widget>[
-                                        Positioned(
-                                          right: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.blueAccent,
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  const SizedBox(width: 10),
 
-                                            child: const Text(
-                                              'START',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
+                                  Expanded(
+                                    child: Stack(
+                                      children: <Widget>[
+                                        if (index == 0) ...<Widget>[
+                                          Positioned(
+                                            right: 5,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.blueAccent,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+
+                                              child: const Text(
+                                                'START',
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        ],
+
+                                        DefaultTextStyle(
+                                          style: const TextStyle(fontSize: 12),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(appParamState.addRouteSpotDataModelList[index].name),
+
+                                              Text(
+                                                appParamState.addRouteSpotDataModelList[index].type,
+                                                style: const TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
-
-                                      DefaultTextStyle(
-                                        style: const TextStyle(fontSize: 12),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(appParamState.addRouteSpotDataModelList[index].name),
-
-                                            Text(
-                                              appParamState.addRouteSpotDataModelList[index].type,
-                                              style: const TextStyle(fontSize: 10),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
 
-                      itemCount: appParamState.addRouteSpotDataModelList.length,
-                    ),
+                            const SizedBox(width: 10),
+
+                            if (isLocked)
+                              const Icon(Icons.square_outlined, color: Colors.transparent)
+                            else
+                              ReorderableDragStartListener(index: index, child: const Icon(Icons.drag_handle)),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
 
