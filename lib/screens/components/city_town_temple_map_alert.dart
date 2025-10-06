@@ -901,6 +901,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             addRouteSpotDataModelList: ref.watch(
               appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
             ),
+
+            isJrInclude: ref.watch(appParamProvider.select((AppParamState value) => value.isJrInclude)),
           );
         },
       ),
@@ -911,13 +913,19 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  Widget displaySelectedSpotDataModel({required String type, required List<SpotDataModel> addRouteSpotDataModelList}) {
+  Widget displaySelectedSpotDataModel({
+    required String type,
+    required List<SpotDataModel> addRouteSpotDataModelList,
+    required bool isJrInclude,
+  }) {
     if (appParamState.selectedSpotDataModel == null) {
       return const SizedBox.shrink();
     }
 
     final List<TokyoTrainModel>? tokyoStation =
         appParamState.keepTokyoStationTokyoTrainModelListMap[appParamState.selectedSpotDataModel!.name];
+
+    final RegExp reg = RegExp('JR');
 
     return Stack(
       children: <Widget>[
@@ -964,18 +972,30 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: tokyoStation.map((TokyoTrainModel e) {
-                            return GestureDetector(
-                              onTap: () => appParamNotifier.setSelectedTrainName(name: e.trainName),
+                            bool flag = true;
 
-                              child: Container(
-                                width: context.screenSize.width / 3,
-                                margin: const EdgeInsets.all(3),
-                                padding: const EdgeInsets.all(3),
-                                decoration: BoxDecoration(color: Colors.blueAccent.withValues(alpha: 0.4)),
+                            if (!isJrInclude) {
+                              if (reg.firstMatch(e.trainName) != null) {
+                                flag = false;
+                              }
+                            }
 
-                                child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
-                              ),
-                            );
+                            if (flag) {
+                              return GestureDetector(
+                                onTap: () => appParamNotifier.setSelectedTrainName(name: e.trainName),
+
+                                child: Container(
+                                  width: context.screenSize.width / 3,
+                                  margin: const EdgeInsets.all(3),
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: BoxDecoration(color: Colors.blueAccent.withValues(alpha: 0.4)),
+
+                                  child: Text(e.trainName, style: const TextStyle(fontSize: 12)),
+                                ),
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
                           }).toList(),
                         ),
                       ),
