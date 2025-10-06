@@ -276,15 +276,15 @@ class AppParam extends _$AppParam {
 
   ///
   void reorderAddRouteSpotDataModelList({required int oldIndex, required int newIndex}) {
-    final List<SpotDataModel> list = <SpotDataModel>[...state.addRouteSpotDataModelList];
+    if (oldIndex == 0 || newIndex == 0) {
+      return;
+    }
 
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
 
-    if (oldIndex == 0 || newIndex == 0) {
-      return;
-    }
+    final List<SpotDataModel> list = <SpotDataModel>[...state.addRouteSpotDataModelList];
 
     final SpotDataModel moved = list.removeAt(oldIndex);
 

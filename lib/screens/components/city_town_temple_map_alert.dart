@@ -1157,15 +1157,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 );
               },
 
-              onReorder: (int oldIndex, int newIndex) {
-                if (oldIndex == 0 || newIndex == 0) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('最初のスポットは並べ替えできません。')));
-
-                  return;
-                }
-
-                appParamNotifier.reorderAddRouteSpotDataModelList(oldIndex: oldIndex, newIndex: newIndex);
-              },
+              onReorder: (int oldIndex, int newIndex) =>
+                  appParamNotifier.reorderAddRouteSpotDataModelList(oldIndex: oldIndex, newIndex: newIndex),
 
               buildDefaultDragHandles: false,
 
