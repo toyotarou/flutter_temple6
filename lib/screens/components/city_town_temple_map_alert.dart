@@ -900,9 +900,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       secondEntries: _secondEntries,
       setStateCallback: setState,
       width: context.screenSize.width,
-      height: context.screenSize.height * 0.25,
+      height: context.screenSize.height * 0.3,
       color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: Offset(0, context.screenSize.height * 0.75),
+      initialPosition: Offset(0, context.screenSize.height * 0.7),
 
       widget: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
