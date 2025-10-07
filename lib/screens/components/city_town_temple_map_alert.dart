@@ -18,7 +18,9 @@ import '../../utility/functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/error_dialog.dart';
 import '../parts/expandable_box.dart';
+import '../parts/temple_dialog.dart';
 import '../parts/temple_overlay.dart';
+import 'required_time_calculate_setting_alert.dart';
 
 class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   const CityTownTempleMapAlert({
@@ -1175,7 +1177,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                   title: Stack(
                     children: <Widget>[
-                      if (index != 0) ...<Widget>[
+                      if (index != 0 && appParamState.addRouteSpotDataModelList[index].type != 'station') ...<Widget>[
                         Positioned(
                           right: 10,
                           child: Transform(
@@ -1199,7 +1201,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                               child: Row(
                                 children: <Widget>[
                                   CircleAvatar(
-                                    backgroundColor: (index == 0) ? Colors.blueAccent : Colors.black,
+                                    backgroundColor: (appParamState.addRouteSpotDataModelList[index].type == 'station')
+                                        ? Colors.blueAccent
+                                        : Colors.black,
 
                                     radius: 15,
                                     child: Text(index.toString(), style: const TextStyle(color: Colors.white)),
@@ -1210,7 +1214,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                                   Expanded(
                                     child: Stack(
                                       children: <Widget>[
-                                        if (index == 0) ...<Widget>[
+                                        if (index == 0 ||
+                                            index == appParamState.addRouteSpotDataModelList.length - 1) ...<Widget>[
                                           Positioned(
                                             right: 5,
                                             child: Container(
@@ -1220,9 +1225,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                                               ),
                                               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
 
-                                              child: const Text(
-                                                'START',
-                                                style: TextStyle(
+                                              child: Text(
+                                                (index == 0) ? 'START' : 'END',
+                                                style: const TextStyle(
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
@@ -1289,6 +1294,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   return;
                 }
               }
+
+              TempleDialog(context: context, widget: const RequiredTimeCalculateSettingAlert());
             },
             child: const Icon(Icons.input),
           ),
@@ -1310,21 +1317,30 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             appParamState.addRouteSpotDataModelList[i].latitude.toDouble(),
             appParamState.addRouteSpotDataModelList[i].longitude.toDouble(),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              const SizedBox(width: 20),
 
-              const Icon(Icons.location_on, color: Colors.purpleAccent, size: 40),
-              Container(
-                width: 20,
-                height: 20,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: (i == 0) ? Colors.blueAccent : Colors.purpleAccent,
-                  borderRadius: BorderRadius.circular(10),
+          child: Stack(
+            children: <Widget>[
+              const Row(
+                children: <Widget>[
+                  SizedBox(width: 20, height: 20, child: SizedBox()),
+
+                  Icon(Icons.location_on, color: Colors.purpleAccent, size: 40),
+                ],
+              ),
+
+              Positioned(
+                left: 50,
+                top: 10,
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (i == 0) ? Colors.blueAccent : Colors.purpleAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(i.toString()),
                 ),
-                child: Text(i.toString()),
               ),
             ],
           ),
