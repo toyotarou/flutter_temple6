@@ -83,6 +83,11 @@ class AppParamState with _$AppParamState {
     @Default(<SpotDataModel>[]) List<SpotDataModel> addRouteSpotDataModelList,
 
     @Default(true) bool isJrInclude,
+
+    @Default('') String startTime,
+    @Default('') String walkSpeed,
+    @Default('') String stayTime,
+    @Default('') String adjustPercent,
   }) = _AppParamState;
 }
 
@@ -295,4 +300,16 @@ class AppParam extends _$AppParam {
 
   ///
   void setIsJrInclude({required bool flag}) => state = state.copyWith(isJrInclude: flag);
+
+  ///
+  void setStartTime({required String time}) => state = state.copyWith(startTime: time);
+
+  ///
+  void setWalkSpeed({required String speed}) => state = state.copyWith(walkSpeed: speed);
+
+  ///
+  void setStayTime({required String time}) => state = state.copyWith(stayTime: time);
+
+  ///
+  void setAdjustPercent({required String percent}) => state = state.copyWith(adjustPercent: percent);
 }
