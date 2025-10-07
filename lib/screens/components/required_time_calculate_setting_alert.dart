@@ -244,7 +244,7 @@ class _RequiredTimeCalculateSettingAlertState extends ConsumerState<RequiredTime
                     appParamNotifier.setStayTime(time: spotStayTimeTextController.text);
                     appParamNotifier.setAdjustPercent(percent: adjustPercentTextController.text);
 
-                    TempleDialog(context: context, widget: RouteDisplayAlert());
+                    TempleDialog(context: context, widget: const RouteDisplayAlert());
                   },
 
                   child: Container(

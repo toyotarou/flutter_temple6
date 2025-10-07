@@ -33,6 +33,12 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
   Map<String, String> visitedTempleNameRankMap = <String, String>{};
 
+  List<double> allLatList = <double>[];
+
+  List<double> allLngList = <double>[];
+
+  List<List<List<List<double>>>>? allPolygons = <List<List<List<double>>>>[];
+
   ///
   @override
   void initState() {
@@ -79,7 +85,40 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                               const Text('all no reach :'),
 
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
+
+                                  appParamNotifier.setSelectedTrainName(name: '');
+
+                                  appParamNotifier.clearAddRouteSpotDataModelList();
+
+                                  appParamNotifier.clearSelectedMunicipalNameList();
+
+                                  appParamNotifier.clearSelectedSpotDataModel();
+
+                                  appParamNotifier.setIsJrInclude(flag: true);
+
+                                  TempleDialog(
+                                    context: context,
+                                    widget: CityTownTempleMapAlert(
+                                      cityTownName: '',
+
+                                      latList: allLatList,
+                                      lngList: allLngList,
+
+                                      visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
+                                      noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
+
+                                      polygons: allPolygons,
+                                    ),
+
+                                    clearBarrierColor: true,
+
+                                    executeFunctionWhenDialogClose: true,
+                                    ref: ref,
+                                    from: 'CityTownTempleMapAlert',
+                                  );
+                                },
                                 icon: Icon(Icons.map, color: Colors.white.withValues(alpha: 0.4)),
                               ),
                             ],
@@ -158,6 +197,10 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
   ///
   Widget displayCityTownNameList() {
+    allLatList.clear();
+    allLngList.clear();
+    allPolygons?.clear();
+
     final List<Widget> list = <Widget>[];
 
     int noReachCount = 0;
@@ -194,6 +237,13 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                 .expand((List<List<double>> e3) => e3)
                 .map((List<double> p) => p[0])
                 .toList();
+
+      allLatList.addAll(latList);
+      allLngList.addAll(lngList);
+
+      if (polygons != null) {
+        allPolygons?.addAll(polygons);
+      }
 
       list.add(
         Container(
