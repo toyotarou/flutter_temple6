@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
@@ -160,7 +161,10 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
                     ),
                   ],
                 ),
-                const SizedBox.shrink(),
+                IconButton(
+                  onPressed: () => showGoogleTransit(index: i),
+                  icon: Icon(FontAwesomeIcons.google, color: Colors.white.withValues(alpha: 0.4)),
+                ),
               ],
             ),
           ),
@@ -230,5 +234,28 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
     final int mins = totalMinutes % 60;
 
     return '$hours時間$mins分';
+  }
+
+  ///
+  Future<void> showGoogleTransit({required int index}) async {
+    final List<String> latLng = <String>[
+      appParamState.addRouteSpotDataModelList[index].latitude,
+      appParamState.addRouteSpotDataModelList[index].longitude,
+    ];
+
+    final List<String> queryParameters = <String>[
+      'https://www.google.co.jp/maps/dir',
+      latLng.join(','),
+      appParamState.addRouteSpotDataModelList[index + 1].address,
+      '@${latLng.join(',')}',
+    ];
+
+    final String url = queryParameters.join('/');
+
+    final Uri mapUrl = Uri.parse(url);
+
+    if (!await launchUrl(mapUrl, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
