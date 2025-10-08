@@ -29,7 +29,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
     required this.cityTownName,
     required this.latList,
     required this.lngList,
-    this.tokyoAllPolygons,
+    this.selectArealPolygons,
     required this.visitedMunicipalSpotDataListMap,
     required this.noReachMunicipalSpotDataListMap,
   });
@@ -37,7 +37,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   final String cityTownName;
   final List<double> latList;
   final List<double> lngList;
-  final List<List<List<List<double>>>>? tokyoAllPolygons;
+  final List<List<List<List<double>>>>? selectArealPolygons;
   final Map<String, List<SpotDataModel>> visitedMunicipalSpotDataListMap;
   final Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap;
 
@@ -165,7 +165,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   userAgentPackageName: 'com.example.app',
                 ),
 
-                if (widget.tokyoAllPolygons != null) ...<Widget>[
+                if (widget.selectArealPolygons != null) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: makeAreaPolygons()),
                 ],
@@ -331,11 +331,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     final List<Color> twentyFourColor = utility.getTwentyFourColor();
 
-    if (widget.tokyoAllPolygons != null) {
-      for (int i = 0; i < widget.tokyoAllPolygons!.length; i++) {
+    if (widget.selectArealPolygons != null) {
+      for (int i = 0; i < widget.selectArealPolygons!.length; i++) {
         final Polygon<Object>? polygon = getColorPaintPolygon(
-          polygon: widget.tokyoAllPolygons![i],
-          color: twentyFourColor[i % 24],
+          polygon: widget.selectArealPolygons![i],
+          color: (widget.cityTownName == 'tokyo') ? twentyFourColor[i % 24] : Colors.redAccent,
         );
 
         if (polygon != null) {
@@ -1306,6 +1306,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   return;
                 }
               }
+
+              try {
+                closeAllOverlays(ref: ref);
+                // ignore: empty_catches
+              } catch (e) {}
 
               TempleDialog(context: context, widget: const RequiredTimeCalculateSettingAlert());
             },

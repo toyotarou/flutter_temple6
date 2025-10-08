@@ -106,18 +106,13 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                                     context: context,
                                     widget: CityTownTempleMapAlert(
                                       cityTownName: 'tokyo',
-
                                       latList: allLatList,
                                       lngList: allLngList,
-
                                       visitedMunicipalSpotDataListMap: const <String, List<SpotDataModel>>{},
                                       noReachMunicipalSpotDataListMap: tempNoReachMap,
-
-                                      tokyoAllPolygons: allPolygons,
+                                      selectArealPolygons: allPolygons,
                                     ),
-
                                     clearBarrierColor: true,
-
                                     executeFunctionWhenDialogClose: true,
                                     ref: ref,
                                     from: 'CityTownTempleMapAlert',
@@ -293,7 +288,6 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                       alignment: Alignment.topRight,
                       child: Text(
                         noReachMunicipalSpotDataCount.toString(),
-
                         style: TextStyle(
                           color: (noReachMunicipalSpotDataCount > 0) ? Colors.yellowAccent : Colors.white,
                         ),
@@ -322,18 +316,13 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                       context: context,
                       widget: CityTownTempleMapAlert(
                         cityTownName: element,
-
                         latList: latList,
                         lngList: lngList,
-
                         visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
                         noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
-
-                        tokyoAllPolygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                        selectArealPolygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
                       ),
-
                       clearBarrierColor: true,
-
                       executeFunctionWhenDialogClose: true,
                       ref: ref,
                       from: 'CityTownTempleMapAlert',
