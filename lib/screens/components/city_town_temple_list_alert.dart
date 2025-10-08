@@ -29,7 +29,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
   Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap = <String, List<SpotDataModel>>{};
 
-  int allNoReachCount = 0;
+  List<SpotDataModel> allNoReachSpotDataList = <SpotDataModel>[];
 
   Map<String, String> visitedTempleNameRankMap = <String, String>{};
 
@@ -98,18 +98,22 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                                   appParamNotifier.setIsJrInclude(flag: true);
 
+                                  final Map<String, List<SpotDataModel>> tempNoReachMap =
+                                      Map<String, List<SpotDataModel>>.from(noReachMunicipalSpotDataListMap);
+                                  tempNoReachMap['tokyo'] = List<SpotDataModel>.from(allNoReachSpotDataList);
+
                                   TempleDialog(
                                     context: context,
                                     widget: CityTownTempleMapAlert(
-                                      cityTownName: '',
+                                      cityTownName: 'tokyo',
 
                                       latList: allLatList,
                                       lngList: allLngList,
 
-                                      visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
-                                      noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
+                                      visitedMunicipalSpotDataListMap: const <String, List<SpotDataModel>>{},
+                                      noReachMunicipalSpotDataListMap: tempNoReachMap,
 
-                                      polygons: allPolygons,
+                                      tokyoAllPolygons: allPolygons,
                                     ),
 
                                     clearBarrierColor: true,
@@ -124,7 +128,10 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                             ],
                           ),
 
-                          Text(allNoReachCount.toString(), style: const TextStyle(color: Colors.yellowAccent)),
+                          Text(
+                            allNoReachSpotDataList.length.toString(),
+                            style: const TextStyle(color: Colors.yellowAccent),
+                          ),
                         ],
                       ),
                     ],
@@ -147,6 +154,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
     cityTownMunicipalSpotDataListMap.clear();
     visitedMunicipalSpotDataListMap.clear();
     noReachMunicipalSpotDataListMap.clear();
+
+    allNoReachSpotDataList.clear();
 
     final List<String> visitedTemples = appParamState.keepTempleLatLngList
         .map((TempleLatLngModel e) => e.temple)
@@ -189,6 +198,17 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                 longitude: element.lng,
               ),
             );
+
+            allNoReachSpotDataList.add(
+              SpotDataModel(
+                type: 'temple',
+                mark: element.id.toString(),
+                name: element.name,
+                address: element.address,
+                latitude: element.lat,
+                longitude: element.lng,
+              ),
+            );
           }
         }
       }
@@ -203,8 +223,6 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
     final List<Widget> list = <Widget>[];
 
-    int noReachCount = 0;
-
     for (final String element in cityTownNameList) {
       final int cityTownMunicipalSpotDataCount = (cityTownMunicipalSpotDataListMap[element] != null)
           ? cityTownMunicipalSpotDataListMap[element]!.length
@@ -217,8 +235,6 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
       final int noReachMunicipalSpotDataCount = (noReachMunicipalSpotDataListMap[element] != null)
           ? noReachMunicipalSpotDataListMap[element]!.length
           : 0;
-
-      noReachCount += noReachMunicipalSpotDataCount;
 
       final List<List<List<List<double>>>>? polygons = appParamState.keepTokyoMunicipalMap[element]?.polygons;
 
@@ -313,7 +329,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                         visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
                         noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
 
-                        polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                        tokyoAllPolygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
                       ),
 
                       clearBarrierColor: true,
@@ -331,8 +347,6 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
         ),
       );
     }
-
-    setState(() => allNoReachCount = noReachCount);
 
     return Padding(
       padding: const EdgeInsets.all(10),

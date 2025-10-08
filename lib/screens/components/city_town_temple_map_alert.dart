@@ -28,7 +28,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
     required this.cityTownName,
     required this.latList,
     required this.lngList,
-    this.polygons,
+    this.tokyoAllPolygons,
     required this.visitedMunicipalSpotDataListMap,
     required this.noReachMunicipalSpotDataListMap,
   });
@@ -36,7 +36,7 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
   final String cityTownName;
   final List<double> latList;
   final List<double> lngList;
-  final List<List<List<List<double>>>>? polygons;
+  final List<List<List<List<double>>>>? tokyoAllPolygons;
   final Map<String, List<SpotDataModel>> visitedMunicipalSpotDataListMap;
   final Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap;
 
@@ -162,7 +162,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   userAgentPackageName: 'com.example.app',
                 ),
 
-                if (widget.polygons != null) ...<Widget>[
+                if (widget.tokyoAllPolygons != null) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: makeAreaPolygons()),
                 ],
@@ -321,7 +321,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     // ignore: always_specify_types
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
-    for (final List<List<List<double>>> element in widget.polygons!) {
+    for (final List<List<List<double>>> element in widget.tokyoAllPolygons!) {
       final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element, color: Colors.redAccent);
 
       if (polygon != null) {
