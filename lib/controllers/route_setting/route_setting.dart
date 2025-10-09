@@ -1,18 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
-import '../../models/station_model.dart';
-import '../../models/temple_lat_lng_model.dart';
-import '../../models/temple_list_model.dart';
-import '../../models/temple_model.dart';
-
-import '../../models/temple_photo_model.dart';
-import '../../models/tokyo_municipal_model.dart';
-import '../../models/tokyo_train_model.dart';
-import '../../models/train_model.dart';
 import '../../utility/utility.dart';
+import '../app_param/app_param.dart';
 
 part 'route_setting.freezed.dart';
 
@@ -47,4 +41,39 @@ class RouteSetting extends _$RouteSetting {
 
   ///
   void setAdjustPercent({required String percent}) => state = state.copyWith(adjustPercent: percent);
+
+  ///
+  /// route_display_alert.dart
+  Future<void> insertRoute() async {
+    final List<SpotDataModel> addRouteSpotDataModelList = ref.watch(
+      appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
+    );
+
+    final List<SpotDataModel> list = <SpotDataModel>[...addRouteSpotDataModelList];
+
+    final List<String> data = <String>[];
+
+    for (final SpotDataModel element in list) {
+      switch (element.type) {
+        case 'station':
+          data.add('${element.name}\n${element.address}');
+        case 'temple':
+          data.add('${element.mark}\n${element.rank}\n${element.name}\n${element.address}');
+      }
+    }
+
+    final HttpClient client = ref.read(httpClientProvider);
+
+    await client
+        .post(
+          path: APIPath.insertTempleRoute,
+          body: <String, dynamic>{'date': DateTime.now().yyyymmdd, 'data': data.join('\n-----\n')},
+        )
+        // ignore: always_specify_types
+        .then((value) {})
+        // ignore: always_specify_types
+        .catchError((error, _) {
+          utility.showError('予期せぬエラーが発生しました');
+        });
+  }
 }

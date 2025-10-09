@@ -42,7 +42,7 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
               children: <Widget>[
                 IconButton(
                   onPressed: () {
-                    //                    routingNotifier.insertRoute();
+                    routeSettingNotifier.insertRoute();
                   },
                   icon: const Icon(Icons.input, color: Colors.white),
                 ),
