@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '_get_data/chiba_municipal/chiba_municipal.dart';
 import '_get_data/station/station.dart';
 import '_get_data/temple/temple.dart';
 import '_get_data/temple_lat_lng/temple_lat_lng.dart';
@@ -71,6 +72,12 @@ mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   RouteSettingState get routeSettingState => ref.watch(routeSettingProvider);
 
   RouteSetting get routeSettingNotifier => ref.read(routeSettingProvider.notifier);
+
+  //==========================================//
+
+  ChibaMunicipalState get chibaMunicipalState => ref.watch(chibaMunicipalProvider);
+
+  ChibaMunicipal get chibaMunicipalNotifier => ref.read(chibaMunicipalProvider.notifier);
 
   //==========================================//
 }

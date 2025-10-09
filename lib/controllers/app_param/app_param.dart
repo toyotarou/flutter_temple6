@@ -9,7 +9,7 @@ import '../../models/temple_list_model.dart';
 import '../../models/temple_model.dart';
 
 import '../../models/temple_photo_model.dart';
-import '../../models/tokyo_municipal_model.dart';
+import '../../models/municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../models/train_model.dart';
 import '../../utility/utility.dart';
@@ -32,8 +32,8 @@ class AppParamState with _$AppParamState {
     @Default(<String, StationModel>{}) Map<String, StationModel> keepStationMap,
 
     //---
-    @Default(<TokyoMunicipalModel>[]) List<TokyoMunicipalModel> keepTokyoMunicipalList,
-    @Default(<String, TokyoMunicipalModel>{}) Map<String, TokyoMunicipalModel> keepTokyoMunicipalMap,
+    @Default(<MunicipalModel>[]) List<MunicipalModel> keepTokyoMunicipalList,
+    @Default(<String, MunicipalModel>{}) Map<String, MunicipalModel> keepTokyoMunicipalMap,
 
     //---
     @Default(<String, List<TemplePhotoModel>>{}) Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
@@ -117,11 +117,11 @@ class AppParam extends _$AppParam {
   //---
 
   ///
-  void setKeepTokyoMunicipalList({required List<TokyoMunicipalModel> list}) =>
+  void setKeepTokyoMunicipalList({required List<MunicipalModel> list}) =>
       state = state.copyWith(keepTokyoMunicipalList: list);
 
   ///
-  void setKeepTokyoMunicipalMap({required Map<String, TokyoMunicipalModel> map}) =>
+  void setKeepTokyoMunicipalMap({required Map<String, MunicipalModel> map}) =>
       state = state.copyWith(keepTokyoMunicipalMap: map);
 
   //---

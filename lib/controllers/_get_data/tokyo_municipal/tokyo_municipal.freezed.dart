@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TokyoMunicipalState {
-  List<TokyoMunicipalModel> get tokyoMunicipalList =>
+  List<MunicipalModel> get tokyoMunicipalList =>
       throw _privateConstructorUsedError;
-  Map<String, TokyoMunicipalModel> get tokyoMunicipalMap =>
+  Map<String, MunicipalModel> get tokyoMunicipalMap =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of TokyoMunicipalState
@@ -35,8 +35,8 @@ abstract class $TokyoMunicipalStateCopyWith<$Res> {
       _$TokyoMunicipalStateCopyWithImpl<$Res, TokyoMunicipalState>;
   @useResult
   $Res call(
-      {List<TokyoMunicipalModel> tokyoMunicipalList,
-      Map<String, TokyoMunicipalModel> tokyoMunicipalMap});
+      {List<MunicipalModel> tokyoMunicipalList,
+      Map<String, MunicipalModel> tokyoMunicipalMap});
 }
 
 /// @nodoc
@@ -61,11 +61,11 @@ class _$TokyoMunicipalStateCopyWithImpl<$Res, $Val extends TokyoMunicipalState>
       tokyoMunicipalList: null == tokyoMunicipalList
           ? _value.tokyoMunicipalList
           : tokyoMunicipalList // ignore: cast_nullable_to_non_nullable
-              as List<TokyoMunicipalModel>,
+              as List<MunicipalModel>,
       tokyoMunicipalMap: null == tokyoMunicipalMap
           ? _value.tokyoMunicipalMap
           : tokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, TokyoMunicipalModel>,
+              as Map<String, MunicipalModel>,
     ) as $Val);
   }
 }
@@ -79,8 +79,8 @@ abstract class _$$TokyoMunicipalStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<TokyoMunicipalModel> tokyoMunicipalList,
-      Map<String, TokyoMunicipalModel> tokyoMunicipalMap});
+      {List<MunicipalModel> tokyoMunicipalList,
+      Map<String, MunicipalModel> tokyoMunicipalMap});
 }
 
 /// @nodoc
@@ -103,11 +103,11 @@ class __$$TokyoMunicipalStateImplCopyWithImpl<$Res>
       tokyoMunicipalList: null == tokyoMunicipalList
           ? _value._tokyoMunicipalList
           : tokyoMunicipalList // ignore: cast_nullable_to_non_nullable
-              as List<TokyoMunicipalModel>,
+              as List<MunicipalModel>,
       tokyoMunicipalMap: null == tokyoMunicipalMap
           ? _value._tokyoMunicipalMap
           : tokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, TokyoMunicipalModel>,
+              as Map<String, MunicipalModel>,
     ));
   }
 }
@@ -116,27 +116,26 @@ class __$$TokyoMunicipalStateImplCopyWithImpl<$Res>
 
 class _$TokyoMunicipalStateImpl implements _TokyoMunicipalState {
   const _$TokyoMunicipalStateImpl(
-      {final List<TokyoMunicipalModel> tokyoMunicipalList =
-          const <TokyoMunicipalModel>[],
-      final Map<String, TokyoMunicipalModel> tokyoMunicipalMap =
-          const <String, TokyoMunicipalModel>{}})
+      {final List<MunicipalModel> tokyoMunicipalList = const <MunicipalModel>[],
+      final Map<String, MunicipalModel> tokyoMunicipalMap =
+          const <String, MunicipalModel>{}})
       : _tokyoMunicipalList = tokyoMunicipalList,
         _tokyoMunicipalMap = tokyoMunicipalMap;
 
-  final List<TokyoMunicipalModel> _tokyoMunicipalList;
+  final List<MunicipalModel> _tokyoMunicipalList;
   @override
   @JsonKey()
-  List<TokyoMunicipalModel> get tokyoMunicipalList {
+  List<MunicipalModel> get tokyoMunicipalList {
     if (_tokyoMunicipalList is EqualUnmodifiableListView)
       return _tokyoMunicipalList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tokyoMunicipalList);
   }
 
-  final Map<String, TokyoMunicipalModel> _tokyoMunicipalMap;
+  final Map<String, MunicipalModel> _tokyoMunicipalMap;
   @override
   @JsonKey()
-  Map<String, TokyoMunicipalModel> get tokyoMunicipalMap {
+  Map<String, MunicipalModel> get tokyoMunicipalMap {
     if (_tokyoMunicipalMap is EqualUnmodifiableMapView)
       return _tokyoMunicipalMap;
     // ignore: implicit_dynamic_type
@@ -177,14 +176,14 @@ class _$TokyoMunicipalStateImpl implements _TokyoMunicipalState {
 
 abstract class _TokyoMunicipalState implements TokyoMunicipalState {
   const factory _TokyoMunicipalState(
-          {final List<TokyoMunicipalModel> tokyoMunicipalList,
-          final Map<String, TokyoMunicipalModel> tokyoMunicipalMap}) =
+          {final List<MunicipalModel> tokyoMunicipalList,
+          final Map<String, MunicipalModel> tokyoMunicipalMap}) =
       _$TokyoMunicipalStateImpl;
 
   @override
-  List<TokyoMunicipalModel> get tokyoMunicipalList;
+  List<MunicipalModel> get tokyoMunicipalList;
   @override
-  Map<String, TokyoMunicipalModel> get tokyoMunicipalMap;
+  Map<String, MunicipalModel> get tokyoMunicipalMap;
 
   /// Create a copy of TokyoMunicipalState
   /// with the given fields replaced by the non-null parameter values.

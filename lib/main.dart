@@ -61,6 +61,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
     templeListNotifier.getAllTempleList();
     tokyoTrainNotifier.getAllTokyoTrain();
     trainNotifier.getAllTrain();
+    chibaMunicipalNotifier.getAllChibaMunicipalData();
   }
 
   ///

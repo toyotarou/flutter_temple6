@@ -3,12 +3,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../models/common/spot_data_model.dart';
-import '../models/tokyo_municipal_model.dart';
+import '../models/municipal_model.dart';
 
 const double _eps = 1e-12;
 
 ///
-bool spotInMunicipality(double lat, double lng, TokyoMunicipalModel muni) {
+bool spotInMunicipality(double lat, double lng, MunicipalModel muni) {
   for (final List<List<List<double>>> polygon in muni.polygons) {
     if (polygon.isEmpty) {
       continue;
@@ -213,13 +213,13 @@ Polygon? getColorPaintPolygon({required List<List<List<double>>> polygon, requir
 }
 
 ///
-List<TokyoMunicipalModel> getNeighborsArea({
-  required TokyoMunicipalModel target,
-  required List<TokyoMunicipalModel> all,
+List<MunicipalModel> getNeighborsArea({
+  required MunicipalModel target,
+  required List<MunicipalModel> all,
 }) {
-  final List<TokyoMunicipalModel> out = <TokyoMunicipalModel>[];
+  final List<MunicipalModel> out = <MunicipalModel>[];
 
-  for (final TokyoMunicipalModel m in all) {
+  for (final MunicipalModel m in all) {
     if (identical(m, target)) {
       continue;
     }
@@ -229,7 +229,7 @@ List<TokyoMunicipalModel> getNeighborsArea({
     }
   }
 
-  out.sort((TokyoMunicipalModel a, TokyoMunicipalModel b) {
+  out.sort((MunicipalModel a, MunicipalModel b) {
     final double da = (a.centroidLat - target.centroidLat).abs() + (a.centroidLng - target.centroidLng).abs();
 
     final double db = (b.centroidLat - target.centroidLat).abs() + (b.centroidLng - target.centroidLng).abs();
@@ -241,7 +241,7 @@ List<TokyoMunicipalModel> getNeighborsArea({
 }
 
 ///
-bool areAdjacent(TokyoMunicipalModel a, TokyoMunicipalModel b) {
+bool areAdjacent(MunicipalModel a, MunicipalModel b) {
   if (!bBoxOverlap(a, b)) {
     return false;
   }
@@ -272,7 +272,7 @@ bool areAdjacent(TokyoMunicipalModel a, TokyoMunicipalModel b) {
 }
 
 ///
-bool bBoxOverlap(TokyoMunicipalModel a, TokyoMunicipalModel b) {
+bool bBoxOverlap(MunicipalModel a, MunicipalModel b) {
   final bool latOverlap = !(a.maxLat < b.minLat - _eps || b.maxLat < a.minLat - _eps);
 
   final bool lngOverlap = !(a.maxLng < b.minLng - _eps || b.maxLng < a.minLng - _eps);

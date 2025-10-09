@@ -1,5 +1,5 @@
-class TokyoMunicipalModel {
-  TokyoMunicipalModel(
+class MunicipalModel {
+  MunicipalModel(
     this.name,
     this.vertexCount, {
     required this.minLat,

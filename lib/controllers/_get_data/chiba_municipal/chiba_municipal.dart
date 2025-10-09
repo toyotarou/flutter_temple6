@@ -7,37 +7,37 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/municipal_model.dart';
 import '../../../utility/utility.dart';
 
-part 'tokyo_municipal.freezed.dart';
+part 'chiba_municipal.freezed.dart';
 
-part 'tokyo_municipal.g.dart';
+part 'chiba_municipal.g.dart';
 
 @freezed
-class TokyoMunicipalState with _$TokyoMunicipalState {
-  const factory TokyoMunicipalState({
-    @Default(<MunicipalModel>[]) List<MunicipalModel> tokyoMunicipalList,
-    @Default(<String, MunicipalModel>{}) Map<String, MunicipalModel> tokyoMunicipalMap,
-  }) = _TokyoMunicipalState;
+class ChibaMunicipalState with _$ChibaMunicipalState {
+  const factory ChibaMunicipalState({
+    @Default(<MunicipalModel>[]) List<MunicipalModel> chibaMunicipalList,
+    @Default(<String, MunicipalModel>{}) Map<String, MunicipalModel> chibaMunicipalMap,
+  }) = _ChibaMunicipalState;
 }
 
 @riverpod
-class TokyoMunicipal extends _$TokyoMunicipal {
+class ChibaMunicipal extends _$ChibaMunicipal {
   final Utility utility = Utility();
 
   ///
   @override
-  TokyoMunicipalState build() => const TokyoMunicipalState();
+  ChibaMunicipalState build() => const ChibaMunicipalState();
 
   //============================================== api
 
   ///
-  Future<TokyoMunicipalState> fetchAllTokyoMunicipalData() async {
+  Future<ChibaMunicipalState> fetchAllChibaMunicipalData() async {
     try {
       final List<MunicipalModel> list = <MunicipalModel>[];
 
       final Map<String, MunicipalModel> map = <String, MunicipalModel>{};
 
       //-----------------------------------------------------------------//
-      const String kAssetPath = 'assets/json/tokyo_municipal.geojson';
+      const String kAssetPath = 'assets/json/chiba_municipal.geojson';
 
       final String text = await rootBundle.loadString(kAssetPath);
       // ignore: always_specify_types
@@ -184,7 +184,7 @@ class TokyoMunicipal extends _$TokyoMunicipal {
         map[name] = val;
       }
 
-      return state.copyWith(tokyoMunicipalList: list, tokyoMunicipalMap: map);
+      return state.copyWith(chibaMunicipalList: list, chibaMunicipalMap: map);
     } catch (e) {
       utility.showError('予期せぬエラーが発生しました');
       rethrow;
@@ -192,9 +192,9 @@ class TokyoMunicipal extends _$TokyoMunicipal {
   }
 
   ///
-  Future<void> getAllTokyoMunicipalData() async {
+  Future<void> getAllChibaMunicipalData() async {
     try {
-      final TokyoMunicipalState newState = await fetchAllTokyoMunicipalData();
+      final ChibaMunicipalState newState = await fetchAllChibaMunicipalData();
 
       state = newState;
     } catch (_) {}

@@ -7,7 +7,7 @@ import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_list_model.dart';
-import '../../models/tokyo_municipal_model.dart';
+import '../../models/municipal_model.dart';
 import '../../utility/functions.dart';
 import '../parts/temple_dialog.dart';
 import 'city_town_temple_map_alert.dart';
@@ -156,7 +156,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
         .map((TempleLatLngModel e) => e.temple)
         .toList();
 
-    appParamState.keepTokyoMunicipalMap.forEach((String key, TokyoMunicipalModel value) {
+    appParamState.keepTokyoMunicipalMap.forEach((String key, MunicipalModel value) {
       for (final TempleListModel element in appParamState.keepTempleListList) {
         if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
           (cityTownMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(

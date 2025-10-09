@@ -17,7 +17,7 @@ import '../models/temple_lat_lng_model.dart';
 import '../models/temple_list_model.dart';
 import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
-import '../models/tokyo_municipal_model.dart';
+import '../models/municipal_model.dart';
 import '../models/tokyo_train_model.dart';
 import '../models/train_model.dart';
 import '../utility/functions.dart';
@@ -72,8 +72,8 @@ class HomeScreen extends ConsumerStatefulWidget {
   final Map<String, StationModel> stationMap;
 
   //---
-  final List<TokyoMunicipalModel> tokyoMunicipalList;
-  final Map<String, TokyoMunicipalModel> tokyoMunicipalMap;
+  final List<MunicipalModel> tokyoMunicipalList;
+  final Map<String, MunicipalModel> tokyoMunicipalMap;
 
   //---
   final Map<String, List<TemplePhotoModel>> templePhotoMap;
@@ -186,7 +186,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         final Map<String, StationModel> tokyoStationMap = <String, StationModel>{};
 
         widget.stationMap.forEach((String key, StationModel value) {
-          for (final TokyoMunicipalModel element in widget.tokyoMunicipalList) {
+          for (final MunicipalModel element in widget.tokyoMunicipalList) {
             if (spotInMunicipality(value.lat.toDouble(), value.lng.toDouble(), element)) {
               tokyoStationList.add(value);
 
@@ -795,7 +795,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   ///
   String? findMunicipalityForPoint(double lat, double lng) {
-    for (final TokyoMunicipalModel m in widget.tokyoMunicipalList) {
+    for (final MunicipalModel m in widget.tokyoMunicipalList) {
       if (spotInMunicipality(lat, lng, m)) {
         return m.name;
       }

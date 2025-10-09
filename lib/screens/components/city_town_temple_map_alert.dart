@@ -11,7 +11,7 @@ import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/station_model.dart';
-import '../../models/tokyo_municipal_model.dart';
+import '../../models/municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../models/train_model.dart';
 import '../../utility/functions.dart';
@@ -60,7 +60,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   double currentZoomEightTeen = 18;
 
-  List<TokyoMunicipalModel> neighborsTokyoMunicipalModelList = <TokyoMunicipalModel>[];
+  List<MunicipalModel> neighborsTokyoMunicipalModelList = <MunicipalModel>[];
 
   List<String> neighborAreaNameList = <String>[];
 
@@ -366,7 +366,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       );
 
       if (neighborsTokyoMunicipalModelList.isNotEmpty) {
-        for (final TokyoMunicipalModel element in neighborsTokyoMunicipalModelList) {
+        for (final MunicipalModel element in neighborsTokyoMunicipalModelList) {
           list.add(element.name);
 
           if (appParamState.neighborAreaNameList.contains(element.name)) {
@@ -661,7 +661,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     jrTrainNumberList.removeWhere((String? e) => e == null);
 
     for (final StationModel element in appParamState.keepTokyoStationList) {
-      for (final TokyoMunicipalModel? element2 in <TokyoMunicipalModel?>[
+      for (final MunicipalModel? element2 in <MunicipalModel?>[
         appParamState.keepTokyoMunicipalMap[widget.cityTownName],
         ...neighborsTokyoMunicipalModelList,
       ]) {
@@ -811,7 +811,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     final RegExp reg = RegExp('新幹線');
 
-    for (final TokyoMunicipalModel? element in <TokyoMunicipalModel?>[
+    for (final MunicipalModel? element in <MunicipalModel?>[
       appParamState.keepTokyoMunicipalMap[widget.cityTownName],
       ...neighborsTokyoMunicipalModelList,
     ]) {
