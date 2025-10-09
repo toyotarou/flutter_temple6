@@ -111,6 +111,9 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
 
           //---
           trainList: trainState.trainList,
+
+          //---
+          chibaMunicipalMap: chibaMunicipalState.chibaMunicipalMap,
         ),
       ),
     );

@@ -12,18 +12,19 @@ import '../extensions/extensions.dart';
 import '../main.dart';
 import '../models/common/search_result_model.dart';
 import '../models/common/spot_data_model.dart';
+import '../models/municipal_model.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
 import '../models/temple_list_model.dart';
 import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
-import '../models/municipal_model.dart';
 import '../models/tokyo_train_model.dart';
 import '../models/train_model.dart';
 import '../utility/functions.dart';
 import '../utility/utility.dart';
 import 'components/city_town_temple_list_alert.dart';
 import 'components/daily_temple_map_alert.dart';
+import 'components/home_centered_visited_spot_map_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
 import 'parts/temple_overlay.dart';
@@ -59,6 +60,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
     //---
     required this.trainList,
+
+    //---
+    required this.chibaMunicipalMap,
   });
 
   //---
@@ -89,6 +93,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   //---
   final List<TrainModel> trainList;
+
+  //---
+  final Map<String, MunicipalModel> chibaMunicipalMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -180,6 +187,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
       //---
       appParamNotifier.setKeepTrainList(list: widget.trainList);
+
+      //---
+      appParamNotifier.setKeepChibaMunicipalMap(map: widget.chibaMunicipalMap);
 
       if (!tokyoStationSettedFlag) {
         final List<StationModel> tokyoStationList = <StationModel>[];
@@ -458,6 +468,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                       Icon(FontAwesomeIcons.toriiGate),
                       SizedBox(width: 20),
                       Text('市区町村別神社リスト', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                ),
+                padding: const EdgeInsets.all(5),
+
+                child: GestureDetector(
+                  onTap: () {
+                    TempleDialog(
+                      context: context,
+                      widget: const HomeCenteredVisitedSpotMapAlert(),
+                      clearBarrierColor: true,
+                    );
+                  },
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.toriiGate),
+                      SizedBox(width: 20),
+                      Text('参拝神社リスト', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),

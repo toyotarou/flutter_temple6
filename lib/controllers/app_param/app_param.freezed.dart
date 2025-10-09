@@ -51,6 +51,8 @@ mixin _$AppParamState {
 
   ///
   List<TrainModel> get keepTrainList =>
+      throw _privateConstructorUsedError; //---
+  Map<String, MunicipalModel> get keepChibaMunicipalMap =>
       throw _privateConstructorUsedError; //////////////////////////////////////////////////
   ///
   double get currentZoom => throw _privateConstructorUsedError;
@@ -106,6 +108,7 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<StationModel> keepTokyoStationList,
       Map<String, StationModel> keepTokyoStationMap,
       List<TrainModel> keepTrainList,
+      Map<String, MunicipalModel> keepChibaMunicipalMap,
       double currentZoom,
       int currentPaddingIndex,
       List<OverlayEntry>? firstEntries,
@@ -151,6 +154,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? keepTokyoStationList = null,
     Object? keepTokyoStationMap = null,
     Object? keepTrainList = null,
+    Object? keepChibaMunicipalMap = null,
     Object? currentZoom = null,
     Object? currentPaddingIndex = null,
     Object? firstEntries = freezed,
@@ -227,6 +231,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.keepTrainList
           : keepTrainList // ignore: cast_nullable_to_non_nullable
               as List<TrainModel>,
+      keepChibaMunicipalMap: null == keepChibaMunicipalMap
+          ? _value.keepChibaMunicipalMap
+          : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
       currentZoom: null == currentZoom
           ? _value.currentZoom
           : currentZoom // ignore: cast_nullable_to_non_nullable
@@ -308,6 +316,7 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<StationModel> keepTokyoStationList,
       Map<String, StationModel> keepTokyoStationMap,
       List<TrainModel> keepTrainList,
+      Map<String, MunicipalModel> keepChibaMunicipalMap,
       double currentZoom,
       int currentPaddingIndex,
       List<OverlayEntry>? firstEntries,
@@ -351,6 +360,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? keepTokyoStationList = null,
     Object? keepTokyoStationMap = null,
     Object? keepTrainList = null,
+    Object? keepChibaMunicipalMap = null,
     Object? currentZoom = null,
     Object? currentPaddingIndex = null,
     Object? firstEntries = freezed,
@@ -427,6 +437,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value._keepTrainList
           : keepTrainList // ignore: cast_nullable_to_non_nullable
               as List<TrainModel>,
+      keepChibaMunicipalMap: null == keepChibaMunicipalMap
+          ? _value._keepChibaMunicipalMap
+          : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
       currentZoom: null == currentZoom
           ? _value.currentZoom
           : currentZoom // ignore: cast_nullable_to_non_nullable
@@ -515,6 +529,8 @@ class _$AppParamStateImpl implements _AppParamState {
       final Map<String, StationModel> keepTokyoStationMap =
           const <String, StationModel>{},
       final List<TrainModel> keepTrainList = const <TrainModel>[],
+      final Map<String, MunicipalModel> keepChibaMunicipalMap =
+          const <String, MunicipalModel>{},
       this.currentZoom = 0,
       this.currentPaddingIndex = 5,
       final List<OverlayEntry>? firstEntries,
@@ -545,6 +561,7 @@ class _$AppParamStateImpl implements _AppParamState {
         _keepTokyoStationList = keepTokyoStationList,
         _keepTokyoStationMap = keepTokyoStationMap,
         _keepTrainList = keepTrainList,
+        _keepChibaMunicipalMap = keepChibaMunicipalMap,
         _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
@@ -721,6 +738,18 @@ class _$AppParamStateImpl implements _AppParamState {
     return EqualUnmodifiableListView(_keepTrainList);
   }
 
+//---
+  final Map<String, MunicipalModel> _keepChibaMunicipalMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, MunicipalModel> get keepChibaMunicipalMap {
+    if (_keepChibaMunicipalMap is EqualUnmodifiableMapView)
+      return _keepChibaMunicipalMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepChibaMunicipalMap);
+  }
+
 //////////////////////////////////////////////////
   ///
   @override
@@ -814,7 +843,7 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude)';
   }
 
   @override
@@ -853,6 +882,8 @@ class _$AppParamStateImpl implements _AppParamState {
                 .equals(other._keepTokyoStationMap, _keepTokyoStationMap) &&
             const DeepCollectionEquality()
                 .equals(other._keepTrainList, _keepTrainList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepChibaMunicipalMap, _keepChibaMunicipalMap) &&
             (identical(other.currentZoom, currentZoom) ||
                 other.currentZoom == currentZoom) &&
             (identical(other.currentPaddingIndex, currentPaddingIndex) ||
@@ -901,6 +932,7 @@ class _$AppParamStateImpl implements _AppParamState {
         const DeepCollectionEquality().hash(_keepTokyoStationList),
         const DeepCollectionEquality().hash(_keepTokyoStationMap),
         const DeepCollectionEquality().hash(_keepTrainList),
+        const DeepCollectionEquality().hash(_keepChibaMunicipalMap),
         currentZoom,
         currentPaddingIndex,
         const DeepCollectionEquality().hash(_firstEntries),
@@ -943,6 +975,7 @@ abstract class _AppParamState implements AppParamState {
       final List<StationModel> keepTokyoStationList,
       final Map<String, StationModel> keepTokyoStationMap,
       final List<TrainModel> keepTrainList,
+      final Map<String, MunicipalModel> keepChibaMunicipalMap,
       final double currentZoom,
       final int currentPaddingIndex,
       final List<OverlayEntry>? firstEntries,
@@ -991,8 +1024,10 @@ abstract class _AppParamState implements AppParamState {
 
   ///
   @override
-  List<TrainModel>
-      get keepTrainList; //////////////////////////////////////////////////
+  List<TrainModel> get keepTrainList; //---
+  @override
+  Map<String, MunicipalModel>
+      get keepChibaMunicipalMap; //////////////////////////////////////////////////
   ///
   @override
   double get currentZoom;
