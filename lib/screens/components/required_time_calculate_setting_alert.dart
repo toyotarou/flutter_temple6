@@ -239,10 +239,10 @@ class _RequiredTimeCalculateSettingAlertState extends ConsumerState<RequiredTime
                       return;
                     }
 
-                    appParamNotifier.setStartTime(time: selectedTime);
-                    appParamNotifier.setWalkSpeed(speed: speedTextController.text);
-                    appParamNotifier.setStayTime(time: spotStayTimeTextController.text);
-                    appParamNotifier.setAdjustPercent(percent: adjustPercentTextController.text);
+                    routeSettingNotifier.setStartTime(time: selectedTime);
+                    routeSettingNotifier.setWalkSpeed(speed: speedTextController.text);
+                    routeSettingNotifier.setStayTime(time: spotStayTimeTextController.text);
+                    routeSettingNotifier.setAdjustPercent(percent: adjustPercentTextController.text);
 
                     TempleDialog(context: context, widget: const RouteDisplayAlert());
                   },

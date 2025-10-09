@@ -57,7 +57,7 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[Text('start: ${appParamState.startTime}'), Text('end: $endTime')],
+                  children: <Widget>[Text('start: ${routeSettingState.startTime}'), Text('end: $endTime')],
                 ),
 
                 const Divider(color: Colors.white),
@@ -68,12 +68,12 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('temple: $templeCount spots. -> ${templeCount * appParamState.stayTime.toInt()} 分'),
+                        Text('temple: $templeCount spots. -> ${templeCount * routeSettingState.stayTime.toInt()} 分'),
                         Text('walk sum: $walkSum 分'),
                       ],
                     ),
 
-                    Text(calculateHourAndMinutes(<int>[(templeCount * appParamState.stayTime.toInt()), walkSum])),
+                    Text(calculateHourAndMinutes(<int>[(templeCount * routeSettingState.stayTime.toInt()), walkSum])),
                   ],
                 ),
               ],
@@ -140,8 +140,8 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
         );
 
         final double walkMinutes =
-            ((distance / (appParamState.walkSpeed.toInt() * 1000)) * 60) *
-            ((100 + appParamState.adjustPercent.toInt()) / 100);
+            ((distance / (routeSettingState.walkSpeed.toInt() * 1000)) * 60) *
+            ((100 + routeSettingState.adjustPercent.toInt()) / 100);
 
         walkMinutesList.add(walkMinutes.toInt());
 
@@ -177,8 +177,8 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
 
       walkSum = walkMinutesList.fold(0, (int sum, int element) => sum + element);
 
-      endTime = calculateEndTimeSafe(appParamState.startTime, <int>[
-        (templeCount * appParamState.stayTime.toInt()),
+      endTime = calculateEndTimeSafe(routeSettingState.startTime, <int>[
+        (templeCount * routeSettingState.stayTime.toInt()),
         walkSum,
       ]);
     });

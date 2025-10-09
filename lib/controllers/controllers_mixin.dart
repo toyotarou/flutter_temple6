@@ -9,6 +9,7 @@ import '_get_data/tokyo_municipal/tokyo_municipal.dart';
 import '_get_data/tokyo_train/tokyo_train.dart';
 import '_get_data/train/train.dart';
 import 'app_param/app_param.dart';
+import 'route_setting/route_setting.dart';
 
 mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   //==========================================//
@@ -64,6 +65,12 @@ mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   TrainState get trainState => ref.watch(trainProvider);
 
   Train get trainNotifier => ref.read(trainProvider.notifier);
+
+  //==========================================//
+
+  RouteSettingState get routeSettingState => ref.watch(routeSettingProvider);
+
+  RouteSetting get routeSettingNotifier => ref.read(routeSettingProvider.notifier);
 
   //==========================================//
 }

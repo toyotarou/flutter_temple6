@@ -76,10 +76,6 @@ mixin _$AppParamState {
   List<SpotDataModel> get addRouteSpotDataModelList =>
       throw _privateConstructorUsedError;
   bool get isJrInclude => throw _privateConstructorUsedError;
-  String get startTime => throw _privateConstructorUsedError;
-  String get walkSpeed => throw _privateConstructorUsedError;
-  String get stayTime => throw _privateConstructorUsedError;
-  String get adjustPercent => throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -122,11 +118,7 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<String> selectedCityTownTempleMapRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
-      bool isJrInclude,
-      String startTime,
-      String walkSpeed,
-      String stayTime,
-      String adjustPercent});
+      bool isJrInclude});
 }
 
 /// @nodoc
@@ -172,10 +164,6 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
-    Object? startTime = null,
-    Object? walkSpeed = null,
-    Object? stayTime = null,
-    Object? adjustPercent = null,
   }) {
     return _then(_value.copyWith(
       keepTempleList: null == keepTempleList
@@ -292,22 +280,6 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.isJrInclude
           : isJrInclude // ignore: cast_nullable_to_non_nullable
               as bool,
-      startTime: null == startTime
-          ? _value.startTime
-          : startTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      walkSpeed: null == walkSpeed
-          ? _value.walkSpeed
-          : walkSpeed // ignore: cast_nullable_to_non_nullable
-              as String,
-      stayTime: null == stayTime
-          ? _value.stayTime
-          : stayTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      adjustPercent: null == adjustPercent
-          ? _value.adjustPercent
-          : adjustPercent // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -348,11 +320,7 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<String> selectedCityTownTempleMapRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
-      bool isJrInclude,
-      String startTime,
-      String walkSpeed,
-      String stayTime,
-      String adjustPercent});
+      bool isJrInclude});
 }
 
 /// @nodoc
@@ -396,10 +364,6 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
-    Object? startTime = null,
-    Object? walkSpeed = null,
-    Object? stayTime = null,
-    Object? adjustPercent = null,
   }) {
     return _then(_$AppParamStateImpl(
       keepTempleList: null == keepTempleList
@@ -516,22 +480,6 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.isJrInclude
           : isJrInclude // ignore: cast_nullable_to_non_nullable
               as bool,
-      startTime: null == startTime
-          ? _value.startTime
-          : startTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      walkSpeed: null == walkSpeed
-          ? _value.walkSpeed
-          : walkSpeed // ignore: cast_nullable_to_non_nullable
-              as String,
-      stayTime: null == stayTime
-          ? _value.stayTime
-          : stayTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      adjustPercent: null == adjustPercent
-          ? _value.adjustPercent
-          : adjustPercent // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -580,11 +528,7 @@ class _$AppParamStateImpl implements _AppParamState {
       this.selectedTrainName = '',
       final List<SpotDataModel> addRouteSpotDataModelList =
           const <SpotDataModel>[],
-      this.isJrInclude = true,
-      this.startTime = '',
-      this.walkSpeed = '',
-      this.stayTime = '',
-      this.adjustPercent = ''})
+      this.isJrInclude = true})
       : _keepTempleList = keepTempleList,
         _keepTempleLatLngList = keepTempleLatLngList,
         _keepTempleLatLngMap = keepTempleLatLngMap,
@@ -867,22 +811,10 @@ class _$AppParamStateImpl implements _AppParamState {
   @override
   @JsonKey()
   final bool isJrInclude;
-  @override
-  @JsonKey()
-  final String startTime;
-  @override
-  @JsonKey()
-  final String walkSpeed;
-  @override
-  @JsonKey()
-  final String stayTime;
-  @override
-  @JsonKey()
-  final String adjustPercent;
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, startTime: $startTime, walkSpeed: $walkSpeed, stayTime: $stayTime, adjustPercent: $adjustPercent)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude)';
   }
 
   @override
@@ -947,15 +879,7 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality().equals(
                 other._addRouteSpotDataModelList, _addRouteSpotDataModelList) &&
             (identical(other.isJrInclude, isJrInclude) ||
-                other.isJrInclude == isJrInclude) &&
-            (identical(other.startTime, startTime) ||
-                other.startTime == startTime) &&
-            (identical(other.walkSpeed, walkSpeed) ||
-                other.walkSpeed == walkSpeed) &&
-            (identical(other.stayTime, stayTime) ||
-                other.stayTime == stayTime) &&
-            (identical(other.adjustPercent, adjustPercent) ||
-                other.adjustPercent == adjustPercent));
+                other.isJrInclude == isJrInclude));
   }
 
   @override
@@ -989,11 +913,7 @@ class _$AppParamStateImpl implements _AppParamState {
         const DeepCollectionEquality().hash(_selectedCityTownTempleMapRankList),
         selectedTrainName,
         const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
-        isJrInclude,
-        startTime,
-        walkSpeed,
-        stayTime,
-        adjustPercent
+        isJrInclude
       ]);
 
   /// Create a copy of AppParamState
@@ -1035,11 +955,7 @@ abstract class _AppParamState implements AppParamState {
       final List<String> selectedCityTownTempleMapRankList,
       final String selectedTrainName,
       final List<SpotDataModel> addRouteSpotDataModelList,
-      final bool isJrInclude,
-      final String startTime,
-      final String walkSpeed,
-      final String stayTime,
-      final String adjustPercent}) = _$AppParamStateImpl;
+      final bool isJrInclude}) = _$AppParamStateImpl;
 
 //---
   @override
@@ -1110,14 +1026,6 @@ abstract class _AppParamState implements AppParamState {
   List<SpotDataModel> get addRouteSpotDataModelList;
   @override
   bool get isJrInclude;
-  @override
-  String get startTime;
-  @override
-  String get walkSpeed;
-  @override
-  String get stayTime;
-  @override
-  String get adjustPercent;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
