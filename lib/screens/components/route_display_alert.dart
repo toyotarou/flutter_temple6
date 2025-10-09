@@ -26,6 +26,8 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
 
   String? endTime;
 
+  Map<int, Map<String, String>> distanceMap = <int, Map<String, String>>{};
+
   ///
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,10 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
             Container(width: context.screenSize.width),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
               children: <Widget>[
                 IconButton(
-                  onPressed: () {
-                    routeSettingNotifier.insertRoute();
-                  },
+                  onPressed: () => routeSettingNotifier.insertRoute(distanceMap: distanceMap),
                   icon: const Icon(Icons.input, color: Colors.white),
                 ),
                 Container(),
@@ -169,6 +170,11 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
             ),
           ),
         );
+
+        distanceMap[i] = <String, String>{
+          'distance': '${distance.toInt()} m',
+          'walkMinutes': '${walkMinutes.toInt()} 分',
+        };
       }
     }
 

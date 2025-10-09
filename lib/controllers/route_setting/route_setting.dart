@@ -43,8 +43,7 @@ class RouteSetting extends _$RouteSetting {
   void setAdjustPercent({required String percent}) => state = state.copyWith(adjustPercent: percent);
 
   ///
-  /// route_display_alert.dart
-  Future<void> insertRoute() async {
+  Future<void> insertRoute({required Map<int, Map<String, String>> distanceMap}) async {
     final List<SpotDataModel> addRouteSpotDataModelList = ref.watch(
       appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
     );
@@ -53,12 +52,18 @@ class RouteSetting extends _$RouteSetting {
 
     final List<String> data = <String>[];
 
-    for (final SpotDataModel element in list) {
-      switch (element.type) {
+    for (int i = 0; i < list.length; i++) {
+      final Map<String, String>? distanceInfo = (distanceMap[i] != null)
+          ? distanceMap[i]
+          : <String, String>{'distance': '', 'walkMinutes': ''};
+
+      switch (list[i].type) {
         case 'station':
-          data.add('${element.name}\n${element.address}');
+          data.add('${list[i].name}\n${list[i].address}\n${distanceInfo!['distance']}\n${distanceInfo['walkMinutes']}');
         case 'temple':
-          data.add('${element.mark}\n${element.rank}\n${element.name}\n${element.address}');
+          data.add(
+            '${list[i].mark}\n${list[i].rank}\n${list[i].name}\n${list[i].address}\n${distanceInfo!['distance']}\n${distanceInfo['walkMinutes']}',
+          );
       }
     }
 
