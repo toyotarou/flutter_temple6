@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '_get_data/bus_info/bus_info.dart';
 import '_get_data/chiba_municipal/chiba_municipal.dart';
 import '_get_data/station/station.dart';
 import '_get_data/temple/temple.dart';
@@ -78,6 +79,12 @@ mixin ControllersMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   ChibaMunicipalState get chibaMunicipalState => ref.watch(chibaMunicipalProvider);
 
   ChibaMunicipal get chibaMunicipalNotifier => ref.read(chibaMunicipalProvider.notifier);
+
+  //==========================================//
+
+  BusInfoState get busInfoState => ref.watch(busInfoProvider);
+
+  BusInfo get busInfoNotifier => ref.read(busInfoProvider.notifier);
 
   //==========================================//
 }

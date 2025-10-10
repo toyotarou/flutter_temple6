@@ -63,6 +63,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
     //---
     required this.chibaMunicipalMap,
+    required this.busInfoStringMap,
   });
 
   //---
@@ -96,6 +97,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   //---
   final Map<String, MunicipalModel> chibaMunicipalMap;
+
+  //---
+  final Map<String, String> busInfoStringMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();

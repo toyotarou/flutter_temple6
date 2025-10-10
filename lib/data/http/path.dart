@@ -8,6 +8,7 @@ enum APIPath {
   getTokyoTrainStation,
   getTrain,
   insertTempleRoute,
+  getBusInfo
 }
 
 extension APIPathExtension on APIPath {
@@ -31,6 +32,8 @@ extension APIPathExtension on APIPath {
         return 'getTrain';
       case APIPath.insertTempleRoute:
         return 'insertTempleRoute';
+      case APIPath.getBusInfo:
+        return 'getBusInfo';
     }
   }
 }
