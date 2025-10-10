@@ -119,10 +119,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   Utility utility = Utility();
 
+  List<String> cityTownNameList = <String>[];
+
   ///
   @override
   void initState() {
     super.initState();
+
+    cityTownNameList = cityTownNames.split('\n').where((String e) => e.trim().isNotEmpty).toList();
 
     searchResultModelList.clear();
   }
@@ -484,17 +488,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                     final List<double> allLatList = <double>[];
                     final List<double> allLngList = <double>[];
 
-                    for (final Map<String, MunicipalModel> element in <Map<String, MunicipalModel>>[
-                      widget.tokyoMunicipalMap,
-                      widget.chibaMunicipalMap,
-                    ]) {
-                      element.forEach((String key, MunicipalModel value) {
-                        final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: value.polygons);
+                    /// 東京
+                    for (final String element in cityTownNameList) {
+                      final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(
+                        polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                      );
 
-                        allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);
-                        allLngList.addAll(municipalLatLng['lngList'] ?? <double>[]);
-                      });
+                      allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);
+                      allLngList.addAll(municipalLatLng['lngList'] ?? <double>[]);
                     }
+
+                    /// 東京
+
+                    /// 千葉
+                    widget.chibaMunicipalMap.forEach((String key, MunicipalModel value) {
+                      final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: value.polygons);
+
+                      allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);
+                      allLngList.addAll(municipalLatLng['lngList'] ?? <double>[]);
+                    });
+
+                    /// 千葉
 
                     TempleDialog(
                       context: context,
