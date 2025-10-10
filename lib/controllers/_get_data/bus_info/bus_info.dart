@@ -15,7 +15,7 @@ part 'bus_info.g.dart';
 class BusInfoState with _$BusInfoState {
   const factory BusInfoState({
     @Default(<BusInfoModel>[]) List<BusInfoModel> busInfoList,
-    @Default(<String, String>{}) Map<String, String> busInfoStringMap,
+    @Default(<String, List<String>>{}) Map<String, List<String>> busInfoStringListMap,
   }) = _BusInfoState;
 }
 
@@ -38,7 +38,7 @@ class BusInfo extends _$BusInfo {
 
       final List<BusInfoModel> list = <BusInfoModel>[];
 
-      final Map<String, String> map = <String, String>{};
+      final Map<String, List<String>> map = <String, List<String>>{};
 
       // ignore: avoid_dynamic_calls
       for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -49,11 +49,11 @@ class BusInfo extends _$BusInfo {
 
         list.add(val);
 
-        map[val.endA] = val.endB;
-        map[val.endB] = val.endA;
+        (map[val.endA] ??= <String>[]).add(val.endB);
+        (map[val.endB] ??= <String>[]).add(val.endA);
       }
 
-      return state.copyWith(busInfoList: list, busInfoStringMap: map);
+      return state.copyWith(busInfoList: list, busInfoStringListMap: map);
     } catch (e) {
       utility.showError('予期せぬエラーが発生しました');
       rethrow; // これにより呼び出し元でキャッチできる

@@ -14,6 +14,7 @@ import '../../models/train_model.dart';
 import '../../utility/utility.dart';
 
 part 'app_param.freezed.dart';
+
 part 'app_param.g.dart';
 
 @freezed
@@ -55,6 +56,10 @@ class AppParamState with _$AppParamState {
 
     //---
     @Default(<String, MunicipalModel>{}) Map<String, MunicipalModel> keepChibaMunicipalMap,
+
+    //---
+    @Default(<SpotDataModel, List<SpotDataModel>>{})
+    Map<SpotDataModel, List<SpotDataModel>> keepBusInfoSpotDataModelMap,
 
     //////////////////////////////////////////////////
 
@@ -161,6 +166,10 @@ class AppParam extends _$AppParam {
   ///
   void setKeepChibaMunicipalMap({required Map<String, MunicipalModel> map}) =>
       state = state.copyWith(keepChibaMunicipalMap: map);
+
+  ///
+  void setKeepBusInfoSpotDataModelMap({required Map<SpotDataModel, List<SpotDataModel>> map}) =>
+      state = state.copyWith(keepBusInfoSpotDataModelMap: map);
 
   //===================================================
 

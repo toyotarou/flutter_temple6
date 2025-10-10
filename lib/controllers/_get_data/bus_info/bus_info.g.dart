@@ -6,7 +6,7 @@ part of 'bus_info.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$busInfoHash() => r'74c660037f7f77eec496a07fa78484a890343969';
+String _$busInfoHash() => r'8017ba9548b139cb355a6c79b2bb38ff015164df';
 
 /// See also [BusInfo].
 @ProviderFor(BusInfo)

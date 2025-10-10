@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BusInfoState {
   List<BusInfoModel> get busInfoList => throw _privateConstructorUsedError;
-  Map<String, String> get busInfoStringMap =>
+  Map<String, List<String>> get busInfoStringListMap =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of BusInfoState
@@ -34,7 +34,8 @@ abstract class $BusInfoStateCopyWith<$Res> {
       _$BusInfoStateCopyWithImpl<$Res, BusInfoState>;
   @useResult
   $Res call(
-      {List<BusInfoModel> busInfoList, Map<String, String> busInfoStringMap});
+      {List<BusInfoModel> busInfoList,
+      Map<String, List<String>> busInfoStringListMap});
 }
 
 /// @nodoc
@@ -53,17 +54,17 @@ class _$BusInfoStateCopyWithImpl<$Res, $Val extends BusInfoState>
   @override
   $Res call({
     Object? busInfoList = null,
-    Object? busInfoStringMap = null,
+    Object? busInfoStringListMap = null,
   }) {
     return _then(_value.copyWith(
       busInfoList: null == busInfoList
           ? _value.busInfoList
           : busInfoList // ignore: cast_nullable_to_non_nullable
               as List<BusInfoModel>,
-      busInfoStringMap: null == busInfoStringMap
-          ? _value.busInfoStringMap
-          : busInfoStringMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+      busInfoStringListMap: null == busInfoStringListMap
+          ? _value.busInfoStringListMap
+          : busInfoStringListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
     ) as $Val);
   }
 }
@@ -77,7 +78,8 @@ abstract class _$$BusInfoStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<BusInfoModel> busInfoList, Map<String, String> busInfoStringMap});
+      {List<BusInfoModel> busInfoList,
+      Map<String, List<String>> busInfoStringListMap});
 }
 
 /// @nodoc
@@ -94,17 +96,17 @@ class __$$BusInfoStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? busInfoList = null,
-    Object? busInfoStringMap = null,
+    Object? busInfoStringListMap = null,
   }) {
     return _then(_$BusInfoStateImpl(
       busInfoList: null == busInfoList
           ? _value._busInfoList
           : busInfoList // ignore: cast_nullable_to_non_nullable
               as List<BusInfoModel>,
-      busInfoStringMap: null == busInfoStringMap
-          ? _value._busInfoStringMap
-          : busInfoStringMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+      busInfoStringListMap: null == busInfoStringListMap
+          ? _value._busInfoStringListMap
+          : busInfoStringListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
     ));
   }
 }
@@ -114,9 +116,10 @@ class __$$BusInfoStateImplCopyWithImpl<$Res>
 class _$BusInfoStateImpl implements _BusInfoState {
   const _$BusInfoStateImpl(
       {final List<BusInfoModel> busInfoList = const <BusInfoModel>[],
-      final Map<String, String> busInfoStringMap = const <String, String>{}})
+      final Map<String, List<String>> busInfoStringListMap =
+          const <String, List<String>>{}})
       : _busInfoList = busInfoList,
-        _busInfoStringMap = busInfoStringMap;
+        _busInfoStringListMap = busInfoStringListMap;
 
   final List<BusInfoModel> _busInfoList;
   @override
@@ -127,18 +130,19 @@ class _$BusInfoStateImpl implements _BusInfoState {
     return EqualUnmodifiableListView(_busInfoList);
   }
 
-  final Map<String, String> _busInfoStringMap;
+  final Map<String, List<String>> _busInfoStringListMap;
   @override
   @JsonKey()
-  Map<String, String> get busInfoStringMap {
-    if (_busInfoStringMap is EqualUnmodifiableMapView) return _busInfoStringMap;
+  Map<String, List<String>> get busInfoStringListMap {
+    if (_busInfoStringListMap is EqualUnmodifiableMapView)
+      return _busInfoStringListMap;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_busInfoStringMap);
+    return EqualUnmodifiableMapView(_busInfoStringListMap);
   }
 
   @override
   String toString() {
-    return 'BusInfoState(busInfoList: $busInfoList, busInfoStringMap: $busInfoStringMap)';
+    return 'BusInfoState(busInfoList: $busInfoList, busInfoStringListMap: $busInfoStringListMap)';
   }
 
   @override
@@ -149,14 +153,14 @@ class _$BusInfoStateImpl implements _BusInfoState {
             const DeepCollectionEquality()
                 .equals(other._busInfoList, _busInfoList) &&
             const DeepCollectionEquality()
-                .equals(other._busInfoStringMap, _busInfoStringMap));
+                .equals(other._busInfoStringListMap, _busInfoStringListMap));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_busInfoList),
-      const DeepCollectionEquality().hash(_busInfoStringMap));
+      const DeepCollectionEquality().hash(_busInfoStringListMap));
 
   /// Create a copy of BusInfoState
   /// with the given fields replaced by the non-null parameter values.
@@ -169,13 +173,14 @@ class _$BusInfoStateImpl implements _BusInfoState {
 
 abstract class _BusInfoState implements BusInfoState {
   const factory _BusInfoState(
-      {final List<BusInfoModel> busInfoList,
-      final Map<String, String> busInfoStringMap}) = _$BusInfoStateImpl;
+          {final List<BusInfoModel> busInfoList,
+          final Map<String, List<String>> busInfoStringListMap}) =
+      _$BusInfoStateImpl;
 
   @override
   List<BusInfoModel> get busInfoList;
   @override
-  Map<String, String> get busInfoStringMap;
+  Map<String, List<String>> get busInfoStringListMap;
 
   /// Create a copy of BusInfoState
   /// with the given fields replaced by the non-null parameter values.

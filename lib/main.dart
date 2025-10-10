@@ -117,7 +117,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
           chibaMunicipalMap: chibaMunicipalState.chibaMunicipalMap,
 
           //---
-          busInfoStringMap: busInfoState.busInfoStringMap,
+          busInfoStringListMap: busInfoState.busInfoStringListMap,
         ),
       ),
     );

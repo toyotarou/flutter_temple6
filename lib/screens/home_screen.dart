@@ -63,7 +63,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
     //---
     required this.chibaMunicipalMap,
-    required this.busInfoStringMap,
+
+    required this.busInfoStringListMap,
   });
 
   //---
@@ -99,7 +100,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   final Map<String, MunicipalModel> chibaMunicipalMap;
 
   //---
-  final Map<String, String> busInfoStringMap;
+  final Map<String, List<String>> busInfoStringListMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -203,6 +204,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         final List<StationModel> tokyoStationList = <StationModel>[];
         final Map<String, StationModel> tokyoStationMap = <String, StationModel>{};
 
+        final Map<SpotDataModel, List<SpotDataModel>> busInfoSpotDataModelMap = <SpotDataModel, List<SpotDataModel>>{};
+
         widget.stationMap.forEach((String key, StationModel value) {
           for (final MunicipalModel element in widget.tokyoMunicipalList) {
             if (spotInMunicipality(value.lat.toDouble(), value.lng.toDouble(), element)) {
@@ -213,10 +216,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           }
         });
 
+        widget.busInfoStringListMap.forEach((String key, List<String> value) {
+          if (tokyoStationMap[key] != null) {
+            final SpotDataModel keySpotDataModel = SpotDataModel(
+              type: 'bus',
+              name: tokyoStationMap[key]!.stationName,
+              address: tokyoStationMap[key]!.address,
+              latitude: tokyoStationMap[key]!.lat,
+              longitude: tokyoStationMap[key]!.lng,
+            );
+
+            final List<SpotDataModel> list = <SpotDataModel>[];
+            for (final String element in value) {
+              if (tokyoStationMap[element] != null) {
+                list.add(
+                  SpotDataModel(
+                    type: 'bus',
+                    name: tokyoStationMap[element]!.stationName,
+                    address: tokyoStationMap[element]!.address,
+                    latitude: tokyoStationMap[element]!.lat,
+                    longitude: tokyoStationMap[element]!.lng,
+                  ),
+                );
+              }
+            }
+
+            if (list.isNotEmpty) {
+              busInfoSpotDataModelMap[keySpotDataModel] = list;
+            }
+          }
+        });
+
         // ignore: always_specify_types
         Future(() {
           appParamNotifier.setKeepTokyoStationList(list: tokyoStationList);
           appParamNotifier.setKeepTokyoStationMap(map: tokyoStationMap);
+
+          appParamNotifier.setKeepBusInfoSpotDataModelMap(map: busInfoSpotDataModelMap);
         });
 
         tokyoStationSettedFlag = true;
