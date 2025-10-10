@@ -481,9 +481,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                 child: GestureDetector(
                   onTap: () {
+                    final List<double> allLatList = <double>[];
+                    final List<double> allLngList = <double>[];
+
+                    for (final Map<String, MunicipalModel> element in <Map<String, MunicipalModel>>[
+                      widget.tokyoMunicipalMap,
+                      widget.chibaMunicipalMap,
+                    ]) {
+                      element.forEach((String key, MunicipalModel value) {
+                        final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: value.polygons);
+
+                        allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);
+                        allLngList.addAll(municipalLatLng['lngList'] ?? <double>[]);
+                      });
+                    }
+
                     TempleDialog(
                       context: context,
-                      widget: const HomeCenteredVisitedSpotMapAlert(),
+                      widget: HomeCenteredVisitedSpotMapAlert(latList: allLatList, lngList: allLngList),
                       clearBarrierColor: true,
                     );
                   },

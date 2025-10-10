@@ -5,7 +5,10 @@ import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 
 class HomeCenteredVisitedSpotMapAlert extends ConsumerStatefulWidget {
-  const HomeCenteredVisitedSpotMapAlert({super.key});
+  const HomeCenteredVisitedSpotMapAlert({super.key, required this.latList, required this.lngList});
+
+  final List<double> latList;
+  final List<double> lngList;
 
   @override
   ConsumerState<HomeCenteredVisitedSpotMapAlert> createState() => _HomeCenteredVisitedSpotMapAlertState();

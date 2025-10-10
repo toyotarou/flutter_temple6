@@ -5,9 +5,9 @@ import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
+import '../../models/municipal_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_list_model.dart';
-import '../../models/municipal_model.dart';
 import '../../utility/functions.dart';
 import '../parts/temple_dialog.dart';
 import 'city_town_temple_map_alert.dart';
@@ -233,24 +233,10 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
       final List<List<List<List<double>>>>? polygons = appParamState.keepTokyoMunicipalMap[element]?.polygons;
 
-      final List<double> latList = polygons == null
-          ? <double>[]
-          : polygons
-                .expand((List<List<List<double>>> e2) => e2)
-                .expand((List<List<double>> e3) => e3)
-                .map((List<double> p) => p[1])
-                .toList();
+      final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: polygons);
 
-      final List<double> lngList = polygons == null
-          ? <double>[]
-          : polygons
-                .expand((List<List<List<double>>> e2) => e2)
-                .expand((List<List<double>> e3) => e3)
-                .map((List<double> p) => p[0])
-                .toList();
-
-      allLatList.addAll(latList);
-      allLngList.addAll(lngList);
+      allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);
+      allLngList.addAll(municipalLatLng['lngList'] ?? <double>[]);
 
       if (polygons != null) {
         allPolygons?.addAll(polygons);
@@ -316,8 +302,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                       context: context,
                       widget: CityTownTempleMapAlert(
                         cityTownName: element,
-                        latList: latList,
-                        lngList: lngList,
+                        latList: municipalLatLng['latList'] ?? <double>[],
+                        lngList: municipalLatLng['lngList'] ?? <double>[],
                         visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
                         noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
                         selectArealPolygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,

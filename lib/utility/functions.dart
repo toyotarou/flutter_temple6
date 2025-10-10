@@ -16,7 +16,7 @@ bool spotInMunicipality(double lat, double lng, MunicipalModel muni) {
 
     final List<List<double>> outerRing = polygon.first;
 
-    if (!pointInRingOrOnEdge(lat, lng, outerRing)) {
+    if (!_pointInRingOrOnEdge(lat, lng, outerRing)) {
       continue;
     }
 
@@ -25,7 +25,7 @@ bool spotInMunicipality(double lat, double lng, MunicipalModel muni) {
     for (int i = 1; i < polygon.length; i++) {
       final List<List<double>> holeRing = polygon[i];
 
-      if (pointInRingOrOnEdge(lat, lng, holeRing)) {
+      if (_pointInRingOrOnEdge(lat, lng, holeRing)) {
         inAnyHole = true;
 
         break;
@@ -41,7 +41,7 @@ bool spotInMunicipality(double lat, double lng, MunicipalModel muni) {
 }
 
 ///
-bool pointInRingOrOnEdge(double lat, double lng, List<List<double>> ring) {
+bool _pointInRingOrOnEdge(double lat, double lng, List<List<double>> ring) {
   for (int i = 0; i < ring.length; i++) {
     final List<double> a = ring[i];
 
@@ -144,9 +144,9 @@ List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
     if (entry.value.length == 1) {
       result.add(entry.value.first);
     } else {
-      final double avgLat = averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.latitude));
+      final double avgLat = _averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.latitude));
 
-      final double avgLng = averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.longitude));
+      final double avgLng = _averageOf<SpotDataModel>(entry.value, (SpotDataModel e) => double.tryParse(e.longitude));
 
       result.add(
         SpotDataModel(
@@ -164,7 +164,7 @@ List<SpotDataModel> getUniqueTemples(List<SpotDataModel> input) {
 }
 
 ///
-double averageOf<T>(Iterable<T> items, double? Function(T) selector) {
+double _averageOf<T>(Iterable<T> items, double? Function(T) selector) {
   double sum = 0.0;
 
   int count = 0;
@@ -213,10 +213,7 @@ Polygon? getColorPaintPolygon({required List<List<List<double>>> polygon, requir
 }
 
 ///
-List<MunicipalModel> getNeighborsArea({
-  required MunicipalModel target,
-  required List<MunicipalModel> all,
-}) {
+List<MunicipalModel> getNeighborsArea({required MunicipalModel target, required List<MunicipalModel> all}) {
   final List<MunicipalModel> out = <MunicipalModel>[];
 
   for (final MunicipalModel m in all) {
@@ -224,7 +221,7 @@ List<MunicipalModel> getNeighborsArea({
       continue;
     }
 
-    if (areAdjacent(target, m)) {
+    if (_areAdjacent(target, m)) {
       out.add(m);
     }
   }
@@ -241,14 +238,14 @@ List<MunicipalModel> getNeighborsArea({
 }
 
 ///
-bool areAdjacent(MunicipalModel a, MunicipalModel b) {
-  if (!bBoxOverlap(a, b)) {
+bool _areAdjacent(MunicipalModel a, MunicipalModel b) {
+  if (!_bBoxOverlap(a, b)) {
     return false;
   }
 
   for (final List<List<List<double>>> polyA in a.polygons) {
     for (final List<List<List<double>>> polyB in b.polygons) {
-      if (polygonsTouchOrIntersect(polyA, polyB)) {
+      if (_polygonsTouchOrIntersect(polyA, polyB)) {
         return true;
       }
 
@@ -272,7 +269,7 @@ bool areAdjacent(MunicipalModel a, MunicipalModel b) {
 }
 
 ///
-bool bBoxOverlap(MunicipalModel a, MunicipalModel b) {
+bool _bBoxOverlap(MunicipalModel a, MunicipalModel b) {
   final bool latOverlap = !(a.maxLat < b.minLat - _eps || b.maxLat < a.minLat - _eps);
 
   final bool lngOverlap = !(a.maxLng < b.minLng - _eps || b.maxLng < a.minLng - _eps);
@@ -281,10 +278,10 @@ bool bBoxOverlap(MunicipalModel a, MunicipalModel b) {
 }
 
 ///
-bool polygonsTouchOrIntersect(List<List<List<double>>> polyA, List<List<List<double>>> polyB) {
+bool _polygonsTouchOrIntersect(List<List<List<double>>> polyA, List<List<List<double>>> polyB) {
   for (final List<List<double>> ringA in polyA) {
     for (final List<List<double>> ringB in polyB) {
-      if (ringsTouchOrIntersect(ringA, ringB)) {
+      if (_ringsTouchOrIntersect(ringA, ringB)) {
         return true;
       }
     }
@@ -294,7 +291,7 @@ bool polygonsTouchOrIntersect(List<List<List<double>>> polyA, List<List<List<dou
 }
 
 ///
-bool ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
+bool _ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
   for (int i = 0; i < ringA.length; i++) {
     final List<double> a1 = ringA[i];
 
@@ -305,7 +302,7 @@ bool ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
 
       final List<double> b2 = ringB[(j + 1) % ringB.length];
 
-      if (segmentsIntersectOrTouch(a1, a2, b1, b2)) {
+      if (_segmentsIntersectOrTouch(a1, a2, b1, b2)) {
         return true;
       }
     }
@@ -315,7 +312,7 @@ bool ringsTouchOrIntersect(List<List<double>> ringA, List<List<double>> ringB) {
 }
 
 ///
-bool segmentsIntersectOrTouch(List<double> aStart, List<double> aEnd, List<double> bStart, List<double> bEnd) {
+bool _segmentsIntersectOrTouch(List<double> aStart, List<double> aEnd, List<double> bStart, List<double> bEnd) {
   final Coordinate a1 = Coordinate(aStart[0], aStart[1]);
 
   final Coordinate a2 = Coordinate(aEnd[0], aEnd[1]);
@@ -324,31 +321,31 @@ bool segmentsIntersectOrTouch(List<double> aStart, List<double> aEnd, List<doubl
 
   final Coordinate b2 = Coordinate(bEnd[0], bEnd[1]);
 
-  final int o1 = orientation(a1, a2, b1);
+  final int o1 = _orientation(a1, a2, b1);
 
-  final int o2 = orientation(a1, a2, b2);
+  final int o2 = _orientation(a1, a2, b2);
 
-  final int o3 = orientation(b1, b2, a1);
+  final int o3 = _orientation(b1, b2, a1);
 
-  final int o4 = orientation(b1, b2, a2);
+  final int o4 = _orientation(b1, b2, a2);
 
   if (o1 * o2 < 0 && o3 * o4 < 0) {
     return true;
   }
 
-  if (o1 == 0 && onSegment(a1, a2, b1)) {
+  if (o1 == 0 && _onSegment(a1, a2, b1)) {
     return true;
   }
 
-  if (o2 == 0 && onSegment(a1, a2, b2)) {
+  if (o2 == 0 && _onSegment(a1, a2, b2)) {
     return true;
   }
 
-  if (o3 == 0 && onSegment(b1, b2, a1)) {
+  if (o3 == 0 && _onSegment(b1, b2, a1)) {
     return true;
   }
 
-  if (o4 == 0 && onSegment(b1, b2, a2)) {
+  if (o4 == 0 && _onSegment(b1, b2, a2)) {
     return true;
   }
 
@@ -365,7 +362,7 @@ class Coordinate {
 }
 
 ///
-int orientation(Coordinate a, Coordinate b, Coordinate c) {
+int _orientation(Coordinate a, Coordinate b, Coordinate c) {
   final double val = (b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y);
 
   if (val.abs() <= _eps) {
@@ -376,7 +373,7 @@ int orientation(Coordinate a, Coordinate b, Coordinate c) {
 }
 
 ///
-bool onSegment(Coordinate a, Coordinate b, Coordinate p) {
+bool _onSegment(Coordinate a, Coordinate b, Coordinate p) {
   final double minX = a.x < b.x ? a.x : b.x;
 
   final double maxX = a.x > b.x ? a.x : b.x;
@@ -386,4 +383,25 @@ bool onSegment(Coordinate a, Coordinate b, Coordinate p) {
   final double maxY = a.y > b.y ? a.y : b.y;
 
   return p.x <= maxX + _eps && p.x >= minX - _eps && p.y <= maxY + _eps && p.y >= minY - _eps;
+}
+
+///
+Map<String, List<double>> getMunicipalLatLng({List<List<List<List<double>>>>? polygons}) {
+  final List<double> latList = polygons == null
+      ? <double>[]
+      : polygons
+            .expand((List<List<List<double>>> e2) => e2)
+            .expand((List<List<double>> e3) => e3)
+            .map((List<double> p) => p[1])
+            .toList();
+
+  final List<double> lngList = polygons == null
+      ? <double>[]
+      : polygons
+            .expand((List<List<List<double>>> e2) => e2)
+            .expand((List<List<double>> e3) => e3)
+            .map((List<double> p) => p[0])
+            .toList();
+
+  return <String, List<double>>{'latList': latList, 'lngList': lngList};
 }

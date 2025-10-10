@@ -3,19 +3,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/common/spot_data_model.dart';
+import '../../models/municipal_model.dart';
 import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_list_model.dart';
 import '../../models/temple_model.dart';
-
 import '../../models/temple_photo_model.dart';
-import '../../models/municipal_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../models/train_model.dart';
 import '../../utility/utility.dart';
 
 part 'app_param.freezed.dart';
-
 part 'app_param.g.dart';
 
 @freezed
