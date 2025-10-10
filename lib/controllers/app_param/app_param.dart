@@ -89,6 +89,8 @@ class AppParamState with _$AppParamState {
     @Default(<SpotDataModel>[]) List<SpotDataModel> addRouteSpotDataModelList,
 
     @Default(true) bool isJrInclude,
+
+    @Default(false) bool busInfoDisplayFlag,
   }) = _AppParamState;
 }
 
@@ -311,4 +313,10 @@ class AppParam extends _$AppParam {
 
   ///
   void setIsJrInclude({required bool flag}) => state = state.copyWith(isJrInclude: flag);
+
+  ///
+  void setBusInfoDisplayFlag() {
+    final bool flag = state.busInfoDisplayFlag;
+    state = state.copyWith(busInfoDisplayFlag: !flag);
+  }
 }

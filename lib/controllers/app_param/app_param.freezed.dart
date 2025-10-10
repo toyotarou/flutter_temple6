@@ -80,6 +80,7 @@ mixin _$AppParamState {
   List<SpotDataModel> get addRouteSpotDataModelList =>
       throw _privateConstructorUsedError;
   bool get isJrInclude => throw _privateConstructorUsedError;
+  bool get busInfoDisplayFlag => throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -124,7 +125,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<String> selectedCityTownTempleMapRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
-      bool isJrInclude});
+      bool isJrInclude,
+      bool busInfoDisplayFlag});
 }
 
 /// @nodoc
@@ -172,6 +174,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
+    Object? busInfoDisplayFlag = null,
   }) {
     return _then(_value.copyWith(
       keepTempleList: null == keepTempleList
@@ -296,6 +299,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.isJrInclude
           : isJrInclude // ignore: cast_nullable_to_non_nullable
               as bool,
+      busInfoDisplayFlag: null == busInfoDisplayFlag
+          ? _value.busInfoDisplayFlag
+          : busInfoDisplayFlag // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -338,7 +345,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<String> selectedCityTownTempleMapRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
-      bool isJrInclude});
+      bool isJrInclude,
+      bool busInfoDisplayFlag});
 }
 
 /// @nodoc
@@ -384,6 +392,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
+    Object? busInfoDisplayFlag = null,
   }) {
     return _then(_$AppParamStateImpl(
       keepTempleList: null == keepTempleList
@@ -508,6 +517,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.isJrInclude
           : isJrInclude // ignore: cast_nullable_to_non_nullable
               as bool,
+      busInfoDisplayFlag: null == busInfoDisplayFlag
+          ? _value.busInfoDisplayFlag
+          : busInfoDisplayFlag // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -560,7 +573,8 @@ class _$AppParamStateImpl implements _AppParamState {
       this.selectedTrainName = '',
       final List<SpotDataModel> addRouteSpotDataModelList =
           const <SpotDataModel>[],
-      this.isJrInclude = true})
+      this.isJrInclude = true,
+      this.busInfoDisplayFlag = false})
       : _keepTempleList = keepTempleList,
         _keepTempleLatLngList = keepTempleLatLngList,
         _keepTempleLatLngMap = keepTempleLatLngMap,
@@ -869,10 +883,13 @@ class _$AppParamStateImpl implements _AppParamState {
   @override
   @JsonKey()
   final bool isJrInclude;
+  @override
+  @JsonKey()
+  final bool busInfoDisplayFlag;
 
   @override
   String toString() {
-    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, keepBusInfoSpotDataModelMap: $keepBusInfoSpotDataModelMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude)';
+    return 'AppParamState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, keepBusInfoSpotDataModelMap: $keepBusInfoSpotDataModelMap, currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag)';
   }
 
   @override
@@ -942,7 +959,9 @@ class _$AppParamStateImpl implements _AppParamState {
             const DeepCollectionEquality().equals(
                 other._addRouteSpotDataModelList, _addRouteSpotDataModelList) &&
             (identical(other.isJrInclude, isJrInclude) ||
-                other.isJrInclude == isJrInclude));
+                other.isJrInclude == isJrInclude) &&
+            (identical(other.busInfoDisplayFlag, busInfoDisplayFlag) ||
+                other.busInfoDisplayFlag == busInfoDisplayFlag));
   }
 
   @override
@@ -978,7 +997,8 @@ class _$AppParamStateImpl implements _AppParamState {
         const DeepCollectionEquality().hash(_selectedCityTownTempleMapRankList),
         selectedTrainName,
         const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
-        isJrInclude
+        isJrInclude,
+        busInfoDisplayFlag
       ]);
 
   /// Create a copy of AppParamState
@@ -1022,7 +1042,8 @@ abstract class _AppParamState implements AppParamState {
       final List<String> selectedCityTownTempleMapRankList,
       final String selectedTrainName,
       final List<SpotDataModel> addRouteSpotDataModelList,
-      final bool isJrInclude}) = _$AppParamStateImpl;
+      final bool isJrInclude,
+      final bool busInfoDisplayFlag}) = _$AppParamStateImpl;
 
 //---
   @override
@@ -1097,6 +1118,8 @@ abstract class _AppParamState implements AppParamState {
   List<SpotDataModel> get addRouteSpotDataModelList;
   @override
   bool get isJrInclude;
+  @override
+  bool get busInfoDisplayFlag;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.

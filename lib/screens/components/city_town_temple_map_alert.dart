@@ -925,6 +925,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
       widget: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
+            appParamProvider.select((AppParamState value) => value.keepTokyoStationTokyoTrainModelListMap),
+          );
+
+          final SpotDataModel? selectedSpotDataModel = ref.watch(
+            appParamProvider.select((AppParamState value) => value.selectedSpotDataModel),
+          );
+
           return displaySelectedSpotDataModel(
             type: type,
 
@@ -933,6 +941,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             ),
 
             isJrInclude: ref.watch(appParamProvider.select((AppParamState value) => value.isJrInclude)),
+
+            busInfoDisplayFlag: ref.watch(appParamProvider.select((AppParamState value) => value.busInfoDisplayFlag)),
+
+            tokyoStation: keepTokyoStationTokyoTrainModelListMap[selectedSpotDataModel?.name],
           );
         },
       ),
@@ -947,13 +959,12 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     required String type,
     required List<SpotDataModel> addRouteSpotDataModelList,
     required bool isJrInclude,
+    required bool busInfoDisplayFlag,
+    List<TokyoTrainModel>? tokyoStation,
   }) {
     if (appParamState.selectedSpotDataModel == null) {
       return const SizedBox.shrink();
     }
-
-    final List<TokyoTrainModel>? tokyoStation =
-        appParamState.keepTokyoStationTokyoTrainModelListMap[appParamState.selectedSpotDataModel!.name];
 
     return Stack(
       children: <Widget>[
@@ -1043,44 +1054,60 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   const SizedBox.shrink(),
 
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        final SpotDataModel selected = appParamState.selectedSpotDataModel!;
-                        final List<SpotDataModel> list = appParamState.addRouteSpotDataModelList;
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            appParamNotifier.setBusInfoDisplayFlag();
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.bus,
+                            color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
+                          ),
+                        ),
 
-                        final bool isAlreadyInList = list.contains(selected);
+                        const SizedBox(width: 20),
 
-                        final Map<String, String> spotAddCheckValueMap = getSpotAddCheckValueMap(
-                          list: list,
-                          selected: selected,
-                          isAlreadyInList: isAlreadyInList,
-                        );
+                        ElevatedButton(
+                          onPressed: () {
+                            final SpotDataModel selected = appParamState.selectedSpotDataModel!;
+                            final List<SpotDataModel> list = appParamState.addRouteSpotDataModelList;
 
-                        if (spotAddCheckValueMap.isNotEmpty) {
-                          // ignore: always_specify_types
-                          Future.delayed(
-                            Duration.zero,
-                            () => error_dialog(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              title: spotAddCheckValueMap['title'] ?? '',
-                              content: spotAddCheckValueMap['content'] ?? '',
-                            ),
-                          );
+                            final bool isAlreadyInList = list.contains(selected);
 
-                          return;
-                        }
+                            final Map<String, String> spotAddCheckValueMap = getSpotAddCheckValueMap(
+                              list: list,
+                              selected: selected,
+                              isAlreadyInList: isAlreadyInList,
+                            );
 
-                        appParamNotifier.setAddRouteSpotDataModelList(
-                          spotDataModel: appParamState.selectedSpotDataModel!,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
-                      child: Text(
-                        (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel))
-                            ? 'remove from route'
-                            : 'add to route',
-                      ),
+                            if (spotAddCheckValueMap.isNotEmpty) {
+                              // ignore: always_specify_types
+                              Future.delayed(
+                                Duration.zero,
+                                () => error_dialog(
+                                  // ignore: use_build_context_synchronously
+                                  context: context,
+                                  title: spotAddCheckValueMap['title'] ?? '',
+                                  content: spotAddCheckValueMap['content'] ?? '',
+                                ),
+                              );
+
+                              return;
+                            }
+
+                            appParamNotifier.setAddRouteSpotDataModelList(
+                              spotDataModel: appParamState.selectedSpotDataModel!,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                          child: Text(
+                            (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel))
+                                ? 'remove from route'
+                                : 'add to route',
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ],
