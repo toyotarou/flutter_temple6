@@ -94,6 +94,8 @@ class AppParamState with _$AppParamState {
     @Default(true) bool isJrInclude,
 
     @Default(false) bool busInfoDisplayFlag,
+
+    SpotDataModel? selectedSpotDataModelForBusInfo,
   }) = _AppParamState;
 }
 
@@ -326,4 +328,11 @@ class AppParam extends _$AppParam {
     final bool flag = state.busInfoDisplayFlag;
     state = state.copyWith(busInfoDisplayFlag: !flag);
   }
+
+  ///
+  void clearBusInfoDisplayFlag() => state = state.copyWith(busInfoDisplayFlag: false);
+
+  ///
+  void setSelectedSpotDataModelForBusInfo({required SpotDataModel spotDataModel}) =>
+      state = state.copyWith(selectedSpotDataModelForBusInfo: spotDataModel);
 }

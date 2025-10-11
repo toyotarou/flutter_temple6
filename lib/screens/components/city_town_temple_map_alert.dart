@@ -83,6 +83,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   Utility utility = Utility();
 
+  // ignore: always_specify_types
+  List<PolylineLayer> busRoutePolylineLayerList = <PolylineLayer>[];
+
+  bool makeBusPolylineFlag = false;
+
   ///
   @override
   void initState() {
@@ -140,6 +145,20 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeSelectedSpotsMarkerList();
 
+    /////////////////////////////////////////////// bus
+    if (appParamState.busInfoDisplayFlag) {
+      if (!makeBusPolylineFlag) {
+        makeBusRoutePolylineLayerList();
+
+        makeBusPolylineFlag = true;
+      }
+    } else {
+      makeBusPolylineFlag = false;
+
+      busRoutePolylineLayerList.clear();
+    }
+    /////////////////////////////////////////////// bus
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -181,6 +200,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   // ignore: always_specify_types
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
+
+                /////////////////////////////////////////////// bus
+                for (int i = 0; i < busRoutePolylineLayerList.length; i++) busRoutePolylineLayerList[i],
 
                 if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
@@ -676,7 +698,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             }
 
             if (flag) {
-              var busInfo = appParamState.keepBusInfoStringListMap[element.stationName];
+              final List<String> busKeyList = appParamState.keepBusInfoSpotDataModelMap.keys
+                  .map((SpotDataModel key) => key.name)
+                  .toList();
 
               tokyoStationMarkerList.add(
                 Marker(
@@ -698,7 +722,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                     child: Icon(
                       Icons.circle_outlined,
-                      color: (busInfo != null) ? Colors.green[900] : Colors.red[900],
+                      color: (busKeyList.contains(element.stationName)) ? Colors.green[900] : Colors.red[900],
                     ),
                   ),
                 ),
@@ -971,6 +995,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
+    final List<String> busKeyList = appParamState.keepBusInfoSpotDataModelMap.keys
+        .map((SpotDataModel key) => key.name)
+        .toList();
+
     return Stack(
       children: <Widget>[
         if (type == 'temple') ...<Widget>[
@@ -1061,17 +1089,29 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
                     Row(
                       children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            appParamNotifier.setBusInfoDisplayFlag();
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.bus,
-                            color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
-                          ),
-                        ),
+                        if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
+                          IconButton(
+                            onPressed: () {
+                              appParamNotifier.setBusInfoDisplayFlag();
 
-                        const SizedBox(width: 20),
+                              appParamNotifier.setSelectedSpotDataModelForBusInfo(
+                                spotDataModel: SpotDataModel(
+                                  type: 'bus',
+                                  name: appParamState.selectedSpotDataModel!.name,
+                                  address: appParamState.selectedSpotDataModel!.address,
+                                  latitude: appParamState.selectedSpotDataModel!.latitude,
+                                  longitude: appParamState.selectedSpotDataModel!.longitude,
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              FontAwesomeIcons.bus,
+                              color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
+                            ),
+                          ),
+
+                          const SizedBox(width: 20),
+                        ],
 
                         ElevatedButton(
                           onPressed: () {
@@ -1106,6 +1146,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                             );
                           },
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+
                           child: Text(
                             (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel))
                                 ? 'remove from route'
@@ -1411,5 +1452,40 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           strokeWidth: 5,
         ),
     ];
+  }
+
+  ///
+  void makeBusRoutePolylineLayerList() {
+    busRoutePolylineLayerList.clear();
+
+    if (appParamState.selectedSpotDataModelForBusInfo != null) {
+      final List<SpotDataModel> spotDataModelList = appParamState.keepBusInfoSpotDataModelMap.entries.firstWhere((
+        MapEntry<SpotDataModel, List<SpotDataModel>> entry,
+      ) {
+        return entry.key.name == appParamState.selectedSpotDataModelForBusInfo!.name;
+      }).value;
+
+      for (final SpotDataModel element in spotDataModelList) {
+        busRoutePolylineLayerList.add(
+          // ignore: always_specify_types
+          PolylineLayer(
+            polylines: <Polyline<Object>>[
+              // ignore: always_specify_types
+              Polyline(
+                points: <LatLng>[
+                  LatLng(
+                    appParamState.selectedSpotDataModelForBusInfo!.latitude.toDouble(),
+                    appParamState.selectedSpotDataModelForBusInfo!.longitude.toDouble(),
+                  ),
+                  LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
+                ],
+                color: Colors.purpleAccent.withOpacity(0.5),
+                strokeWidth: 4,
+              ),
+            ],
+          ),
+        );
+      }
+    }
   }
 }
