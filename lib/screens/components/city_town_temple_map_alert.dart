@@ -676,6 +676,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             }
 
             if (flag) {
+              var busInfo = appParamState.keepBusInfoStringListMap[element.stationName];
+
               tokyoStationMarkerList.add(
                 Marker(
                   point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
@@ -694,7 +696,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       callSecondBox(type: 'station');
                     },
 
-                    child: Icon(Icons.circle_outlined, color: Colors.green[900]),
+                    child: Icon(
+                      Icons.circle_outlined,
+                      color: (busInfo != null) ? Colors.green[900] : Colors.red[900],
+                    ),
                   ),
                 ),
               );

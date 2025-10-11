@@ -200,6 +200,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       //---
       appParamNotifier.setKeepChibaMunicipalMap(map: widget.chibaMunicipalMap);
 
+      //---
+      appParamNotifier.setKeepBusInfoStringListMap(map: widget.busInfoStringListMap);
+
       if (!tokyoStationSettedFlag) {
         final List<StationModel> tokyoStationList = <StationModel>[];
         final Map<String, StationModel> tokyoStationMap = <String, StationModel>{};
