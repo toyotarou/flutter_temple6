@@ -443,8 +443,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
     for (final String element in appParamState.selectedMunicipalNameList) {
-      if (appParamState.keepTokyoMunicipalMap[element] != null) {
-        for (final List<List<List<double>>> element2 in appParamState.keepTokyoMunicipalMap[element]!.polygons) {
+      if (getDataState.keepTokyoMunicipalMap[element] != null) {
+        for (final List<List<List<double>>> element2 in getDataState.keepTokyoMunicipalMap[element]!.polygons) {
           final Polygon<Object>? polygon = getColorPaintPolygon(polygon: element2, color: Colors.redAccent);
 
           if (polygon != null) {
@@ -464,7 +464,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     //-------------------------------------------------------------//
     final List<SpotDataModel> list = <SpotDataModel>[];
 
-    for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
+    for (final TempleLatLngModel element in getDataState.keepTempleLatLngList) {
       list.add(
         SpotDataModel(
           type: 'temple',
@@ -485,12 +485,12 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     }).toList();
 
     for (final String element in appParamState.selectedMunicipalNameList) {
-      if (appParamState.keepTokyoMunicipalMap[element] != null) {
+      if (getDataState.keepTokyoMunicipalMap[element] != null) {
         for (final SpotDataModel element2 in filteredTemples) {
           if (spotInMunicipality(
             element2.latitude.toDouble(),
             element2.longitude.toDouble(),
-            appParamState.keepTokyoMunicipalMap[element]!,
+            getDataState.keepTokyoMunicipalMap[element]!,
           )) {
             municipalTempleMarkerList.add(
               Marker(

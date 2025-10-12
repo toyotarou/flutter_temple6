@@ -169,39 +169,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       //---
-      appParamNotifier.setKeepTempleList(list: widget.templeList);
+      getDataNotifier.setKeepTempleList(list: widget.templeList);
 
       //---
-      appParamNotifier.setKeepTempleLatLngList(list: widget.templeLatLngList);
-      appParamNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
+      getDataNotifier.setKeepTempleLatLngList(list: widget.templeLatLngList);
+      getDataNotifier.setKeepTempleLatLngMap(map: widget.templeLatLngMap);
 
       //---
-      appParamNotifier.setKeepStationMap(map: widget.stationMap);
+      getDataNotifier.setKeepStationMap(map: widget.stationMap);
 
       //---
-      appParamNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
-      appParamNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
+      getDataNotifier.setKeepTokyoMunicipalList(list: widget.tokyoMunicipalList);
+      getDataNotifier.setKeepTokyoMunicipalMap(map: widget.tokyoMunicipalMap);
 
       //---
-      appParamNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
+      getDataNotifier.setKeepTemplePhotoMap(map: widget.templePhotoMap);
 
       //---
-      appParamNotifier.setKeepTempleListMap(map: widget.templeListMap);
-      appParamNotifier.setKeepTempleListList(list: widget.templeListList);
+      getDataNotifier.setKeepTempleListMap(map: widget.templeListMap);
+      getDataNotifier.setKeepTempleListList(list: widget.templeListList);
 
       //---
-      appParamNotifier.setKeepTokyoTrainList(list: widget.tokyoTrainList);
-      appParamNotifier.setKeepTokyoTrainMap(map: widget.tokyoTrainMap);
-      appParamNotifier.setKeepTokyoStationTokyoTrainModelListMap(map: widget.tokyoStationTokyoTrainModelListMap);
+      getDataNotifier.setKeepTokyoTrainList(list: widget.tokyoTrainList);
+      getDataNotifier.setKeepTokyoTrainMap(map: widget.tokyoTrainMap);
+      getDataNotifier.setKeepTokyoStationTokyoTrainModelListMap(map: widget.tokyoStationTokyoTrainModelListMap);
 
       //---
-      appParamNotifier.setKeepTrainList(list: widget.trainList);
+      getDataNotifier.setKeepTrainList(list: widget.trainList);
 
       //---
-      appParamNotifier.setKeepChibaMunicipalMap(map: widget.chibaMunicipalMap);
+      getDataNotifier.setKeepChibaMunicipalMap(map: widget.chibaMunicipalMap);
 
       //---
-      appParamNotifier.setKeepBusInfoStringListMap(map: widget.busInfoStringListMap);
+      getDataNotifier.setKeepBusInfoStringListMap(map: widget.busInfoStringListMap);
 
       if (!tokyoStationSettedFlag) {
         final List<StationModel> tokyoStationList = <StationModel>[];
@@ -252,10 +252,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
         // ignore: always_specify_types
         Future(() {
-          appParamNotifier.setKeepTokyoStationList(list: tokyoStationList);
-          appParamNotifier.setKeepTokyoStationMap(map: tokyoStationMap);
+          getDataNotifier.setKeepTokyoStationList(list: tokyoStationList);
+          getDataNotifier.setKeepTokyoStationMap(map: tokyoStationMap);
 
-          appParamNotifier.setKeepBusInfoSpotDataModelMap(map: busInfoSpotDataModelMap);
+          getDataNotifier.setKeepBusInfoSpotDataModelMap(map: busInfoSpotDataModelMap);
         });
 
         tokyoStationSettedFlag = true;
@@ -536,7 +536,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                     /// 東京
                     for (final String element in cityTownNameList) {
                       final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(
-                        polygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                        polygons: getDataState.keepTokyoMunicipalMap[element]?.polygons,
                       );
 
                       allLatList.addAll(municipalLatLng['latList'] ?? <double>[]);

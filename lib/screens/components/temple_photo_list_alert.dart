@@ -34,9 +34,9 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
                 radius: 25,
                 backgroundColor: Colors.pinkAccent.withValues(alpha: 0.4),
                 child: Text(
-                  (appParamState.keepTemplePhotoMap[widget.temple] == null)
+                  (getDataState.keepTemplePhotoMap[widget.temple] == null)
                       ? '0'
-                      : appParamState.keepTemplePhotoMap[widget.temple]!.length.toString(),
+                      : getDataState.keepTemplePhotoMap[widget.temple]!.length.toString(),
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
@@ -63,7 +63,7 @@ class _TemplePhotoListAlertState extends ConsumerState<TemplePhotoListAlert>
   Widget displayTemplePhotoList() {
     final List<Widget> list = <Widget>[];
 
-    appParamState.keepTemplePhotoMap[widget.temple]?.forEach((TemplePhotoModel element) {
+    getDataState.keepTemplePhotoMap[widget.temple]?.forEach((TemplePhotoModel element) {
       final List<Widget> list2 = <Widget>[];
       for (final String element2 in element.templephotos) {
         list2.add(

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../controllers/_get_data/get_data.dart';
 import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
@@ -195,8 +196,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 ],
 
                 if (appParamState.selectedTrainName != '' &&
-                    appParamState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
-                    appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
+                    getDataState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
+                    getDataState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
@@ -381,10 +382,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     // ignore: always_specify_types
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
-    if (appParamState.keepTokyoMunicipalMap[widget.cityTownName] != null) {
+    if (getDataState.keepTokyoMunicipalMap[widget.cityTownName] != null) {
       neighborsTokyoMunicipalModelList = getNeighborsArea(
-        target: appParamState.keepTokyoMunicipalMap[widget.cityTownName]!,
-        all: appParamState.keepTokyoMunicipalList,
+        target: getDataState.keepTokyoMunicipalMap[widget.cityTownName]!,
+        all: getDataState.keepTokyoMunicipalList,
       );
 
       if (neighborsTokyoMunicipalModelList.isNotEmpty) {
@@ -674,7 +675,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeTokyoStationMarker() {
     tokyoStationMarkerList.clear();
 
-    final List<String?> jrTrainNumberList = appParamState.keepTrainList.map((TrainModel e) {
+    final List<String?> jrTrainNumberList = getDataState.keepTrainList.map((TrainModel e) {
       if (matchJrInTrainName(str: e.trainName)) {
         return e.trainNumber;
       }
@@ -682,9 +683,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     jrTrainNumberList.removeWhere((String? e) => e == null);
 
-    for (final StationModel element in appParamState.keepTokyoStationList) {
+    for (final StationModel element in getDataState.keepTokyoStationList) {
       for (final MunicipalModel? element2 in <MunicipalModel?>[
-        appParamState.keepTokyoMunicipalMap[widget.cityTownName],
+        getDataState.keepTokyoMunicipalMap[widget.cityTownName],
         ...neighborsTokyoMunicipalModelList,
       ]) {
         if (element2 != null) {
@@ -698,7 +699,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             }
 
             if (flag) {
-              final List<String> busKeyList = appParamState.keepBusInfoSpotDataModelMap.keys
+              final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
                   .map((SpotDataModel key) => key.name)
                   .toList();
 
@@ -841,11 +842,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final RegExp reg = RegExp('新幹線');
 
     for (final MunicipalModel? element in <MunicipalModel?>[
-      appParamState.keepTokyoMunicipalMap[widget.cityTownName],
+      getDataState.keepTokyoMunicipalMap[widget.cityTownName],
       ...neighborsTokyoMunicipalModelList,
     ]) {
       if (element != null) {
-        for (final TokyoTrainModel element2 in appParamState.keepTokyoTrainList) {
+        for (final TokyoTrainModel element2 in getDataState.keepTokyoTrainList) {
           for (final TokyoStationModel element3 in element2.station) {
             if (spotInMunicipality(element3.lat, element3.lng, element)) {
               if (reg.firstMatch(element2.trainName) == null) {
@@ -870,7 +871,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     final List<String> uniqueTrainNameList = tokyoTrainNameList.toSet().toList();
 
     for (final String element in uniqueTrainNameList) {
-      if (appParamState.keepTokyoTrainMap[element] != null) {
+      if (getDataState.keepTokyoTrainMap[element] != null) {
         list.add(
           ExpansionTile(
             collapsedIconColor: Colors.white,
@@ -908,7 +909,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               ],
             ),
 
-            children: appParamState.keepTokyoTrainMap[element]!.station.map((TokyoStationModel e) {
+            children: getDataState.keepTokyoTrainMap[element]!.station.map((TokyoStationModel e) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -955,7 +956,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       widget: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
-            appParamProvider.select((AppParamState value) => value.keepTokyoStationTokyoTrainModelListMap),
+            getDataProvider.select((GetDataState value) => value.keepTokyoStationTokyoTrainModelListMap),
           );
 
           final SpotDataModel? selectedSpotDataModel = ref.watch(
@@ -995,7 +996,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
-    final List<String> busKeyList = appParamState.keepBusInfoSpotDataModelMap.keys
+    final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
         .map((SpotDataModel key) => key.name)
         .toList();
 
@@ -1200,10 +1201,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   // ignore: always_specify_types
   List<Polyline> makeTrainPolyline() {
     return <Polyline<Object>>[
-      for (int i = 0; i < appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.length; i++)
+      for (int i = 0; i < getDataState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.length; i++)
         // ignore: always_specify_types
         Polyline(
-          points: appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station
+          points: getDataState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station
               .map((TokyoStationModel e) => LatLng(e.lat, e.lng))
               .toList(),
           color: Colors.redAccent,
@@ -1459,7 +1460,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     busRoutePolylineLayerList.clear();
 
     if (appParamState.selectedSpotDataModelForBusInfo != null) {
-      final List<SpotDataModel> spotDataModelList = appParamState.keepBusInfoSpotDataModelMap.entries.firstWhere((
+      final List<SpotDataModel> spotDataModelList = getDataState.keepBusInfoSpotDataModelMap.entries.firstWhere((
         MapEntry<SpotDataModel, List<SpotDataModel>> entry,
       ) {
         return entry.key.name == appParamState.selectedSpotDataModelForBusInfo!.name;

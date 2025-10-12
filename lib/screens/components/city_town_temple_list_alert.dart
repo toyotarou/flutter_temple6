@@ -48,7 +48,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
     // ignore: always_specify_types
     Future(() {
-      for (final TempleLatLngModel element in appParamState.keepTempleLatLngList) {
+      for (final TempleLatLngModel element in getDataState.keepTempleLatLngList) {
         visitedTempleNameRankMap[element.temple] = element.rank;
       }
     });
@@ -152,12 +152,12 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
     allNoReachSpotDataList.clear();
 
-    final List<String> visitedTemples = appParamState.keepTempleLatLngList
+    final List<String> visitedTemples = getDataState.keepTempleLatLngList
         .map((TempleLatLngModel e) => e.temple)
         .toList();
 
-    appParamState.keepTokyoMunicipalMap.forEach((String key, MunicipalModel value) {
-      for (final TempleListModel element in appParamState.keepTempleListList) {
+    getDataState.keepTokyoMunicipalMap.forEach((String key, MunicipalModel value) {
+      for (final TempleListModel element in getDataState.keepTempleListList) {
         if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
           (cityTownMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
             SpotDataModel(
@@ -231,7 +231,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
           ? noReachMunicipalSpotDataListMap[element]!.length
           : 0;
 
-      final List<List<List<List<double>>>>? polygons = appParamState.keepTokyoMunicipalMap[element]?.polygons;
+      final List<List<List<List<double>>>>? polygons = getDataState.keepTokyoMunicipalMap[element]?.polygons;
 
       final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: polygons);
 
@@ -306,7 +306,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
                         lngList: municipalLatLng['lngList'] ?? <double>[],
                         visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
                         noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
-                        selectArealPolygons: appParamState.keepTokyoMunicipalMap[element]?.polygons,
+                        selectArealPolygons: getDataState.keepTokyoMunicipalMap[element]?.polygons,
                       ),
                       clearBarrierColor: true,
                       executeFunctionWhenDialogClose: true,

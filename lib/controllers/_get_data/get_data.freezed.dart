@@ -1,0 +1,762 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'get_data.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+/// @nodoc
+mixin _$GetDataState {
+//---
+  List<TempleModel> get keepTempleList =>
+      throw _privateConstructorUsedError; //---
+  List<TempleLatLngModel> get keepTempleLatLngList =>
+      throw _privateConstructorUsedError;
+  Map<String, TempleLatLngModel> get keepTempleLatLngMap =>
+      throw _privateConstructorUsedError; //---
+  Map<String, StationModel> get keepStationMap =>
+      throw _privateConstructorUsedError; //---
+  List<MunicipalModel> get keepTokyoMunicipalList =>
+      throw _privateConstructorUsedError;
+  Map<String, MunicipalModel> get keepTokyoMunicipalMap =>
+      throw _privateConstructorUsedError; //---
+  Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap =>
+      throw _privateConstructorUsedError; //---
+  Map<String, TempleListModel> get keepTempleListMap =>
+      throw _privateConstructorUsedError;
+  List<TempleListModel> get keepTempleListList =>
+      throw _privateConstructorUsedError; //---
+  List<TokyoTrainModel> get keepTokyoTrainList =>
+      throw _privateConstructorUsedError;
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap =>
+      throw _privateConstructorUsedError;
+  Map<String, List<TokyoTrainModel>>
+      get keepTokyoStationTokyoTrainModelListMap =>
+          throw _privateConstructorUsedError;
+
+  ///
+  List<StationModel> get keepTokyoStationList =>
+      throw _privateConstructorUsedError;
+  Map<String, StationModel> get keepTokyoStationMap =>
+      throw _privateConstructorUsedError;
+
+  ///
+  List<TrainModel> get keepTrainList =>
+      throw _privateConstructorUsedError; //---
+  Map<String, MunicipalModel> get keepChibaMunicipalMap =>
+      throw _privateConstructorUsedError; //---
+  Map<String, List<String>> get keepBusInfoStringListMap =>
+      throw _privateConstructorUsedError; //---
+  Map<SpotDataModel, List<SpotDataModel>> get keepBusInfoSpotDataModelMap =>
+      throw _privateConstructorUsedError;
+
+  /// Create a copy of GetDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GetDataStateCopyWith<GetDataState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetDataStateCopyWith<$Res> {
+  factory $GetDataStateCopyWith(
+          GetDataState value, $Res Function(GetDataState) then) =
+      _$GetDataStateCopyWithImpl<$Res, GetDataState>;
+  @useResult
+  $Res call(
+      {List<TempleModel> keepTempleList,
+      List<TempleLatLngModel> keepTempleLatLngList,
+      Map<String, TempleLatLngModel> keepTempleLatLngMap,
+      Map<String, StationModel> keepStationMap,
+      List<MunicipalModel> keepTokyoMunicipalList,
+      Map<String, MunicipalModel> keepTokyoMunicipalMap,
+      Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
+      Map<String, TempleListModel> keepTempleListMap,
+      List<TempleListModel> keepTempleListList,
+      List<TokyoTrainModel> keepTokyoTrainList,
+      Map<String, TokyoTrainModel> keepTokyoTrainMap,
+      Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
+      List<StationModel> keepTokyoStationList,
+      Map<String, StationModel> keepTokyoStationMap,
+      List<TrainModel> keepTrainList,
+      Map<String, MunicipalModel> keepChibaMunicipalMap,
+      Map<String, List<String>> keepBusInfoStringListMap,
+      Map<SpotDataModel, List<SpotDataModel>> keepBusInfoSpotDataModelMap});
+}
+
+/// @nodoc
+class _$GetDataStateCopyWithImpl<$Res, $Val extends GetDataState>
+    implements $GetDataStateCopyWith<$Res> {
+  _$GetDataStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GetDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? keepTempleList = null,
+    Object? keepTempleLatLngList = null,
+    Object? keepTempleLatLngMap = null,
+    Object? keepStationMap = null,
+    Object? keepTokyoMunicipalList = null,
+    Object? keepTokyoMunicipalMap = null,
+    Object? keepTemplePhotoMap = null,
+    Object? keepTempleListMap = null,
+    Object? keepTempleListList = null,
+    Object? keepTokyoTrainList = null,
+    Object? keepTokyoTrainMap = null,
+    Object? keepTokyoStationTokyoTrainModelListMap = null,
+    Object? keepTokyoStationList = null,
+    Object? keepTokyoStationMap = null,
+    Object? keepTrainList = null,
+    Object? keepChibaMunicipalMap = null,
+    Object? keepBusInfoStringListMap = null,
+    Object? keepBusInfoSpotDataModelMap = null,
+  }) {
+    return _then(_value.copyWith(
+      keepTempleList: null == keepTempleList
+          ? _value.keepTempleList
+          : keepTempleList // ignore: cast_nullable_to_non_nullable
+              as List<TempleModel>,
+      keepTempleLatLngList: null == keepTempleLatLngList
+          ? _value.keepTempleLatLngList
+          : keepTempleLatLngList // ignore: cast_nullable_to_non_nullable
+              as List<TempleLatLngModel>,
+      keepTempleLatLngMap: null == keepTempleLatLngMap
+          ? _value.keepTempleLatLngMap
+          : keepTempleLatLngMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TempleLatLngModel>,
+      keepStationMap: null == keepStationMap
+          ? _value.keepStationMap
+          : keepStationMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, StationModel>,
+      keepTokyoMunicipalList: null == keepTokyoMunicipalList
+          ? _value.keepTokyoMunicipalList
+          : keepTokyoMunicipalList // ignore: cast_nullable_to_non_nullable
+              as List<MunicipalModel>,
+      keepTokyoMunicipalMap: null == keepTokyoMunicipalMap
+          ? _value.keepTokyoMunicipalMap
+          : keepTokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
+      keepTemplePhotoMap: null == keepTemplePhotoMap
+          ? _value.keepTemplePhotoMap
+          : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<TemplePhotoModel>>,
+      keepTempleListMap: null == keepTempleListMap
+          ? _value.keepTempleListMap
+          : keepTempleListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TempleListModel>,
+      keepTempleListList: null == keepTempleListList
+          ? _value.keepTempleListList
+          : keepTempleListList // ignore: cast_nullable_to_non_nullable
+              as List<TempleListModel>,
+      keepTokyoTrainList: null == keepTokyoTrainList
+          ? _value.keepTokyoTrainList
+          : keepTokyoTrainList // ignore: cast_nullable_to_non_nullable
+              as List<TokyoTrainModel>,
+      keepTokyoTrainMap: null == keepTokyoTrainMap
+          ? _value.keepTokyoTrainMap
+          : keepTokyoTrainMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoTrainModel>,
+      keepTokyoStationTokyoTrainModelListMap: null ==
+              keepTokyoStationTokyoTrainModelListMap
+          ? _value.keepTokyoStationTokyoTrainModelListMap
+          : keepTokyoStationTokyoTrainModelListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<TokyoTrainModel>>,
+      keepTokyoStationList: null == keepTokyoStationList
+          ? _value.keepTokyoStationList
+          : keepTokyoStationList // ignore: cast_nullable_to_non_nullable
+              as List<StationModel>,
+      keepTokyoStationMap: null == keepTokyoStationMap
+          ? _value.keepTokyoStationMap
+          : keepTokyoStationMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, StationModel>,
+      keepTrainList: null == keepTrainList
+          ? _value.keepTrainList
+          : keepTrainList // ignore: cast_nullable_to_non_nullable
+              as List<TrainModel>,
+      keepChibaMunicipalMap: null == keepChibaMunicipalMap
+          ? _value.keepChibaMunicipalMap
+          : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
+      keepBusInfoStringListMap: null == keepBusInfoStringListMap
+          ? _value.keepBusInfoStringListMap
+          : keepBusInfoStringListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      keepBusInfoSpotDataModelMap: null == keepBusInfoSpotDataModelMap
+          ? _value.keepBusInfoSpotDataModelMap
+          : keepBusInfoSpotDataModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<SpotDataModel, List<SpotDataModel>>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GetDataStateImplCopyWith<$Res>
+    implements $GetDataStateCopyWith<$Res> {
+  factory _$$GetDataStateImplCopyWith(
+          _$GetDataStateImpl value, $Res Function(_$GetDataStateImpl) then) =
+      __$$GetDataStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<TempleModel> keepTempleList,
+      List<TempleLatLngModel> keepTempleLatLngList,
+      Map<String, TempleLatLngModel> keepTempleLatLngMap,
+      Map<String, StationModel> keepStationMap,
+      List<MunicipalModel> keepTokyoMunicipalList,
+      Map<String, MunicipalModel> keepTokyoMunicipalMap,
+      Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
+      Map<String, TempleListModel> keepTempleListMap,
+      List<TempleListModel> keepTempleListList,
+      List<TokyoTrainModel> keepTokyoTrainList,
+      Map<String, TokyoTrainModel> keepTokyoTrainMap,
+      Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap,
+      List<StationModel> keepTokyoStationList,
+      Map<String, StationModel> keepTokyoStationMap,
+      List<TrainModel> keepTrainList,
+      Map<String, MunicipalModel> keepChibaMunicipalMap,
+      Map<String, List<String>> keepBusInfoStringListMap,
+      Map<SpotDataModel, List<SpotDataModel>> keepBusInfoSpotDataModelMap});
+}
+
+/// @nodoc
+class __$$GetDataStateImplCopyWithImpl<$Res>
+    extends _$GetDataStateCopyWithImpl<$Res, _$GetDataStateImpl>
+    implements _$$GetDataStateImplCopyWith<$Res> {
+  __$$GetDataStateImplCopyWithImpl(
+      _$GetDataStateImpl _value, $Res Function(_$GetDataStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? keepTempleList = null,
+    Object? keepTempleLatLngList = null,
+    Object? keepTempleLatLngMap = null,
+    Object? keepStationMap = null,
+    Object? keepTokyoMunicipalList = null,
+    Object? keepTokyoMunicipalMap = null,
+    Object? keepTemplePhotoMap = null,
+    Object? keepTempleListMap = null,
+    Object? keepTempleListList = null,
+    Object? keepTokyoTrainList = null,
+    Object? keepTokyoTrainMap = null,
+    Object? keepTokyoStationTokyoTrainModelListMap = null,
+    Object? keepTokyoStationList = null,
+    Object? keepTokyoStationMap = null,
+    Object? keepTrainList = null,
+    Object? keepChibaMunicipalMap = null,
+    Object? keepBusInfoStringListMap = null,
+    Object? keepBusInfoSpotDataModelMap = null,
+  }) {
+    return _then(_$GetDataStateImpl(
+      keepTempleList: null == keepTempleList
+          ? _value._keepTempleList
+          : keepTempleList // ignore: cast_nullable_to_non_nullable
+              as List<TempleModel>,
+      keepTempleLatLngList: null == keepTempleLatLngList
+          ? _value._keepTempleLatLngList
+          : keepTempleLatLngList // ignore: cast_nullable_to_non_nullable
+              as List<TempleLatLngModel>,
+      keepTempleLatLngMap: null == keepTempleLatLngMap
+          ? _value._keepTempleLatLngMap
+          : keepTempleLatLngMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TempleLatLngModel>,
+      keepStationMap: null == keepStationMap
+          ? _value._keepStationMap
+          : keepStationMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, StationModel>,
+      keepTokyoMunicipalList: null == keepTokyoMunicipalList
+          ? _value._keepTokyoMunicipalList
+          : keepTokyoMunicipalList // ignore: cast_nullable_to_non_nullable
+              as List<MunicipalModel>,
+      keepTokyoMunicipalMap: null == keepTokyoMunicipalMap
+          ? _value._keepTokyoMunicipalMap
+          : keepTokyoMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
+      keepTemplePhotoMap: null == keepTemplePhotoMap
+          ? _value._keepTemplePhotoMap
+          : keepTemplePhotoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<TemplePhotoModel>>,
+      keepTempleListMap: null == keepTempleListMap
+          ? _value._keepTempleListMap
+          : keepTempleListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TempleListModel>,
+      keepTempleListList: null == keepTempleListList
+          ? _value._keepTempleListList
+          : keepTempleListList // ignore: cast_nullable_to_non_nullable
+              as List<TempleListModel>,
+      keepTokyoTrainList: null == keepTokyoTrainList
+          ? _value._keepTokyoTrainList
+          : keepTokyoTrainList // ignore: cast_nullable_to_non_nullable
+              as List<TokyoTrainModel>,
+      keepTokyoTrainMap: null == keepTokyoTrainMap
+          ? _value._keepTokyoTrainMap
+          : keepTokyoTrainMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, TokyoTrainModel>,
+      keepTokyoStationTokyoTrainModelListMap: null ==
+              keepTokyoStationTokyoTrainModelListMap
+          ? _value._keepTokyoStationTokyoTrainModelListMap
+          : keepTokyoStationTokyoTrainModelListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<TokyoTrainModel>>,
+      keepTokyoStationList: null == keepTokyoStationList
+          ? _value._keepTokyoStationList
+          : keepTokyoStationList // ignore: cast_nullable_to_non_nullable
+              as List<StationModel>,
+      keepTokyoStationMap: null == keepTokyoStationMap
+          ? _value._keepTokyoStationMap
+          : keepTokyoStationMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, StationModel>,
+      keepTrainList: null == keepTrainList
+          ? _value._keepTrainList
+          : keepTrainList // ignore: cast_nullable_to_non_nullable
+              as List<TrainModel>,
+      keepChibaMunicipalMap: null == keepChibaMunicipalMap
+          ? _value._keepChibaMunicipalMap
+          : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, MunicipalModel>,
+      keepBusInfoStringListMap: null == keepBusInfoStringListMap
+          ? _value._keepBusInfoStringListMap
+          : keepBusInfoStringListMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>,
+      keepBusInfoSpotDataModelMap: null == keepBusInfoSpotDataModelMap
+          ? _value._keepBusInfoSpotDataModelMap
+          : keepBusInfoSpotDataModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<SpotDataModel, List<SpotDataModel>>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetDataStateImpl implements _GetDataState {
+  const _$GetDataStateImpl(
+      {final List<TempleModel> keepTempleList = const <TempleModel>[],
+      final List<TempleLatLngModel> keepTempleLatLngList =
+          const <TempleLatLngModel>[],
+      final Map<String, TempleLatLngModel> keepTempleLatLngMap =
+          const <String, TempleLatLngModel>{},
+      final Map<String, StationModel> keepStationMap =
+          const <String, StationModel>{},
+      final List<MunicipalModel> keepTokyoMunicipalList =
+          const <MunicipalModel>[],
+      final Map<String, MunicipalModel> keepTokyoMunicipalMap =
+          const <String, MunicipalModel>{},
+      final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap =
+          const <String, List<TemplePhotoModel>>{},
+      final Map<String, TempleListModel> keepTempleListMap =
+          const <String, TempleListModel>{},
+      final List<TempleListModel> keepTempleListList =
+          const <TempleListModel>[],
+      final List<TokyoTrainModel> keepTokyoTrainList =
+          const <TokyoTrainModel>[],
+      final Map<String, TokyoTrainModel> keepTokyoTrainMap =
+          const <String, TokyoTrainModel>{},
+      final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap =
+          const <String, List<TokyoTrainModel>>{},
+      final List<StationModel> keepTokyoStationList = const <StationModel>[],
+      final Map<String, StationModel> keepTokyoStationMap =
+          const <String, StationModel>{},
+      final List<TrainModel> keepTrainList = const <TrainModel>[],
+      final Map<String, MunicipalModel> keepChibaMunicipalMap =
+          const <String, MunicipalModel>{},
+      final Map<String, List<String>> keepBusInfoStringListMap =
+          const <String, List<String>>{},
+      final Map<SpotDataModel, List<SpotDataModel>> keepBusInfoSpotDataModelMap =
+          const <SpotDataModel, List<SpotDataModel>>{}})
+      : _keepTempleList = keepTempleList,
+        _keepTempleLatLngList = keepTempleLatLngList,
+        _keepTempleLatLngMap = keepTempleLatLngMap,
+        _keepStationMap = keepStationMap,
+        _keepTokyoMunicipalList = keepTokyoMunicipalList,
+        _keepTokyoMunicipalMap = keepTokyoMunicipalMap,
+        _keepTemplePhotoMap = keepTemplePhotoMap,
+        _keepTempleListMap = keepTempleListMap,
+        _keepTempleListList = keepTempleListList,
+        _keepTokyoTrainList = keepTokyoTrainList,
+        _keepTokyoTrainMap = keepTokyoTrainMap,
+        _keepTokyoStationTokyoTrainModelListMap =
+            keepTokyoStationTokyoTrainModelListMap,
+        _keepTokyoStationList = keepTokyoStationList,
+        _keepTokyoStationMap = keepTokyoStationMap,
+        _keepTrainList = keepTrainList,
+        _keepChibaMunicipalMap = keepChibaMunicipalMap,
+        _keepBusInfoStringListMap = keepBusInfoStringListMap,
+        _keepBusInfoSpotDataModelMap = keepBusInfoSpotDataModelMap;
+
+//---
+  final List<TempleModel> _keepTempleList;
+//---
+  @override
+  @JsonKey()
+  List<TempleModel> get keepTempleList {
+    if (_keepTempleList is EqualUnmodifiableListView) return _keepTempleList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTempleList);
+  }
+
+//---
+  final List<TempleLatLngModel> _keepTempleLatLngList;
+//---
+  @override
+  @JsonKey()
+  List<TempleLatLngModel> get keepTempleLatLngList {
+    if (_keepTempleLatLngList is EqualUnmodifiableListView)
+      return _keepTempleLatLngList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTempleLatLngList);
+  }
+
+  final Map<String, TempleLatLngModel> _keepTempleLatLngMap;
+  @override
+  @JsonKey()
+  Map<String, TempleLatLngModel> get keepTempleLatLngMap {
+    if (_keepTempleLatLngMap is EqualUnmodifiableMapView)
+      return _keepTempleLatLngMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTempleLatLngMap);
+  }
+
+//---
+  final Map<String, StationModel> _keepStationMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, StationModel> get keepStationMap {
+    if (_keepStationMap is EqualUnmodifiableMapView) return _keepStationMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepStationMap);
+  }
+
+//---
+  final List<MunicipalModel> _keepTokyoMunicipalList;
+//---
+  @override
+  @JsonKey()
+  List<MunicipalModel> get keepTokyoMunicipalList {
+    if (_keepTokyoMunicipalList is EqualUnmodifiableListView)
+      return _keepTokyoMunicipalList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTokyoMunicipalList);
+  }
+
+  final Map<String, MunicipalModel> _keepTokyoMunicipalMap;
+  @override
+  @JsonKey()
+  Map<String, MunicipalModel> get keepTokyoMunicipalMap {
+    if (_keepTokyoMunicipalMap is EqualUnmodifiableMapView)
+      return _keepTokyoMunicipalMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoMunicipalMap);
+  }
+
+//---
+  final Map<String, List<TemplePhotoModel>> _keepTemplePhotoMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap {
+    if (_keepTemplePhotoMap is EqualUnmodifiableMapView)
+      return _keepTemplePhotoMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTemplePhotoMap);
+  }
+
+//---
+  final Map<String, TempleListModel> _keepTempleListMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, TempleListModel> get keepTempleListMap {
+    if (_keepTempleListMap is EqualUnmodifiableMapView)
+      return _keepTempleListMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTempleListMap);
+  }
+
+  final List<TempleListModel> _keepTempleListList;
+  @override
+  @JsonKey()
+  List<TempleListModel> get keepTempleListList {
+    if (_keepTempleListList is EqualUnmodifiableListView)
+      return _keepTempleListList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTempleListList);
+  }
+
+//---
+  final List<TokyoTrainModel> _keepTokyoTrainList;
+//---
+  @override
+  @JsonKey()
+  List<TokyoTrainModel> get keepTokyoTrainList {
+    if (_keepTokyoTrainList is EqualUnmodifiableListView)
+      return _keepTokyoTrainList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTokyoTrainList);
+  }
+
+  final Map<String, TokyoTrainModel> _keepTokyoTrainMap;
+  @override
+  @JsonKey()
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap {
+    if (_keepTokyoTrainMap is EqualUnmodifiableMapView)
+      return _keepTokyoTrainMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoTrainMap);
+  }
+
+  final Map<String, List<TokyoTrainModel>>
+      _keepTokyoStationTokyoTrainModelListMap;
+  @override
+  @JsonKey()
+  Map<String, List<TokyoTrainModel>>
+      get keepTokyoStationTokyoTrainModelListMap {
+    if (_keepTokyoStationTokyoTrainModelListMap is EqualUnmodifiableMapView)
+      return _keepTokyoStationTokyoTrainModelListMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoStationTokyoTrainModelListMap);
+  }
+
+  ///
+  final List<StationModel> _keepTokyoStationList;
+
+  ///
+  @override
+  @JsonKey()
+  List<StationModel> get keepTokyoStationList {
+    if (_keepTokyoStationList is EqualUnmodifiableListView)
+      return _keepTokyoStationList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTokyoStationList);
+  }
+
+  final Map<String, StationModel> _keepTokyoStationMap;
+  @override
+  @JsonKey()
+  Map<String, StationModel> get keepTokyoStationMap {
+    if (_keepTokyoStationMap is EqualUnmodifiableMapView)
+      return _keepTokyoStationMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepTokyoStationMap);
+  }
+
+  ///
+  final List<TrainModel> _keepTrainList;
+
+  ///
+  @override
+  @JsonKey()
+  List<TrainModel> get keepTrainList {
+    if (_keepTrainList is EqualUnmodifiableListView) return _keepTrainList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepTrainList);
+  }
+
+//---
+  final Map<String, MunicipalModel> _keepChibaMunicipalMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, MunicipalModel> get keepChibaMunicipalMap {
+    if (_keepChibaMunicipalMap is EqualUnmodifiableMapView)
+      return _keepChibaMunicipalMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepChibaMunicipalMap);
+  }
+
+//---
+  final Map<String, List<String>> _keepBusInfoStringListMap;
+//---
+  @override
+  @JsonKey()
+  Map<String, List<String>> get keepBusInfoStringListMap {
+    if (_keepBusInfoStringListMap is EqualUnmodifiableMapView)
+      return _keepBusInfoStringListMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepBusInfoStringListMap);
+  }
+
+//---
+  final Map<SpotDataModel, List<SpotDataModel>> _keepBusInfoSpotDataModelMap;
+//---
+  @override
+  @JsonKey()
+  Map<SpotDataModel, List<SpotDataModel>> get keepBusInfoSpotDataModelMap {
+    if (_keepBusInfoSpotDataModelMap is EqualUnmodifiableMapView)
+      return _keepBusInfoSpotDataModelMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_keepBusInfoSpotDataModelMap);
+  }
+
+  @override
+  String toString() {
+    return 'GetDataState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, keepBusInfoStringListMap: $keepBusInfoStringListMap, keepBusInfoSpotDataModelMap: $keepBusInfoSpotDataModelMap)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetDataStateImpl &&
+            const DeepCollectionEquality()
+                .equals(other._keepTempleList, _keepTempleList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTempleLatLngList, _keepTempleLatLngList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTempleLatLngMap, _keepTempleLatLngMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepStationMap, _keepStationMap) &&
+            const DeepCollectionEquality().equals(
+                other._keepTokyoMunicipalList, _keepTokyoMunicipalList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoMunicipalMap, _keepTokyoMunicipalMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTemplePhotoMap, _keepTemplePhotoMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTempleListMap, _keepTempleListMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTempleListList, _keepTempleListList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoTrainList, _keepTokyoTrainList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoTrainMap, _keepTokyoTrainMap) &&
+            const DeepCollectionEquality().equals(
+                other._keepTokyoStationTokyoTrainModelListMap,
+                _keepTokyoStationTokyoTrainModelListMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoStationList, _keepTokyoStationList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTokyoStationMap, _keepTokyoStationMap) &&
+            const DeepCollectionEquality()
+                .equals(other._keepTrainList, _keepTrainList) &&
+            const DeepCollectionEquality()
+                .equals(other._keepChibaMunicipalMap, _keepChibaMunicipalMap) &&
+            const DeepCollectionEquality().equals(
+                other._keepBusInfoStringListMap, _keepBusInfoStringListMap) &&
+            const DeepCollectionEquality().equals(
+                other._keepBusInfoSpotDataModelMap,
+                _keepBusInfoSpotDataModelMap));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_keepTempleList),
+      const DeepCollectionEquality().hash(_keepTempleLatLngList),
+      const DeepCollectionEquality().hash(_keepTempleLatLngMap),
+      const DeepCollectionEquality().hash(_keepStationMap),
+      const DeepCollectionEquality().hash(_keepTokyoMunicipalList),
+      const DeepCollectionEquality().hash(_keepTokyoMunicipalMap),
+      const DeepCollectionEquality().hash(_keepTemplePhotoMap),
+      const DeepCollectionEquality().hash(_keepTempleListMap),
+      const DeepCollectionEquality().hash(_keepTempleListList),
+      const DeepCollectionEquality().hash(_keepTokyoTrainList),
+      const DeepCollectionEquality().hash(_keepTokyoTrainMap),
+      const DeepCollectionEquality()
+          .hash(_keepTokyoStationTokyoTrainModelListMap),
+      const DeepCollectionEquality().hash(_keepTokyoStationList),
+      const DeepCollectionEquality().hash(_keepTokyoStationMap),
+      const DeepCollectionEquality().hash(_keepTrainList),
+      const DeepCollectionEquality().hash(_keepChibaMunicipalMap),
+      const DeepCollectionEquality().hash(_keepBusInfoStringListMap),
+      const DeepCollectionEquality().hash(_keepBusInfoSpotDataModelMap));
+
+  /// Create a copy of GetDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetDataStateImplCopyWith<_$GetDataStateImpl> get copyWith =>
+      __$$GetDataStateImplCopyWithImpl<_$GetDataStateImpl>(this, _$identity);
+}
+
+abstract class _GetDataState implements GetDataState {
+  const factory _GetDataState(
+      {final List<TempleModel> keepTempleList,
+      final List<TempleLatLngModel> keepTempleLatLngList,
+      final Map<String, TempleLatLngModel> keepTempleLatLngMap,
+      final Map<String, StationModel> keepStationMap,
+      final List<MunicipalModel> keepTokyoMunicipalList,
+      final Map<String, MunicipalModel> keepTokyoMunicipalMap,
+      final Map<String, List<TemplePhotoModel>> keepTemplePhotoMap,
+      final Map<String, TempleListModel> keepTempleListMap,
+      final List<TempleListModel> keepTempleListList,
+      final List<TokyoTrainModel> keepTokyoTrainList,
+      final Map<String, TokyoTrainModel> keepTokyoTrainMap,
+      final Map<String, List<TokyoTrainModel>>
+          keepTokyoStationTokyoTrainModelListMap,
+      final List<StationModel> keepTokyoStationList,
+      final Map<String, StationModel> keepTokyoStationMap,
+      final List<TrainModel> keepTrainList,
+      final Map<String, MunicipalModel> keepChibaMunicipalMap,
+      final Map<String, List<String>> keepBusInfoStringListMap,
+      final Map<SpotDataModel, List<SpotDataModel>>
+          keepBusInfoSpotDataModelMap}) = _$GetDataStateImpl;
+
+//---
+  @override
+  List<TempleModel> get keepTempleList; //---
+  @override
+  List<TempleLatLngModel> get keepTempleLatLngList;
+  @override
+  Map<String, TempleLatLngModel> get keepTempleLatLngMap; //---
+  @override
+  Map<String, StationModel> get keepStationMap; //---
+  @override
+  List<MunicipalModel> get keepTokyoMunicipalList;
+  @override
+  Map<String, MunicipalModel> get keepTokyoMunicipalMap; //---
+  @override
+  Map<String, List<TemplePhotoModel>> get keepTemplePhotoMap; //---
+  @override
+  Map<String, TempleListModel> get keepTempleListMap;
+  @override
+  List<TempleListModel> get keepTempleListList; //---
+  @override
+  List<TokyoTrainModel> get keepTokyoTrainList;
+  @override
+  Map<String, TokyoTrainModel> get keepTokyoTrainMap;
+  @override
+  Map<String, List<TokyoTrainModel>> get keepTokyoStationTokyoTrainModelListMap;
+
+  ///
+  @override
+  List<StationModel> get keepTokyoStationList;
+  @override
+  Map<String, StationModel> get keepTokyoStationMap;
+
+  ///
+  @override
+  List<TrainModel> get keepTrainList; //---
+  @override
+  Map<String, MunicipalModel> get keepChibaMunicipalMap; //---
+  @override
+  Map<String, List<String>> get keepBusInfoStringListMap; //---
+  @override
+  Map<SpotDataModel, List<SpotDataModel>> get keepBusInfoSpotDataModelMap;
+
+  /// Create a copy of GetDataState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetDataStateImplCopyWith<_$GetDataStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
