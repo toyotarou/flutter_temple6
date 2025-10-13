@@ -5,14 +5,22 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
+import '../../extensions/extensions.dart';
 import '../../utility/tile_provider.dart';
 
 class HomeCenteredVisitedSpotMapAlert extends ConsumerStatefulWidget {
-  const HomeCenteredVisitedSpotMapAlert({super.key, required this.latList, required this.lngList});
+  const HomeCenteredVisitedSpotMapAlert({
+    super.key,
+    required this.latList,
+    required this.lngList,
+    required this.homeCenteredTempleHistoryMap,
+  });
 
   final List<double> latList;
   final List<double> lngList;
+  final Map<String, List<Map<String, dynamic>>> homeCenteredTempleHistoryMap;
 
   @override
   ConsumerState<HomeCenteredVisitedSpotMapAlert> createState() => _HomeCenteredVisitedSpotMapAlertState();
@@ -32,6 +40,8 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
   double? currentZoom;
 
   double currentZoomEightTeen = 18;
+
+  List<Marker> homeMarkerList = <Marker>[];
 
   ///
   @override
@@ -80,6 +90,8 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
   Widget build(BuildContext context) {
     makeMinMaxLatLng();
 
+    makeHomeMarkerList();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -127,7 +139,8 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                 //   PolylineLayer(polylines: makeAddSpotsPolyline()),
                 // ],
                 //
-                // if (selectedSpotsMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: selectedSpotsMarkerList)],
+                if (homeMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: homeMarkerList)],
+
                 //
                 // if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
                 //
@@ -247,6 +260,77 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
               ],
             ),
 */
+            Positioned(
+              bottom: 5,
+              right: 5,
+              left: 5,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.white.withValues(alpha: 0.4), width: 3),
+
+                        bottom: BorderSide(color: Colors.white.withValues(alpha: 0.4), width: 3),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: widget.homeCenteredTempleHistoryMap.entries.map((
+                          MapEntry<String, List<Map<String, dynamic>>> e,
+                        ) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: GestureDetector(
+                              onTap: () {
+                                appParamNotifier.clearTempleHistoryDateList();
+
+                                appParamNotifier.setSelectedTempleHistoryYear(year: e.key);
+                              },
+
+                              child: CircleAvatar(
+                                radius: 15,
+
+                                backgroundColor: (appParamState.selectedTempleHistoryYear == e.key)
+                                    ? Colors.yellowAccent.withValues(alpha: 0.4)
+                                    : Colors.blueGrey.withValues(alpha: 0.4),
+
+                                child: Text(
+                                  e.key,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: (appParamState.selectedTempleHistoryYear == e.key)
+                                        ? Colors.black
+                                        : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: context.screenSize.width * 2,
+                      height: 220,
+
+                      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.1), border: Border.all()),
+                      child: displaySelectedTempleHistoryYearItem(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             if (isLoading) ...<Widget>[const Center(child: CircularProgressIndicator())],
           ],
         ),
@@ -262,5 +346,69 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
       minLng = widget.lngList.reduce(min);
       maxLng = widget.lngList.reduce(max);
     }
+  }
+
+  ///
+  Widget displaySelectedTempleHistoryYearItem() {
+    if (appParamState.selectedTempleHistoryYear == '') {
+      return const SizedBox.shrink();
+    }
+
+    final List<Widget> list = <Widget>[];
+
+    if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
+      for (final Map<String, dynamic> element
+          in widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!) {
+        if (element.entries.first.key == 'date') {
+          list.add(
+            GestureDetector(
+              onTap: () {
+                appParamNotifier.setTempleHistoryDateList(date: element.entries.first.value.toString());
+              },
+              child: Container(
+                margin: const EdgeInsets.all(3),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: (appParamState.templeHistoryDateList.contains(element.entries.first.value.toString()))
+                      ? Colors.yellowAccent.withValues(alpha: 0.2)
+                      : Colors.black.withValues(alpha: 0.2),
+
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  element.entries.first.value.toString(),
+                  style: TextStyle(
+                    fontSize: 10,
+
+                    color: (appParamState.templeHistoryDateList.contains(element.entries.first.value.toString()))
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      }
+    }
+
+    return Wrap(children: list.map((Widget e) => e).toList());
+  }
+
+  ///
+  void makeHomeMarkerList() {
+    homeMarkerList.add(
+      const Marker(
+        point: LatLng(funabashiLat, funabashiLng),
+        child: Icon(Icons.home, color: Colors.redAccent),
+      ),
+    );
+
+    homeMarkerList.add(
+      const Marker(
+        point: LatLng(zenpukujiLat, zenpukujiLng),
+        child: Icon(Icons.home, color: Colors.redAccent),
+      ),
+    );
   }
 }

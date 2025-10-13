@@ -42,6 +42,10 @@ class AppParamState with _$AppParamState {
     @Default(false) bool busInfoDisplayFlag,
 
     SpotDataModel? selectedSpotDataModelForBusInfo,
+
+    @Default('') String selectedTempleHistoryYear,
+
+    @Default(<String>[]) List<String> templeHistoryDateList,
   }) = _AppParamState;
 }
 
@@ -196,4 +200,23 @@ class AppParam extends _$AppParam {
   ///
   void setSelectedSpotDataModelForBusInfo({required SpotDataModel spotDataModel}) =>
       state = state.copyWith(selectedSpotDataModelForBusInfo: spotDataModel);
+
+  ///
+  void setSelectedTempleHistoryYear({required String year}) => state = state.copyWith(selectedTempleHistoryYear: year);
+
+  ///
+  void setTempleHistoryDateList({required String date}) {
+    final List<String> list = <String>[...state.templeHistoryDateList];
+
+    if (list.contains(date)) {
+      list.remove(date);
+    } else {
+      list.add(date);
+    }
+
+    state = state.copyWith(templeHistoryDateList: list);
+  }
+
+  ///
+  void clearTempleHistoryDateList() => state = state.copyWith(templeHistoryDateList: <String>[]);
 }

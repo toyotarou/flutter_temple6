@@ -43,6 +43,8 @@ mixin _$AppParamState {
   bool get busInfoDisplayFlag => throw _privateConstructorUsedError;
   SpotDataModel? get selectedSpotDataModelForBusInfo =>
       throw _privateConstructorUsedError;
+  String get selectedTempleHistoryYear => throw _privateConstructorUsedError;
+  List<String> get templeHistoryDateList => throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -72,7 +74,9 @@ abstract class $AppParamStateCopyWith<$Res> {
       List<SpotDataModel> addRouteSpotDataModelList,
       bool isJrInclude,
       bool busInfoDisplayFlag,
-      SpotDataModel? selectedSpotDataModelForBusInfo});
+      SpotDataModel? selectedSpotDataModelForBusInfo,
+      String selectedTempleHistoryYear,
+      List<String> templeHistoryDateList});
 }
 
 /// @nodoc
@@ -105,6 +109,8 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? isJrInclude = null,
     Object? busInfoDisplayFlag = null,
     Object? selectedSpotDataModelForBusInfo = freezed,
+    Object? selectedTempleHistoryYear = null,
+    Object? templeHistoryDateList = null,
   }) {
     return _then(_value.copyWith(
       currentZoom: null == currentZoom
@@ -169,6 +175,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.selectedSpotDataModelForBusInfo
           : selectedSpotDataModelForBusInfo // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
+      selectedTempleHistoryYear: null == selectedTempleHistoryYear
+          ? _value.selectedTempleHistoryYear
+          : selectedTempleHistoryYear // ignore: cast_nullable_to_non_nullable
+              as String,
+      templeHistoryDateList: null == templeHistoryDateList
+          ? _value.templeHistoryDateList
+          : templeHistoryDateList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -196,7 +210,9 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       List<SpotDataModel> addRouteSpotDataModelList,
       bool isJrInclude,
       bool busInfoDisplayFlag,
-      SpotDataModel? selectedSpotDataModelForBusInfo});
+      SpotDataModel? selectedSpotDataModelForBusInfo,
+      String selectedTempleHistoryYear,
+      List<String> templeHistoryDateList});
 }
 
 /// @nodoc
@@ -227,6 +243,8 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? isJrInclude = null,
     Object? busInfoDisplayFlag = null,
     Object? selectedSpotDataModelForBusInfo = freezed,
+    Object? selectedTempleHistoryYear = null,
+    Object? templeHistoryDateList = null,
   }) {
     return _then(_$AppParamStateImpl(
       currentZoom: null == currentZoom
@@ -291,6 +309,14 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.selectedSpotDataModelForBusInfo
           : selectedSpotDataModelForBusInfo // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
+      selectedTempleHistoryYear: null == selectedTempleHistoryYear
+          ? _value.selectedTempleHistoryYear
+          : selectedTempleHistoryYear // ignore: cast_nullable_to_non_nullable
+              as String,
+      templeHistoryDateList: null == templeHistoryDateList
+          ? _value._templeHistoryDateList
+          : templeHistoryDateList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -314,13 +340,16 @@ class _$AppParamStateImpl implements _AppParamState {
           const <SpotDataModel>[],
       this.isJrInclude = true,
       this.busInfoDisplayFlag = false,
-      this.selectedSpotDataModelForBusInfo})
+      this.selectedSpotDataModelForBusInfo,
+      this.selectedTempleHistoryYear = '',
+      final List<String> templeHistoryDateList = const <String>[]})
       : _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
         _neighborAreaNameList = neighborAreaNameList,
         _selectedCityTownTempleMapRankList = selectedCityTownTempleMapRankList,
-        _addRouteSpotDataModelList = addRouteSpotDataModelList;
+        _addRouteSpotDataModelList = addRouteSpotDataModelList,
+        _templeHistoryDateList = templeHistoryDateList;
 
   ///
   @override
@@ -416,10 +445,22 @@ class _$AppParamStateImpl implements _AppParamState {
   final bool busInfoDisplayFlag;
   @override
   final SpotDataModel? selectedSpotDataModelForBusInfo;
+  @override
+  @JsonKey()
+  final String selectedTempleHistoryYear;
+  final List<String> _templeHistoryDateList;
+  @override
+  @JsonKey()
+  List<String> get templeHistoryDateList {
+    if (_templeHistoryDateList is EqualUnmodifiableListView)
+      return _templeHistoryDateList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_templeHistoryDateList);
+  }
 
   @override
   String toString() {
-    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo)';
+    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList)';
   }
 
   @override
@@ -459,7 +500,12 @@ class _$AppParamStateImpl implements _AppParamState {
             (identical(other.selectedSpotDataModelForBusInfo,
                     selectedSpotDataModelForBusInfo) ||
                 other.selectedSpotDataModelForBusInfo ==
-                    selectedSpotDataModelForBusInfo));
+                    selectedSpotDataModelForBusInfo) &&
+            (identical(other.selectedTempleHistoryYear,
+                    selectedTempleHistoryYear) ||
+                other.selectedTempleHistoryYear == selectedTempleHistoryYear) &&
+            const DeepCollectionEquality()
+                .equals(other._templeHistoryDateList, _templeHistoryDateList));
   }
 
   @override
@@ -479,7 +525,9 @@ class _$AppParamStateImpl implements _AppParamState {
       const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
       isJrInclude,
       busInfoDisplayFlag,
-      selectedSpotDataModelForBusInfo);
+      selectedSpotDataModelForBusInfo,
+      selectedTempleHistoryYear,
+      const DeepCollectionEquality().hash(_templeHistoryDateList));
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -492,22 +540,23 @@ class _$AppParamStateImpl implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-          {final double currentZoom,
-          final int currentPaddingIndex,
-          final List<OverlayEntry>? firstEntries,
-          final List<OverlayEntry>? secondEntries,
-          final Offset? overlayPosition,
-          final List<String> selectedMunicipalNameList,
-          final String searchWord,
-          final List<String> neighborAreaNameList,
-          final SpotDataModel? selectedSpotDataModel,
-          final List<String> selectedCityTownTempleMapRankList,
-          final String selectedTrainName,
-          final List<SpotDataModel> addRouteSpotDataModelList,
-          final bool isJrInclude,
-          final bool busInfoDisplayFlag,
-          final SpotDataModel? selectedSpotDataModelForBusInfo}) =
-      _$AppParamStateImpl;
+      {final double currentZoom,
+      final int currentPaddingIndex,
+      final List<OverlayEntry>? firstEntries,
+      final List<OverlayEntry>? secondEntries,
+      final Offset? overlayPosition,
+      final List<String> selectedMunicipalNameList,
+      final String searchWord,
+      final List<String> neighborAreaNameList,
+      final SpotDataModel? selectedSpotDataModel,
+      final List<String> selectedCityTownTempleMapRankList,
+      final String selectedTrainName,
+      final List<SpotDataModel> addRouteSpotDataModelList,
+      final bool isJrInclude,
+      final bool busInfoDisplayFlag,
+      final SpotDataModel? selectedSpotDataModelForBusInfo,
+      final String selectedTempleHistoryYear,
+      final List<String> templeHistoryDateList}) = _$AppParamStateImpl;
 
   ///
   @override
@@ -546,6 +595,10 @@ abstract class _AppParamState implements AppParamState {
   bool get busInfoDisplayFlag;
   @override
   SpotDataModel? get selectedSpotDataModelForBusInfo;
+  @override
+  String get selectedTempleHistoryYear;
+  @override
+  List<String> get templeHistoryDateList;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.

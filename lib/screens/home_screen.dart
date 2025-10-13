@@ -127,6 +127,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
   List<String> cityTownNameList = <String>[];
 
+  Map<String, List<SpotDataModel>> getDailySpotDataInfoMap = <String, List<SpotDataModel>>{};
+
   ///
   @override
   void initState() {
@@ -262,6 +264,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         tokyoStationSettedFlag = true;
       }
     });
+
+    makeDailySpotDataInfoMap();
 
     return Stack(
       fit: StackFit.expand,
@@ -556,9 +560,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
                     /// 千葉
 
+                    final int currentYear = DateTime.now().year;
+
+                    final Set<int> yearSet = <int>{for (int y = 2018; y <= currentYear; y++) y};
+
+                    final Map<String, List<Map<String, dynamic>>> homeCenteredTempleHistoryMap =
+                        <String, List<Map<String, dynamic>>>{};
+
+                    getDailySpotDataInfoMap.forEach((String key, List<SpotDataModel> spots) {
+                      final String yearStr = key.split('-').first;
+
+                      final int? yearInt = int.tryParse(yearStr);
+
+                      final String bucket = (yearInt != null && yearSet.contains(yearInt)) ? yearStr : '2017';
+
+                      homeCenteredTempleHistoryMap.putIfAbsent(bucket, () => <Map<String, dynamic>>[]).add(
+                        <String, dynamic>{'date': key, 'value': spots},
+                      );
+                    });
+
                     TempleDialog(
                       context: context,
-                      widget: HomeCenteredVisitedSpotMapAlert(latList: allLatList, lngList: allLngList),
+                      widget: HomeCenteredVisitedSpotMapAlert(
+                        latList: allLatList,
+                        lngList: allLngList,
+                        homeCenteredTempleHistoryMap: homeCenteredTempleHistoryMap,
+                      ),
                       clearBarrierColor: true,
                     );
                   },
@@ -619,14 +646,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                           return;
                         }
 
+                        appParamNotifier.clearSelectedMunicipalNameList();
+
                         final Map<String, dynamic> dailySpotDataInfo = getDailySpotDataInfo(
                           templeModel: templeModel,
                           templeLatLngMap: widget.templeLatLngMap,
                           stationMap: widget.stationMap,
                           tokyoMunicipalList: widget.tokyoMunicipalList,
                         );
-
-                        appParamNotifier.clearSelectedMunicipalNameList();
 
                         final List<String> templeMunicipalList =
                             dailySpotDataInfo['templeMunicipalList'] as List<String>;
@@ -824,6 +851,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
       secondEntries: _secondEntries,
       onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
     );
+  }
+
+  ///
+  void makeDailySpotDataInfoMap() {
+    for (final TempleModel element in widget.templeList) {
+      final Map<String, dynamic> dailySpotDataInfo = getDailySpotDataInfo(
+        templeModel: element,
+        templeLatLngMap: widget.templeLatLngMap,
+        stationMap: widget.stationMap,
+        tokyoMunicipalList: widget.tokyoMunicipalList,
+      );
+
+      getDailySpotDataInfoMap[element.date.yyyymmdd] = dailySpotDataInfo['templeDataList'] as List<SpotDataModel>;
+    }
   }
 }
 
