@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
-import '../../utility/tile_provider.dart';
 import '../../utility/utility.dart';
 import '../parts/error_dialog.dart';
 
@@ -50,6 +50,10 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
 
   List<double> latList = <double>[];
   List<double> lngList = <double>[];
+
+  List<Marker> templeMarkerList = <Marker>[];
+
+  Map<String, Color> dateColorMap = <String, Color>{};
 
   ///
   @override
@@ -128,6 +132,8 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                 ],
 
                 if (homeMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: homeMarkerList)],
+
+                if (templeMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: templeMarkerList)],
               ],
             ),
 
@@ -163,6 +169,10 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                                       appParamNotifier.clearTempleHistoryDateList();
 
                                       appParamNotifier.setSelectedTempleHistoryYear(year: e.key);
+
+                                      setState(() {
+                                        templeMarkerList.clear();
+                                      });
                                     },
 
                                     child: CircleAvatar(
@@ -210,6 +220,10 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
 
                             if (appParamState.templeHistoryDateList.isNotEmpty) {
                               appParamNotifier.clearTempleHistoryDateList();
+
+                              setState(() {
+                                templeMarkerList.clear();
+                              });
                             } else {
                               final List<String> list = <String>[];
 
@@ -440,6 +454,8 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
   ///
   // ignore: always_specify_types
   List<Polyline> makeTempleHistoryPolyline() {
+    templeMarkerList.clear();
+
     // ignore: always_specify_types
     final List<Polyline> polylineList = [];
 
@@ -453,11 +469,26 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
         if (appParamState.templeHistoryDateList.contains(val['date'])) {
           final List<LatLng> points = <LatLng>[];
           for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
-            points.add(LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()));
+            final LatLng latlng = LatLng(element2.latitude.toDouble(), element2.longitude.toDouble());
+
+            points.add(latlng);
+
+            if (element2.type == 'temple') {
+              templeMarkerList.add(
+                Marker(
+                  point: latlng,
+                  child: const Icon(FontAwesomeIcons.toriiGate, color: Colors.pinkAccent),
+                ),
+              );
+            }
           }
 
+          final Color color = twentyFourColor[i % 24];
+
+          dateColorMap[val['date'].toString()] = color;
+
           // ignore: always_specify_types
-          polylineList.add(Polyline(points: points, color: twentyFourColor[i % 24], strokeWidth: 5));
+          polylineList.add(Polyline(points: points, color: color, strokeWidth: 5));
         }
       }
     }
