@@ -12,6 +12,7 @@ import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../utility/utility.dart';
 import '../parts/error_dialog.dart';
+import '../parts/expandable_box.dart';
 
 class HomeCenteredVisitedSpotMapAlert extends ConsumerStatefulWidget {
   const HomeCenteredVisitedSpotMapAlert({
@@ -259,108 +260,77 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
               ),
             ),
 
-            Positioned(
-              top: 5,
-              right: 5,
-              child: Column(
-                children: <Widget>[
-                  CircleAvatar(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() => isLoading = true);
+            Stack(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    ExpandableBox(
+                      alignment: Alignment.topCenter,
+                      keepFullWidth: true,
 
-                        latList.clear();
-                        lngList.clear();
+                      collapsedSize: Size(0, context.screenSize.height * 0.05),
+                      expandedSize: Size(0, context.screenSize.height * 0.3),
 
-                        // ignore: always_specify_types
-                        Future.delayed(const Duration(seconds: 2), () {
-                          setDefaultBoundsMap();
-
-                          setState(() => isLoading = false);
-                        });
-                      },
-                      child: const Column(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      ),
+                      collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
+                      expandedChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Spacer(),
-                          Icon(Icons.center_focus_strong, size: 15),
-                          SizedBox(height: 3),
-                          Text('ALL', style: TextStyle(fontSize: 10)),
-                          Spacer(),
+                          const SizedBox(height: 30),
+
+                          Expanded(child: buildTempleHistoryList()),
                         ],
                       ),
                     ),
-                  ),
+                  ],
+                ),
 
-                  const SizedBox(height: 10),
+                Positioned(
+                  top: 5,
+                  left: 20,
+                  child: Text(appParamState.selectedTempleHistoryYear, style: const TextStyle(fontSize: 20)),
+                ),
 
-                  CircleAvatar(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (appParamState.templeHistoryDateList.isEmpty) {
+                Positioned(
+                  top: 8,
+                  right: 60,
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          setState(() => isLoading = true);
+
+                          latList.clear();
+                          lngList.clear();
+
                           // ignore: always_specify_types
-                          Future.delayed(
-                            Duration.zero,
-                            () => error_dialog(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              title: 'エラー',
-                              content: '日付が選択されていません。',
-                            ),
-                          );
+                          Future.delayed(const Duration(seconds: 2), () {
+                            setDefaultBoundsMap();
 
-                          return;
-                        }
-
-                        setState(() => isLoading = true);
-
-                        if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
-                          final String lastDate = appParamState.templeHistoryDateList.last;
-
-                          for (
-                            int i = 0;
-                            i < widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!.length;
-                            i++
-                          ) {
-                            final Map<String, dynamic> val =
-                                widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]![i];
-
-                            if (val['date'] == lastDate) {
-                              final List<double> selectDateLatList = <double>[];
-                              final List<double> selectDateLngList = <double>[];
-
-                              for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
-                                selectDateLatList.add(element2.latitude.toDouble());
-                                selectDateLngList.add(element2.longitude.toDouble());
-                              }
-
-                              setState(() {
-                                latList = selectDateLatList;
-                                lngList = selectDateLngList;
-                              });
-                            }
-                          }
-                        }
-
-                        // ignore: always_specify_types
-                        Future.delayed(const Duration(seconds: 2), () {
-                          setDefaultBoundsMap();
-
-                          setState(() => isLoading = false);
-                        });
-                      },
-                      child: const Column(
-                        children: <Widget>[
-                          Spacer(),
-                          Icon(Icons.center_focus_strong, size: 15),
-                          SizedBox(height: 3),
-                          Text('LAST', style: TextStyle(fontSize: 10)),
-                          Spacer(),
-                        ],
+                            setState(() => isLoading = false);
+                          });
+                        },
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0x66000000),
+                          child: Column(
+                            children: <Widget>[
+                              Spacer(),
+                              Icon(Icons.center_focus_strong, size: 15, color: Colors.white),
+                              SizedBox(height: 3),
+                              Text('ALL', style: TextStyle(fontSize: 10, color: Colors.white)),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             if (isLoading) ...<Widget>[const Center(child: CircularProgressIndicator())],
@@ -401,9 +371,7 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
         if (element.entries.first.key == 'date') {
           list.add(
             GestureDetector(
-              onTap: () {
-                appParamNotifier.setTempleHistoryDateList(date: element.entries.first.value.toString());
-              },
+              onTap: () => appParamNotifier.setTempleHistoryDateList(date: element.entries.first.value.toString()),
               child: Container(
                 margin: const EdgeInsets.all(3),
                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -494,5 +462,114 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
     }
 
     return polylineList;
+  }
+
+  ///
+  Widget buildTempleHistoryList() {
+    final List<Widget> list = <Widget>[];
+
+    if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
+      for (int i = 0; i < widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!.length; i++) {
+        final Map<String, dynamic> val =
+            widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]![i];
+
+        if (appParamState.templeHistoryDateList.contains(val['date'])) {
+          final List<String> historyDateTempleList = <String>[];
+
+          final List<double> selectDateLatList = <double>[];
+          final List<double> selectDateLngList = <double>[];
+
+          for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
+            if (element2.type == 'temple') {
+              historyDateTempleList.add(element2.name);
+            }
+
+            selectDateLatList.add(element2.latitude.toDouble());
+            selectDateLngList.add(element2.longitude.toDouble());
+          }
+
+          list.add(
+            DefaultTextStyle(
+              style: const TextStyle(fontSize: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                ),
+                padding: const EdgeInsets.all(5),
+
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(val['date'].toString().split('-')[0]),
+                        Text('${val['date'].toString().split('-')[1]}-${val['date'].toString().split('-')[2]}'),
+                      ],
+                    ),
+
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              color: (dateColorMap[val['date'].toString()] != null)
+                                  ? dateColorMap[val['date'].toString()]!.withValues(alpha: 0.5)
+                                  : Colors.transparent,
+
+                              width: 5,
+                            ),
+                          ),
+                        ),
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: historyDateTempleList.map((String e) => Text(e)).toList(),
+                        ),
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {
+                        setState(() => isLoading = true);
+
+                        setState(() {
+                          latList = selectDateLatList;
+                          lngList = selectDateLngList;
+                        });
+
+                        // ignore: always_specify_types
+                        Future.delayed(const Duration(seconds: 2), () {
+                          setDefaultBoundsMap();
+
+                          setState(() => isLoading = false);
+                        });
+                      },
+                      icon: const Icon(Icons.filter_center_focus),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) => list[index],
+              childCount: list.length,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
