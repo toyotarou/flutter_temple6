@@ -119,11 +119,7 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
               ),
 
               children: <Widget>[
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  tileProvider: CachedTileProvider(),
-                  userAgentPackageName: 'com.example.app',
-                ),
+                TileLayer(urlTemplate: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'),
 
                 if (appParamState.selectedTempleHistoryYear != '' &&
                     appParamState.templeHistoryDateList.isNotEmpty) ...<Widget>[
