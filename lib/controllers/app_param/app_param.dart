@@ -219,4 +219,7 @@ class AppParam extends _$AppParam {
 
   ///
   void clearTempleHistoryDateList() => state = state.copyWith(templeHistoryDateList: <String>[]);
+
+  ///
+  void setAllTempleHistoryDateList({required List<String> list}) => state = state.copyWith(templeHistoryDateList: list);
 }

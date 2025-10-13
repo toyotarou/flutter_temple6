@@ -10,6 +10,8 @@ import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../utility/tile_provider.dart';
+import '../../utility/utility.dart';
+import '../parts/error_dialog.dart';
 
 class HomeCenteredVisitedSpotMapAlert extends ConsumerStatefulWidget {
   const HomeCenteredVisitedSpotMapAlert({
@@ -43,6 +45,11 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
   double currentZoomEightTeen = 18;
 
   List<Marker> homeMarkerList = <Marker>[];
+
+  Utility utility = Utility();
+
+  List<double> latList = <double>[];
+  List<double> lngList = <double>[];
 
   ///
   @override
@@ -118,12 +125,6 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                   userAgentPackageName: 'com.example.app',
                 ),
 
-                // if (appParamState.selectedTrainName != '' &&
-                //     appParamState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
-                //     appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
-                //   // ignore: always_specify_types
-                //   PolylineLayer(polylines: makeTrainPolyline()),
-                // ],
                 if (appParamState.selectedTempleHistoryYear != '' &&
                     appParamState.templeHistoryDateList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
@@ -150,42 +151,85 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                         bottom: BorderSide(color: Colors.white.withValues(alpha: 0.4), width: 3),
                       ),
                     ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: widget.homeCenteredTempleHistoryMap.entries.map((
-                          MapEntry<String, List<Map<String, dynamic>>> e,
-                        ) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: GestureDetector(
-                              onTap: () {
-                                appParamNotifier.clearTempleHistoryDateList();
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: widget.homeCenteredTempleHistoryMap.entries.map((
+                                MapEntry<String, List<Map<String, dynamic>>> e,
+                              ) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      appParamNotifier.clearTempleHistoryDateList();
 
-                                appParamNotifier.setSelectedTempleHistoryYear(year: e.key);
-                              },
+                                      appParamNotifier.setSelectedTempleHistoryYear(year: e.key);
+                                    },
 
-                              child: CircleAvatar(
-                                radius: 15,
+                                    child: CircleAvatar(
+                                      radius: 15,
 
-                                backgroundColor: (appParamState.selectedTempleHistoryYear == e.key)
-                                    ? Colors.yellowAccent.withValues(alpha: 0.4)
-                                    : Colors.blueGrey.withValues(alpha: 0.4),
+                                      backgroundColor: (appParamState.selectedTempleHistoryYear == e.key)
+                                          ? Colors.yellowAccent.withValues(alpha: 0.4)
+                                          : Colors.blueGrey.withValues(alpha: 0.4),
 
-                                child: Text(
-                                  e.key,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: (appParamState.selectedTempleHistoryYear == e.key)
-                                        ? Colors.black
-                                        : Colors.white,
+                                      child: Text(
+                                        e.key,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: (appParamState.selectedTempleHistoryYear == e.key)
+                                              ? Colors.black
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }).toList(),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        GestureDetector(
+                          onTap: () {
+                            if (appParamState.selectedTempleHistoryYear == '') {
+                              // ignore: always_specify_types
+                              Future.delayed(
+                                Duration.zero,
+                                () => error_dialog(
+                                  // ignore: use_build_context_synchronously
+                                  context: context,
+                                  title: 'エラー',
+                                  content: 'yearが選択されていません。',
+                                ),
+                              );
+
+                              return;
+                            }
+
+                            if (appParamState.templeHistoryDateList.isNotEmpty) {
+                              appParamNotifier.clearTempleHistoryDateList();
+                            } else {
+                              final List<String> list = <String>[];
+
+                              for (final Map<String, dynamic> element
+                                  in widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!) {
+                                if (element.entries.first.key == 'date') {
+                                  list.add(element.entries.first.value.toString());
+                                }
+                              }
+
+                              appParamNotifier.setAllTempleHistoryDateList(list: list);
+                            }
+                          },
+                          child: const CircleAvatar(radius: 15, child: Text('ALL', style: TextStyle(fontSize: 12))),
+                        ),
+                      ],
                     ),
                   ),
 
@@ -199,6 +243,110 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
 
                       decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.1), border: Border.all()),
                       child: displaySelectedTempleHistoryYearItem(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Positioned(
+              top: 5,
+              right: 5,
+              child: Column(
+                children: <Widget>[
+                  CircleAvatar(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => isLoading = true);
+
+                        latList.clear();
+                        lngList.clear();
+
+                        // ignore: always_specify_types
+                        Future.delayed(const Duration(seconds: 2), () {
+                          setDefaultBoundsMap();
+
+                          setState(() => isLoading = false);
+                        });
+                      },
+                      child: const Column(
+                        children: <Widget>[
+                          Spacer(),
+                          Icon(Icons.center_focus_strong, size: 15),
+                          SizedBox(height: 3),
+                          Text('ALL', style: TextStyle(fontSize: 10)),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  CircleAvatar(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (appParamState.templeHistoryDateList.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () => error_dialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              title: 'エラー',
+                              content: '日付が選択されていません。',
+                            ),
+                          );
+
+                          return;
+                        }
+
+                        setState(() => isLoading = true);
+
+                        if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
+                          final String lastDate = appParamState.templeHistoryDateList.last;
+
+                          for (
+                            int i = 0;
+                            i < widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!.length;
+                            i++
+                          ) {
+                            final Map<String, dynamic> val =
+                                widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]![i];
+
+                            if (val['date'] == lastDate) {
+                              final List<double> selectDateLatList = <double>[];
+                              final List<double> selectDateLngList = <double>[];
+
+                              for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
+                                selectDateLatList.add(element2.latitude.toDouble());
+                                selectDateLngList.add(element2.longitude.toDouble());
+                              }
+
+                              setState(() {
+                                latList = selectDateLatList;
+                                lngList = selectDateLngList;
+                              });
+                            }
+                          }
+                        }
+
+                        // ignore: always_specify_types
+                        Future.delayed(const Duration(seconds: 2), () {
+                          setDefaultBoundsMap();
+
+                          setState(() => isLoading = false);
+                        });
+                      },
+                      child: const Column(
+                        children: <Widget>[
+                          Spacer(),
+                          Icon(Icons.center_focus_strong, size: 15),
+                          SizedBox(height: 3),
+                          Text('LAST', style: TextStyle(fontSize: 10)),
+                          Spacer(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -219,6 +367,13 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
       maxLat = widget.latList.reduce(max);
       minLng = widget.lngList.reduce(min);
       maxLng = widget.lngList.reduce(max);
+    }
+
+    if (latList.isNotEmpty && lngList.isNotEmpty) {
+      minLat = latList.reduce(min);
+      maxLat = latList.reduce(max);
+      minLng = lngList.reduce(min);
+      maxLng = lngList.reduce(max);
     }
   }
 
@@ -274,14 +429,14 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
     homeMarkerList.add(
       const Marker(
         point: LatLng(funabashiLat, funabashiLng),
-        child: Icon(Icons.home, color: Colors.redAccent),
+        child: Icon(Icons.home, color: Colors.purpleAccent),
       ),
     );
 
     homeMarkerList.add(
       const Marker(
         point: LatLng(zenpukujiLat, zenpukujiLng),
-        child: Icon(Icons.home, color: Colors.redAccent),
+        child: Icon(Icons.home, color: Colors.purpleAccent),
       ),
     );
   }
@@ -292,17 +447,21 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
     // ignore: always_specify_types
     final List<Polyline> polylineList = [];
 
+    final List<Color> twentyFourColor = utility.getTwentyFourColor();
+
     if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
-      for (final Map<String, dynamic> element
-          in widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!) {
-        if (appParamState.templeHistoryDateList.contains(element['date'])) {
+      for (int i = 0; i < widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!.length; i++) {
+        final Map<String, dynamic> val =
+            widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]![i];
+
+        if (appParamState.templeHistoryDateList.contains(val['date'])) {
           final List<LatLng> points = <LatLng>[];
-          for (final SpotDataModel element2 in (element['value'] as List<SpotDataModel>)) {
+          for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
             points.add(LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()));
           }
 
           // ignore: always_specify_types
-          polylineList.add(Polyline(points: points, color: Colors.redAccent, strokeWidth: 5));
+          polylineList.add(Polyline(points: points, color: twentyFourColor[i % 24], strokeWidth: 5));
         }
       }
     }
