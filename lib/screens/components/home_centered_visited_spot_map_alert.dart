@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
@@ -55,6 +56,10 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
   List<Marker> templeMarkerList = <Marker>[];
 
   Map<String, Color> dateColorMap = <String, Color>{};
+
+  final AutoScrollController autoScrollController = AutoScrollController();
+
+  List<Widget> templeHistoryList = <Widget>[];
 
   ///
   @override
@@ -295,39 +300,35 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                 ),
 
                 Positioned(
-                  top: 8,
+                  top: 5,
                   right: 60,
-                  child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          setState(() => isLoading = true);
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() => isLoading = true);
 
-                          latList.clear();
-                          lngList.clear();
+                      latList.clear();
+                      lngList.clear();
 
-                          // ignore: always_specify_types
-                          Future.delayed(const Duration(seconds: 2), () {
-                            setDefaultBoundsMap();
+                      // ignore: always_specify_types
+                      Future.delayed(const Duration(seconds: 2), () {
+                        setDefaultBoundsMap();
 
-                            setState(() => isLoading = false);
-                          });
-                        },
-                        child: const CircleAvatar(
-                          radius: 15,
-                          backgroundColor: Color(0x66000000),
-                          child: Column(
-                            children: <Widget>[
-                              Spacer(),
-                              Icon(Icons.center_focus_strong, size: 15, color: Colors.white),
-                              SizedBox(height: 3),
-                              Text('ALL', style: TextStyle(fontSize: 10, color: Colors.white)),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
+                        setState(() => isLoading = false);
+                      });
+                    },
+                    child: const CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Color(0x66000000),
+                      child: Column(
+                        children: <Widget>[
+                          Spacer(),
+                          Icon(Icons.center_focus_strong, size: 15, color: Colors.white),
+                          SizedBox(height: 3),
+                          Text('ALL', style: TextStyle(fontSize: 10, color: Colors.white)),
+                          Spacer(),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -337,6 +338,17 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
           ],
         ),
       ),
+    );
+  }
+
+  ///
+  Future<void> _scrollToBottom() async {
+    await autoScrollController.scrollToIndex(templeHistoryList.length - 1, preferPosition: AutoScrollPosition.end);
+
+    await autoScrollController.animateTo(
+      autoScrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
     );
   }
 
@@ -371,7 +383,11 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
         if (element.entries.first.key == 'date') {
           list.add(
             GestureDetector(
-              onTap: () => appParamNotifier.setTempleHistoryDateList(date: element.entries.first.value.toString()),
+              onTap: () {
+                appParamNotifier.setTempleHistoryDateList(date: element.entries.first.value.toString());
+
+                _scrollToBottom();
+              },
               child: Container(
                 margin: const EdgeInsets.all(3),
                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -476,12 +492,16 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
         if (appParamState.templeHistoryDateList.contains(val['date'])) {
           final List<String> historyDateTempleList = <String>[];
 
+          final List<String> startAndEndSpotList = <String>[];
+
           final List<double> selectDateLatList = <double>[];
           final List<double> selectDateLngList = <double>[];
 
           for (final SpotDataModel element2 in (val['value'] as List<SpotDataModel>)) {
             if (element2.type == 'temple') {
               historyDateTempleList.add(element2.name);
+            } else {
+              startAndEndSpotList.add(element2.name);
             }
 
             selectDateLatList.add(element2.latitude.toDouble());
@@ -489,67 +509,106 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
           }
 
           list.add(
-            DefaultTextStyle(
-              style: const TextStyle(fontSize: 12),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
-                ),
-                padding: const EdgeInsets.all(5),
+            AutoScrollTag(
+              // ignore: always_specify_types
+              key: ValueKey(i),
+              index: i,
+              controller: autoScrollController,
 
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(val['date'].toString().split('-')[0]),
-                        Text('${val['date'].toString().split('-')[1]}-${val['date'].toString().split('-')[2]}'),
-                      ],
-                    ),
+              child: DefaultTextStyle(
+                style: const TextStyle(fontSize: 12),
 
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        padding: const EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(
-                              color: (dateColorMap[val['date'].toString()] != null)
-                                  ? dateColorMap[val['date'].toString()]!.withValues(alpha: 0.5)
-                                  : Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  ),
+                  padding: const EdgeInsets.all(5),
 
-                              width: 5,
-                            ),
-                          ),
-                        ),
-
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: historyDateTempleList.map((String e) => Text(e)).toList(),
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 40,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(val['date'].toString().split('-')[0]),
+                                      Text(
+                                        '${val['date'].toString().split('-')[1]}-${val['date'].toString().split('-')[2]}',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    padding: const EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        left: BorderSide(
+                                          color: (dateColorMap[val['date'].toString()] != null)
+                                              ? dateColorMap[val['date'].toString()]!
+                                              : Colors.transparent,
+
+                                          width: 5,
+                                        ),
+                                      ),
+                                    ),
+
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: historyDateTempleList.map((String e) => Text(e)).toList(),
+                                        ),
+
+                                        const Divider(color: Colors.white),
+
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(startAndEndSpotList[0]),
+                                            Text(startAndEndSpotList[1]),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ),
 
-                    IconButton(
-                      onPressed: () {
-                        setState(() => isLoading = true);
+                      IconButton(
+                        onPressed: () {
+                          setState(() => isLoading = true);
 
-                        setState(() {
-                          latList = selectDateLatList;
-                          lngList = selectDateLngList;
-                        });
+                          setState(() {
+                            latList = selectDateLatList;
+                            lngList = selectDateLngList;
+                          });
 
-                        // ignore: always_specify_types
-                        Future.delayed(const Duration(seconds: 2), () {
-                          setDefaultBoundsMap();
+                          // ignore: always_specify_types
+                          Future.delayed(const Duration(seconds: 2), () {
+                            setDefaultBoundsMap();
 
-                          setState(() => isLoading = false);
-                        });
-                      },
-                      icon: const Icon(Icons.filter_center_focus),
-                    ),
-                  ],
+                            setState(() => isLoading = false);
+                          });
+                        },
+                        icon: const Icon(Icons.filter_center_focus),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -558,9 +617,13 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
       }
     }
 
+    setState(() => templeHistoryList = list);
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: CustomScrollView(
+        controller: autoScrollController,
+
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildBuilderDelegate(
