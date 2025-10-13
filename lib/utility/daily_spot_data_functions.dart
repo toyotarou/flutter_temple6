@@ -23,7 +23,7 @@ Map<String, dynamic> getDailySpotDataInfo({
       case '自宅':
         list.add(
           SpotDataModel(
-            type: '',
+            type: 'home',
             name: templeModel.startPoint,
             address: '千葉県船橋市二子町492-25-101',
             latitude: funabashiLat.toString(),
@@ -35,7 +35,7 @@ Map<String, dynamic> getDailySpotDataInfo({
       case '実家':
         list.add(
           SpotDataModel(
-            type: '',
+            type: 'home',
             name: templeModel.startPoint,
             address: '東京都杉並区善福寺4-22-11',
             latitude: zenpukujiLat.toString(),
@@ -104,7 +104,7 @@ Map<String, dynamic> getDailySpotDataInfo({
       case '自宅':
         list.add(
           SpotDataModel(
-            type: '',
+            type: 'home',
             name: templeModel.endPoint,
             address: '千葉県船橋市二子町492-25-101',
             latitude: funabashiLat.toString(),
@@ -116,7 +116,7 @@ Map<String, dynamic> getDailySpotDataInfo({
       case '実家':
         list.add(
           SpotDataModel(
-            type: '',
+            type: 'home',
             name: templeModel.endPoint,
             address: '東京都杉並区善福寺4-22-11',
             latitude: zenpukujiLat.toString(),
