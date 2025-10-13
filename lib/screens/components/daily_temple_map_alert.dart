@@ -9,7 +9,7 @@ import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/temple_lat_lng_model.dart';
-import '../../utility/functions.dart';
+import '../../utility/map_functions.dart';
 import '../../utility/tile_provider.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_dialog.dart';

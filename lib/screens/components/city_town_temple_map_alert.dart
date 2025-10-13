@@ -15,7 +15,7 @@ import '../../models/municipal_model.dart';
 import '../../models/station_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../models/train_model.dart';
-import '../../utility/functions.dart';
+import '../../utility/map_functions.dart';
 import '../../utility/tile_provider.dart';
 import '../../utility/utility.dart';
 import '../parts/error_dialog.dart';

@@ -20,7 +20,8 @@ import '../models/temple_model.dart';
 import '../models/temple_photo_model.dart';
 import '../models/tokyo_train_model.dart';
 import '../models/train_model.dart';
-import '../utility/functions.dart';
+import '../utility/daily_spot_data_functions.dart';
+import '../utility/map_functions.dart';
 import '../utility/utility.dart';
 import 'components/city_town_temple_list_alert.dart';
 import 'components/daily_temple_map_alert.dart';
@@ -618,147 +619,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                           return;
                         }
 
-                        ///////////////////////////////////////////////////////////////////////////
-
-                        final List<SpotDataModel> templeDataList = <SpotDataModel>[];
-
-                        final List<String> templeMunicipalList = <String>[];
-
-                        if (templeModel.startPoint != '') {
-                          switch (templeModel.startPoint) {
-                            case '自宅':
-                              templeDataList.add(
-                                SpotDataModel(
-                                  type: '',
-                                  name: templeModel.startPoint,
-                                  address: '千葉県船橋市二子町492-25-101',
-                                  latitude: funabashiLat.toString(),
-                                  longitude: funabashiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
-                                ),
-                              );
-
-                            case '実家':
-                              templeDataList.add(
-                                SpotDataModel(
-                                  type: '',
-                                  name: templeModel.startPoint,
-                                  address: '東京都杉並区善福寺4-22-11',
-                                  latitude: zenpukujiLat.toString(),
-                                  longitude: zenpukujiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
-                                ),
-                              );
-
-                            default:
-                              final StationModel? stationModel = widget.stationMap[templeModel.startPoint];
-
-                              if (stationModel != null) {
-                                templeDataList.add(
-                                  SpotDataModel(
-                                    type: 'station',
-                                    name: stationModel.stationName,
-                                    address: stationModel.address,
-                                    latitude: stationModel.lat,
-                                    longitude: stationModel.lng,
-                                    mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'S',
-                                  ),
-                                );
-                              }
-                          }
-                        }
-
-                        //////////////////////////
-                        final List<String> templeNameList = <String>[templeModel.temple];
-
-                        if (templeModel.memo != '') {
-                          templeNameList.addAll(templeModel.memo.split('、'));
-                        }
-
-                        for (int i = 0; i < templeNameList.length; i++) {
-                          final TempleLatLngModel? templeLatLngModel = widget.templeLatLngMap[templeNameList[i]];
-
-                          if (templeLatLngModel != null) {
-                            templeDataList.add(
-                              SpotDataModel(
-                                type: 'temple',
-                                name: templeLatLngModel.temple,
-                                address: templeLatLngModel.address,
-                                latitude: templeLatLngModel.lat,
-                                longitude: templeLatLngModel.lng,
-                                mark: i.toString(),
-                                rank: templeLatLngModel.rank,
-                              ),
-                            );
-
-                            final String? name = findMunicipalityForPoint(
-                              templeLatLngModel.lat.toDouble(),
-                              templeLatLngModel.lng.toDouble(),
-                            );
-
-                            if (name != null && !templeMunicipalList.contains(name)) {
-                              templeMunicipalList.add(name);
-                            }
-                          }
-                        }
-
-                        //////////////////////////
-
-                        if (templeModel.endPoint != '') {
-                          switch (templeModel.endPoint) {
-                            case '自宅':
-                              templeDataList.add(
-                                SpotDataModel(
-                                  type: '',
-                                  name: templeModel.endPoint,
-                                  address: '千葉県船橋市二子町492-25-101',
-                                  latitude: funabashiLat.toString(),
-                                  longitude: funabashiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
-                                ),
-                              );
-
-                            case '実家':
-                              templeDataList.add(
-                                SpotDataModel(
-                                  type: '',
-                                  name: templeModel.endPoint,
-                                  address: '東京都杉並区善福寺4-22-11',
-                                  latitude: zenpukujiLat.toString(),
-                                  longitude: zenpukujiLng.toString(),
-                                  mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
-                                ),
-                              );
-
-                            default:
-                              final StationModel? stationModel = widget.stationMap[templeModel.endPoint];
-
-                              if (stationModel != null) {
-                                templeDataList.add(
-                                  SpotDataModel(
-                                    type: 'station',
-                                    name: stationModel.stationName,
-                                    address: stationModel.address,
-                                    latitude: stationModel.lat,
-                                    longitude: stationModel.lng,
-                                    mark: (templeModel.startPoint == templeModel.endPoint) ? 'S/E' : 'E',
-                                  ),
-                                );
-                              }
-                          }
-                        }
-
-                        ///////////////////////////////////////////////////////////////////////////
-
-                        templeMunicipalList.sort();
+                        final Map<String, dynamic> dailySpotDataInfo = getDailySpotDataInfo(
+                          templeModel: templeModel,
+                          templeLatLngMap: widget.templeLatLngMap,
+                          stationMap: widget.stationMap,
+                          tokyoMunicipalList: widget.tokyoMunicipalList,
+                        );
 
                         appParamNotifier.clearSelectedMunicipalNameList();
+
+                        final List<String> templeMunicipalList =
+                            dailySpotDataInfo['templeMunicipalList'] as List<String>;
+
+                        templeMunicipalList.sort();
 
                         TempleDialog(
                           context: context,
                           widget: DailyTempleMapAlert(
                             date: templeModel.date.yyyymmdd,
-                            templeDataList: templeDataList,
+                            templeDataList: dailySpotDataInfo['templeDataList'] as List<SpotDataModel>,
                             templeMunicipalList: templeMunicipalList,
                           ),
 
@@ -899,17 +778,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         child: Row(children: list),
       ),
     );
-  }
-
-  ///
-  String? findMunicipalityForPoint(double lat, double lng) {
-    for (final MunicipalModel m in widget.tokyoMunicipalList) {
-      if (spotInMunicipality(lat, lng, m)) {
-        return m.name;
-      }
-    }
-
-    return null;
   }
 
   ///

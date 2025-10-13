@@ -8,7 +8,7 @@ import '../../models/common/spot_data_model.dart';
 import '../../models/municipal_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../models/temple_list_model.dart';
-import '../../utility/functions.dart';
+import '../../utility/map_functions.dart';
 import '../parts/temple_dialog.dart';
 import 'city_town_temple_map_alert.dart';
 
