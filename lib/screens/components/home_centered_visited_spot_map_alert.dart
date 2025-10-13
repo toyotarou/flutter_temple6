@@ -8,6 +8,7 @@ import 'package:latlong2/latlong.dart';
 import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
+import '../../models/common/spot_data_model.dart';
 import '../../utility/tile_provider.dart';
 
 class HomeCenteredVisitedSpotMapAlert extends ConsumerStatefulWidget {
@@ -117,149 +118,22 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
                   userAgentPackageName: 'com.example.app',
                 ),
 
-                // if (widget.selectArealPolygons != null) ...<Widget>[
-                //   // ignore: always_specify_types
-                //   PolygonLayer(polygons: makeAreaPolygons()),
-                // ],
-                //
-                // if (neighborsTokyoMunicipalModelList.isNotEmpty) ...<Widget>[
-                //   // ignore: always_specify_types
-                //   PolygonLayer(polygons: getNeighborArea()),
-                // ],
-                //
                 // if (appParamState.selectedTrainName != '' &&
                 //     appParamState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
                 //     appParamState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
                 //   // ignore: always_specify_types
                 //   PolylineLayer(polylines: makeTrainPolyline()),
                 // ],
-
-                // if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
-                //   // ignore: always_specify_types
-                //   PolylineLayer(polylines: makeAddSpotsPolyline()),
-                // ],
-                //
-                if (homeMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: homeMarkerList)],
-
-                //
-                // if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
-                //
-                // if (noReachTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: noReachTemplesMarkerList)],
-                //
-                // if (tokyoStationMarkerList.isNotEmpty && displayStations) ...<Widget>[
-                //   MarkerLayer(markers: tokyoStationMarkerList),
-                // ],
-                //
-                // if (neighborTemplesMarkerList.isNotEmpty && displayNeighborTemples) ...<Widget>[
-                //   MarkerLayer(markers: neighborTemplesMarkerList),
-                // ],
-              ],
-            ),
-
-            /*
-            Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    ExpandableBox(
-                      alignment: Alignment.topCenter,
-                      keepFullWidth: true,
-
-                      collapsedSize: Size(0, context.screenSize.height * 0.05),
-                      expandedSize: Size(
-                        0,
-                        (widget.cityTownName == 'tokyo')
-                            ? context.screenSize.height * 0.2
-                            : context.screenSize.height * 0.3,
-                      ),
-
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      ),
-                      collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
-                      expandedChild: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(height: 15),
-
-                          Expanded(child: buildExpandedChildContents()),
-                        ],
-                      ),
-                    ),
-
-                    if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
-                      const SizedBox(height: 10),
-
-                      ExpandableBox(
-                        alignment: Alignment.topLeft,
-                        collapsedSize: Size(context.screenSize.width * 0.1, 80),
-                        expandedSize: Size(context.screenSize.width * 0.7, context.screenSize.height * 0.2),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.3),
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        ),
-                        collapsedChild: const Icon(Icons.square_outlined, color: Colors.transparent),
-                        expandedChild: displayAddedSpotDataList(),
-                      ),
-                    ],
-                  ],
-                ),
-
-                Positioned(top: 5, left: 50, child: Text(widget.cityTownName, style: const TextStyle(fontSize: 20))),
-
-                if (widget.cityTownName != 'tokyo') ...<Widget>[
-                  Positioned(
-                    top: 5,
-                    right: 60,
-                    child: Row(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            makeNeighborTempleMarker();
-
-                            setState(() => displayNeighborTemples = !displayNeighborTemples);
-                          },
-                          child: const CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0x66000000),
-                            child: Icon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
-                          ),
-                        ),
-
-                        const SizedBox(width: 15),
-
-                        GestureDetector(
-                          onTap: () => setState(() => displayStations = !displayStations),
-                          child: const CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0x66000000),
-                            child: Text(
-                              '駅',
-                              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                if (appParamState.selectedTempleHistoryYear != '' &&
+                    appParamState.templeHistoryDateList.isNotEmpty) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolylineLayer(polylines: makeTempleHistoryPolyline()),
                 ],
 
-                Positioned(
-                  top: 5,
-                  left: 10,
-                  child: GestureDetector(
-                    onTap: () => setDefaultBoundsMap(),
-                    child: const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Color(0x66000000),
-                      child: Icon(Icons.filter_center_focus, size: 18, color: Colors.white),
-                    ),
-                  ),
-                ),
+                if (homeMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: homeMarkerList)],
               ],
             ),
-*/
+
             Positioned(
               bottom: 5,
               right: 5,
@@ -410,5 +284,29 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
         child: Icon(Icons.home, color: Colors.redAccent),
       ),
     );
+  }
+
+  ///
+  // ignore: always_specify_types
+  List<Polyline> makeTempleHistoryPolyline() {
+    // ignore: always_specify_types
+    final List<Polyline> polylineList = [];
+
+    if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
+      for (final Map<String, dynamic> element
+          in widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!) {
+        if (appParamState.templeHistoryDateList.contains(element['date'])) {
+          final List<LatLng> points = <LatLng>[];
+          for (final SpotDataModel element2 in (element['value'] as List<SpotDataModel>)) {
+            points.add(LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()));
+          }
+
+          // ignore: always_specify_types
+          polylineList.add(Polyline(points: points, color: Colors.redAccent, strokeWidth: 5));
+        }
+      }
+    }
+
+    return polylineList;
   }
 }
