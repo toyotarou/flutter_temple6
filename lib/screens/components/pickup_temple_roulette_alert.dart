@@ -43,6 +43,8 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
   static const EdgeInsets kHInset = EdgeInsets.symmetric(horizontal: 8);
 
+  int listItemNum = 0;
+
   ///
   @override
   void initState() {
@@ -211,28 +213,50 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
   Widget displayTempleRankList() {
     return SizedBox(
       height: 60,
-      child: Row(
+      child: Stack(
         children: <Widget>[
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: rankList.map((String e) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: GestureDetector(
-                    onTap: () {
-                      appParamNotifier.setSelectedRankList(rank: e);
-
-                      _rebuildList();
-                    },
-                    child: CircleAvatar(child: Text(e)),
-                  ),
-                );
-              }).toList(),
+          Positioned(
+            right: 20,
+            child: Transform(
+              transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
+              child: Text(
+                listItemNum.toString(),
+                style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.4)),
+              ),
             ),
           ),
 
-          const SizedBox.shrink(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            children: <Widget>[
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: rankList.map((String e) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: GestureDetector(
+                        onTap: () {
+                          appParamNotifier.setSelectedRankList(rank: e);
+
+                          _rebuildList();
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: (appParamState.selectedRankList.contains(e))
+                              ? Colors.yellowAccent.withValues(alpha: 0.3)
+                              : Colors.black,
+                          child: Text(e, style: const TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              const SizedBox.shrink(),
+            ],
+          ),
         ],
       ),
     );
@@ -435,6 +459,8 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
     setState(() {
       rouletteTempleList = list;
+
+      listItemNum = list.length;
 
       _cursorIndex = 0;
 
