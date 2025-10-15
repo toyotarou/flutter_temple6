@@ -1,0 +1,397 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../const/const.dart';
+import '../../controllers/controllers_mixin.dart';
+import '../../extensions/extensions.dart';
+import '../../models/common/spot_data_model.dart';
+import '../parts/error_dialog.dart';
+import '../parts/temple_dialog.dart';
+import '../parts/temple_pickup_list_card.dart';
+import 'pickup_temple_map_alert.dart';
+
+class PickupTempleRouletteAlert extends ConsumerStatefulWidget {
+  const PickupTempleRouletteAlert({super.key, required this.getDailySpotDataInfoMap});
+
+  final Map<String, List<SpotDataModel>> getDailySpotDataInfoMap;
+
+  @override
+  ConsumerState<PickupTempleRouletteAlert> createState() => _PickupTempleRouletteAlertState();
+}
+
+class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRouletteAlert>
+    with ControllersMixin<PickupTempleRouletteAlert> {
+  Map<String, List<SpotDataModel>> templeRankMap = <String, List<SpotDataModel>>{};
+
+  List<SpotDataModel> rouletteTempleList = <SpotDataModel>[];
+
+  int _cursorIndex = 0;
+
+  int? _selectedIndex;
+
+  bool _spinning = false;
+
+  final Random _random = Random();
+
+  final ScrollController _scrollCtrl = ScrollController();
+
+  static const double kItemExtent = 48.0;
+
+  static const EdgeInsets kHInset = EdgeInsets.symmetric(horizontal: 8);
+
+  ///
+  @override
+  void initState() {
+    super.initState();
+
+    for (final String element in rankList) {
+      widget.getDailySpotDataInfoMap.forEach((String key, List<SpotDataModel> value) {
+        for (final SpotDataModel element2 in value) {
+          if (element2.type == 'temple') {
+            if (element == element2.rank) {
+              (templeRankMap[element] ??= <SpotDataModel>[]).add(element2);
+            }
+          }
+        }
+      });
+    }
+  }
+
+  ///
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            SizedBox(width: context.screenSize.width),
+
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[Text('神社ピックアップ'), SizedBox.shrink()],
+            ),
+
+            Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+
+            displayTempleRankList(),
+
+            Row(
+              children: <Widget>[
+                ElevatedButton.icon(
+                  onPressed: _spinning
+                      ? null
+                      : () {
+                          if (rouletteTempleList.isEmpty) {
+                            // ignore: always_specify_types
+                            Future.delayed(
+                              Duration.zero,
+                              () => error_dialog(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                title: 'エラー',
+                                content: 'リストが作成されていません。',
+                              ),
+                            );
+
+                            return;
+                          }
+
+                          _shuffleList();
+                        },
+                  icon: const Icon(Icons.shuffle),
+                  label: const Text('shuffle'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                ),
+
+                const SizedBox(width: 20),
+
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: _spinning
+                        ? null
+                        : () {
+                            if (rouletteTempleList.isEmpty) {
+                              // ignore: always_specify_types
+                              Future.delayed(
+                                Duration.zero,
+                                () => error_dialog(
+                                  // ignore: use_build_context_synchronously
+                                  context: context,
+                                  title: 'エラー',
+                                  content: 'リストが作成されていません。',
+                                ),
+                              );
+
+                              return;
+                            }
+
+                            _startRoulette();
+                          },
+                    icon: const Icon(Icons.casino),
+                    label: Text(_spinning ? 'now' : 'start'),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                  ),
+                ),
+
+                const SizedBox(width: 20),
+
+                ElevatedButton.icon(
+                  onPressed: _spinning
+                      ? null
+                      : () {
+                          if (_selectedIndex == null) {
+                            // ignore: always_specify_types
+                            Future.delayed(
+                              Duration.zero,
+                              () => error_dialog(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                title: 'エラー',
+                                content: 'ルーレットを回してください。',
+                              ),
+                            );
+
+                            return;
+                          }
+
+                          TempleDialog(
+                            context: context,
+                            widget: PickupTempleMapAlert(spotDataModel: rouletteTempleList[_selectedIndex!]),
+                          );
+                        },
+                  icon: const Icon(Icons.map),
+                  label: const Text('map'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                ),
+              ],
+            ),
+
+            Divider(color: Colors.white.withOpacity(0.4), thickness: 2),
+
+            Expanded(child: displayRankedTempleList()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayTempleRankList() {
+    return SizedBox(
+      height: 60,
+      child: Row(
+        children: <Widget>[
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: rankList.map((String e) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: GestureDetector(
+                    onTap: () {
+                      appParamNotifier.setSelectedRankList(rank: e);
+
+                      _rebuildList();
+                    },
+                    child: CircleAvatar(child: Text(e)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          const SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+
+  ///
+  Widget displayRankedTempleList() {
+    return ListView.builder(
+      controller: _scrollCtrl,
+      itemExtent: kItemExtent,
+      itemCount: rouletteTempleList.length,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      itemBuilder: (BuildContext context, int index) {
+        final bool isCursor = index == _cursorIndex;
+        final bool isSelected = index == _selectedIndex;
+
+        final Color borderColor = isSelected
+            ? Colors.yellowAccent.withValues(alpha: 0.6)
+            : (isCursor ? Colors.redAccent.withValues(alpha: 0.6) : Colors.blueGrey.withValues(alpha: 0.6));
+
+        final Color? tileColor = isSelected
+            ? Colors.yellowAccent.withValues(alpha: 0.3)
+            : (isCursor ? Colors.black.withValues(alpha: 0.3) : null);
+
+        return Padding(
+          padding: kHInset.copyWith(top: 2, bottom: 2),
+          child: ListCard(
+            isSelected: isSelected,
+            child: Container(
+              decoration: BoxDecoration(
+                color: tileColor,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(width: 1.5, color: borderColor),
+              ),
+              child: ListTile(
+                dense: true,
+                visualDensity: const VisualDensity(vertical: -3),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                title: Text(
+                  rouletteTempleList[index].name,
+                  style: TextStyle(fontSize: 12, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+                ),
+                trailing: Icon(isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked, size: 18),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  ///
+  Future<void> _startRoulette() async {
+    if (_spinning) {
+      return;
+    }
+
+    setState(() {
+      _spinning = true;
+      _selectedIndex = null;
+    });
+
+    final int itemCount = rouletteTempleList.length;
+
+    final int normalDelayMs = 40 + _random.nextInt(20);
+
+    final int normalSteps = 40 + _random.nextInt(60);
+
+    for (int i = 0; i < normalSteps; i++) {
+      if (!mounted) {
+        return;
+      }
+      // ignore: inference_failure_on_instance_creation, always_specify_types
+      await Future.delayed(Duration(milliseconds: normalDelayMs));
+
+      setState(() => _cursorIndex = (_cursorIndex + 1) % itemCount);
+
+      await _scrollToCursor(animMs: (normalDelayMs * 0.8).clamp(30, 120).toInt());
+    }
+
+    int delayMs = (normalDelayMs * 2.0).clamp(100, 160).toInt();
+
+    const int decelSteps = 6;
+
+    const double decelGrow = 1.35;
+
+    for (int i = 0; i < decelSteps; i++) {
+      if (!mounted) {
+        return;
+      }
+
+      // ignore: inference_failure_on_instance_creation, always_specify_types
+      await Future.delayed(Duration(milliseconds: delayMs));
+
+      setState(() => _cursorIndex = (_cursorIndex + 1) % itemCount);
+
+      await _scrollToCursor(animMs: (delayMs * 0.9).clamp(70, 240).toInt());
+
+      delayMs = (delayMs * decelGrow).round().clamp(100, 600);
+    }
+
+    setState(() {
+      _selectedIndex = _cursorIndex;
+
+      _spinning = false;
+    });
+  }
+
+  ///
+  Future<void> _scrollToCursor({int animMs = 120}) async {
+    if (!_scrollCtrl.hasClients) {
+      return;
+    }
+
+    final ScrollPosition position = _scrollCtrl.position;
+
+    final double viewTop = position.pixels;
+
+    final double viewBottom = viewTop + position.viewportDimension;
+
+    final double itemTop = _cursorIndex * kItemExtent;
+
+    final double itemBottom = itemTop + kItemExtent;
+
+    double? target;
+    const double margin = 4;
+
+    if (itemTop < viewTop) {
+      target = (itemTop - margin).clamp(0, position.maxScrollExtent);
+    } else if (itemBottom > viewBottom) {
+      target = (itemBottom - position.viewportDimension + margin).clamp(0, position.maxScrollExtent);
+    }
+
+    if (target != null) {
+      await _scrollCtrl.animateTo(
+        target,
+        duration: Duration(milliseconds: animMs),
+        curve: Curves.easeOutCubic,
+      );
+    }
+  }
+
+  ///
+  void _shuffleList() {
+    if (_spinning) {
+      return;
+    }
+
+    setState(() {
+      rouletteTempleList.shuffle(_random);
+
+      _cursorIndex = 0;
+
+      _selectedIndex = null;
+    });
+
+    if (_scrollCtrl.hasClients) {
+      _scrollCtrl.jumpTo(0);
+    }
+  }
+
+  ///
+  void _rebuildList() {
+    if (_spinning) {
+      return;
+    }
+
+    rouletteTempleList.clear();
+
+    final List<SpotDataModel> list = <SpotDataModel>[];
+
+    for (final String element in appParamState.selectedRankList) {
+      templeRankMap[element]?.forEach((SpotDataModel element2) {
+        if (!list.contains(element2)) {
+          list.add(element2);
+        }
+      });
+    }
+
+    setState(() {
+      rouletteTempleList = list;
+
+      _cursorIndex = 0;
+
+      _selectedIndex = null;
+    });
+    if (_scrollCtrl.hasClients) {
+      _scrollCtrl.jumpTo(0);
+    }
+  }
+}

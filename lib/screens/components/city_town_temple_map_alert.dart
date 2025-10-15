@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../const/const.dart';
 import '../../controllers/_get_data/get_data.dart';
 import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
@@ -424,8 +425,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     widget.visitedMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
       bool flag = true;
 
-      if (appParamState.selectedCityTownTempleMapRankList.isNotEmpty) {
-        if (!appParamState.selectedCityTownTempleMapRankList.contains(element.rank)) {
+      if (appParamState.selectedRankList.isNotEmpty) {
+        if (!appParamState.selectedRankList.contains(element.rank)) {
           flag = false;
         }
       }
@@ -622,13 +623,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(
-                children: <String>['-', 'S', 'A', 'B', 'C'].map((String e) {
+                children: rankList.map((String e) {
                   return GestureDetector(
                     onTap: () {
                       if (e == '-') {
-                        appParamNotifier.clearSelectedCityTownTempleMapRankList();
+                        appParamNotifier.clearSelectedRankList();
                       } else {
-                        appParamNotifier.setSelectedCityTownTempleMapRankList(rank: e);
+                        appParamNotifier.setSelectedRankList(rank: e);
                       }
 
                       makeNeighborTempleMarker();
@@ -641,7 +642,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       decoration: BoxDecoration(
                         color: (e == '-')
                             ? Colors.black.withValues(alpha: 0.3)
-                            : (appParamState.selectedCityTownTempleMapRankList.contains(e))
+                            : (appParamState.selectedRankList.contains(e))
                             ? Colors.yellowAccent.withValues(alpha: 0.3)
                             : const Color(0xFFFBB6CE).withValues(alpha: 0.5),
                       ),
@@ -746,8 +747,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       widget.visitedMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
         bool flag = true;
 
-        if (appParamState.selectedCityTownTempleMapRankList.isNotEmpty) {
-          if (!appParamState.selectedCityTownTempleMapRankList.contains(element2.rank)) {
+        if (appParamState.selectedRankList.isNotEmpty) {
+          if (!appParamState.selectedRankList.contains(element2.rank)) {
             flag = false;
           }
         }

@@ -86,7 +86,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                               IconButton(
                                 onPressed: () {
-                                  appParamNotifier.clearSelectedCityTownTempleMapRankList();
+                                  appParamNotifier.clearSelectedRankList();
 
                                   appParamNotifier.setSelectedTrainName(name: '');
 
@@ -286,7 +286,7 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                 IconButton(
                   onPressed: () {
-                    appParamNotifier.clearSelectedCityTownTempleMapRankList();
+                    appParamNotifier.clearSelectedRankList();
 
                     appParamNotifier.setSelectedTrainName(name: '');
 

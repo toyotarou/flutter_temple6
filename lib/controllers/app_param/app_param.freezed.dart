@@ -32,8 +32,7 @@ mixin _$AppParamState {
   List<String> get neighborAreaNameList => throw _privateConstructorUsedError;
   SpotDataModel? get selectedSpotDataModel =>
       throw _privateConstructorUsedError;
-  List<String> get selectedCityTownTempleMapRankList =>
-      throw _privateConstructorUsedError;
+  List<String> get selectedRankList => throw _privateConstructorUsedError;
 
   ///
   String get selectedTrainName => throw _privateConstructorUsedError;
@@ -69,7 +68,7 @@ abstract class $AppParamStateCopyWith<$Res> {
       String searchWord,
       List<String> neighborAreaNameList,
       SpotDataModel? selectedSpotDataModel,
-      List<String> selectedCityTownTempleMapRankList,
+      List<String> selectedRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
       bool isJrInclude,
@@ -103,7 +102,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? searchWord = null,
     Object? neighborAreaNameList = null,
     Object? selectedSpotDataModel = freezed,
-    Object? selectedCityTownTempleMapRankList = null,
+    Object? selectedRankList = null,
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
@@ -149,10 +148,9 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.selectedSpotDataModel
           : selectedSpotDataModel // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
-      selectedCityTownTempleMapRankList: null ==
-              selectedCityTownTempleMapRankList
-          ? _value.selectedCityTownTempleMapRankList
-          : selectedCityTownTempleMapRankList // ignore: cast_nullable_to_non_nullable
+      selectedRankList: null == selectedRankList
+          ? _value.selectedRankList
+          : selectedRankList // ignore: cast_nullable_to_non_nullable
               as List<String>,
       selectedTrainName: null == selectedTrainName
           ? _value.selectedTrainName
@@ -205,7 +203,7 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       String searchWord,
       List<String> neighborAreaNameList,
       SpotDataModel? selectedSpotDataModel,
-      List<String> selectedCityTownTempleMapRankList,
+      List<String> selectedRankList,
       String selectedTrainName,
       List<SpotDataModel> addRouteSpotDataModelList,
       bool isJrInclude,
@@ -237,7 +235,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? searchWord = null,
     Object? neighborAreaNameList = null,
     Object? selectedSpotDataModel = freezed,
-    Object? selectedCityTownTempleMapRankList = null,
+    Object? selectedRankList = null,
     Object? selectedTrainName = null,
     Object? addRouteSpotDataModelList = null,
     Object? isJrInclude = null,
@@ -283,10 +281,9 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.selectedSpotDataModel
           : selectedSpotDataModel // ignore: cast_nullable_to_non_nullable
               as SpotDataModel?,
-      selectedCityTownTempleMapRankList: null ==
-              selectedCityTownTempleMapRankList
-          ? _value._selectedCityTownTempleMapRankList
-          : selectedCityTownTempleMapRankList // ignore: cast_nullable_to_non_nullable
+      selectedRankList: null == selectedRankList
+          ? _value._selectedRankList
+          : selectedRankList // ignore: cast_nullable_to_non_nullable
               as List<String>,
       selectedTrainName: null == selectedTrainName
           ? _value.selectedTrainName
@@ -334,7 +331,7 @@ class _$AppParamStateImpl implements _AppParamState {
       this.searchWord = '',
       final List<String> neighborAreaNameList = const <String>[],
       this.selectedSpotDataModel,
-      final List<String> selectedCityTownTempleMapRankList = const <String>[],
+      final List<String> selectedRankList = const <String>[],
       this.selectedTrainName = '',
       final List<SpotDataModel> addRouteSpotDataModelList =
           const <SpotDataModel>[],
@@ -347,7 +344,7 @@ class _$AppParamStateImpl implements _AppParamState {
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
         _neighborAreaNameList = neighborAreaNameList,
-        _selectedCityTownTempleMapRankList = selectedCityTownTempleMapRankList,
+        _selectedRankList = selectedRankList,
         _addRouteSpotDataModelList = addRouteSpotDataModelList,
         _templeHistoryDateList = templeHistoryDateList;
 
@@ -413,14 +410,14 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   final SpotDataModel? selectedSpotDataModel;
-  final List<String> _selectedCityTownTempleMapRankList;
+  final List<String> _selectedRankList;
   @override
   @JsonKey()
-  List<String> get selectedCityTownTempleMapRankList {
-    if (_selectedCityTownTempleMapRankList is EqualUnmodifiableListView)
-      return _selectedCityTownTempleMapRankList;
+  List<String> get selectedRankList {
+    if (_selectedRankList is EqualUnmodifiableListView)
+      return _selectedRankList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedCityTownTempleMapRankList);
+    return EqualUnmodifiableListView(_selectedRankList);
   }
 
   ///
@@ -460,7 +457,7 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedCityTownTempleMapRankList: $selectedCityTownTempleMapRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList)';
+    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList)';
   }
 
   @override
@@ -486,9 +483,8 @@ class _$AppParamStateImpl implements _AppParamState {
                 .equals(other._neighborAreaNameList, _neighborAreaNameList) &&
             (identical(other.selectedSpotDataModel, selectedSpotDataModel) ||
                 other.selectedSpotDataModel == selectedSpotDataModel) &&
-            const DeepCollectionEquality().equals(
-                other._selectedCityTownTempleMapRankList,
-                _selectedCityTownTempleMapRankList) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedRankList, _selectedRankList) &&
             (identical(other.selectedTrainName, selectedTrainName) ||
                 other.selectedTrainName == selectedTrainName) &&
             const DeepCollectionEquality().equals(
@@ -520,7 +516,7 @@ class _$AppParamStateImpl implements _AppParamState {
       searchWord,
       const DeepCollectionEquality().hash(_neighborAreaNameList),
       selectedSpotDataModel,
-      const DeepCollectionEquality().hash(_selectedCityTownTempleMapRankList),
+      const DeepCollectionEquality().hash(_selectedRankList),
       selectedTrainName,
       const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
       isJrInclude,
@@ -549,7 +545,7 @@ abstract class _AppParamState implements AppParamState {
       final String searchWord,
       final List<String> neighborAreaNameList,
       final SpotDataModel? selectedSpotDataModel,
-      final List<String> selectedCityTownTempleMapRankList,
+      final List<String> selectedRankList,
       final String selectedTrainName,
       final List<SpotDataModel> addRouteSpotDataModelList,
       final bool isJrInclude,
@@ -582,7 +578,7 @@ abstract class _AppParamState implements AppParamState {
   @override
   SpotDataModel? get selectedSpotDataModel;
   @override
-  List<String> get selectedCityTownTempleMapRankList;
+  List<String> get selectedRankList;
 
   ///
   @override

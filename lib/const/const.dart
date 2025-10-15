@@ -59,3 +59,5 @@ const String cityTownNames = '''
 日の出町
 瑞穂町
 ''';
+
+List<String> rankList = <String>['S', 'A', 'B', 'C'];

@@ -26,6 +26,7 @@ import '../utility/utility.dart';
 import 'components/city_town_temple_list_alert.dart';
 import 'components/daily_temple_map_alert.dart';
 import 'components/home_centered_visited_spot_map_alert.dart';
+import 'components/pickup_temple_roulette_alert.dart';
 import 'parts/error_dialog.dart';
 import 'parts/temple_dialog.dart';
 import 'parts/temple_overlay.dart';
@@ -527,6 +528,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                 ),
               ),
 
+              const SizedBox(height: 5),
+
               Container(
                 decoration: BoxDecoration(
                   border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
@@ -594,6 +597,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                       Icon(FontAwesomeIcons.toriiGate),
                       SizedBox(width: 20),
                       Text('参拝神社リスト', style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 5),
+
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                ),
+                padding: const EdgeInsets.all(5),
+
+                child: GestureDetector(
+                  onTap: () {
+                    appParamNotifier.clearSelectedRankList();
+
+                    TempleDialog(
+                      context: context,
+                      widget: PickupTempleRouletteAlert(getDailySpotDataInfoMap: getDailySpotDataInfoMap),
+                      clearBarrierColor: true,
+                    );
+                  },
+                  child: const Row(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.toriiGate),
+                      SizedBox(width: 20),
+                      Text('神社ピックアップ', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),
