@@ -4,6 +4,7 @@ import '../models/common/spot_data_model.dart';
 import '../models/municipal_model.dart';
 import '../models/station_model.dart';
 import '../models/temple_lat_lng_model.dart';
+import '../models/temple_list_model.dart';
 import '../models/temple_model.dart';
 
 import 'map_functions.dart';
@@ -13,6 +14,7 @@ Map<String, dynamic> getDailySpotDataInfo({
   required Map<String, TempleLatLngModel> templeLatLngMap,
   required Map<String, StationModel> stationMap,
   required List<MunicipalModel> tokyoMunicipalList,
+  required Map<String, TempleListModel> templeListMap,
 }) {
   final List<SpotDataModel> list = <SpotDataModel>[];
 
@@ -72,6 +74,8 @@ Map<String, dynamic> getDailySpotDataInfo({
   for (int i = 0; i < templeNameList.length; i++) {
     final TempleLatLngModel? templeLatLngModel = templeLatLngMap[templeNameList[i]];
 
+    final TempleListModel? templeListModel = templeListMap[templeNameList[i]];
+
     if (templeLatLngModel != null) {
       list.add(
         SpotDataModel(
@@ -80,7 +84,7 @@ Map<String, dynamic> getDailySpotDataInfo({
           address: templeLatLngModel.address,
           latitude: templeLatLngModel.lat,
           longitude: templeLatLngModel.lng,
-          mark: i.toString(),
+          mark: (templeListModel != null) ? templeListModel.id.toString() : '0',
           rank: templeLatLngModel.rank,
         ),
       );

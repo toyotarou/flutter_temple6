@@ -7,10 +7,12 @@ import '../../const/const.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
+import '../../models/municipal_model.dart';
+import '../../utility/map_functions.dart';
 import '../parts/error_dialog.dart';
 import '../parts/temple_dialog.dart';
 import '../parts/temple_pickup_list_card.dart';
-import 'pickup_temple_map_alert.dart';
+import 'city_town_temple_map_alert.dart';
 
 class PickupTempleRouletteAlert extends ConsumerStatefulWidget {
   const PickupTempleRouletteAlert({super.key, required this.getDailySpotDataInfoMap});
@@ -157,9 +159,36 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
                             return;
                           }
 
+                          final SpotDataModel spotDataModel = rouletteTempleList[_selectedIndex!];
+
+                          MunicipalModel? municipalModel;
+
+                          for (int i = 0; i < getDataState.keepTokyoMunicipalList.length; i++) {
+                            if (spotInMunicipality(
+                              spotDataModel.latitude.toDouble(),
+                              spotDataModel.longitude.toDouble(),
+                              getDataState.keepTokyoMunicipalList[i],
+                            )) {
+                              municipalModel = getDataState.keepTokyoMunicipalList[i];
+                              break;
+                            }
+                          }
+
+                          final List<List<List<List<double>>>>? polygons = municipalModel?.polygons;
+
+                          final Map<String, List<double>> municipalLatLng = getMunicipalLatLng(polygons: polygons);
+
+                          appParamNotifier.clearSelectedRankList();
+
                           TempleDialog(
                             context: context,
-                            widget: PickupTempleMapAlert(spotDataModel: rouletteTempleList[_selectedIndex!]),
+
+                            widget: CityTownTempleMapAlert(
+                              cityTownName: municipalModel?.name ?? '',
+                              latList: municipalLatLng['latList'] ?? <double>[],
+                              lngList: municipalLatLng['lngList'] ?? <double>[],
+                              selectArealPolygons: municipalModel?.polygons,
+                            ),
                           );
                         },
                   icon: const Icon(Icons.map),
@@ -238,15 +267,32 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(width: 1.5, color: borderColor),
               ),
-              child: ListTile(
-                dense: true,
-                visualDensity: const VisualDensity(vertical: -3),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                title: Text(
-                  rouletteTempleList[index].name,
-                  style: TextStyle(fontSize: 12, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
-                ),
-                trailing: Icon(isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked, size: 18),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    right: 40,
+                    child: (rouletteTempleList[index].mark.toInt() == 0)
+                        ? const SizedBox.shrink()
+                        : Transform(
+                            transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
+                            child: Text(
+                              rouletteTempleList[index].mark.padLeft(3, '0'),
+                              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.4)),
+                            ),
+                          ),
+                  ),
+
+                  ListTile(
+                    dense: true,
+                    visualDensity: const VisualDensity(vertical: -3),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                    title: Text(
+                      rouletteTempleList[index].name,
+                      style: TextStyle(fontSize: 12, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+                    ),
+                    trailing: Icon(isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked, size: 18),
+                  ),
+                ],
               ),
             ),
           ),
@@ -378,7 +424,11 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
     for (final String element in appParamState.selectedRankList) {
       templeRankMap[element]?.forEach((SpotDataModel element2) {
         if (!list.contains(element2)) {
-          list.add(element2);
+          for (final MunicipalModel element3 in getDataState.keepTokyoMunicipalList) {
+            if (spotInMunicipality(element2.latitude.toDouble(), element2.longitude.toDouble(), element3)) {
+              list.add(element2);
+            }
+          }
         }
       });
     }

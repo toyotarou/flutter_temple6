@@ -32,16 +32,16 @@ class CityTownTempleMapAlert extends ConsumerStatefulWidget {
     required this.latList,
     required this.lngList,
     this.selectArealPolygons,
-    required this.visitedMunicipalSpotDataListMap,
-    required this.noReachMunicipalSpotDataListMap,
+    this.visitedMunicipalSpotDataListMap,
+    this.noReachMunicipalSpotDataListMap,
   });
 
   final String cityTownName;
   final List<double> latList;
   final List<double> lngList;
   final List<List<List<List<double>>>>? selectArealPolygons;
-  final Map<String, List<SpotDataModel>> visitedMunicipalSpotDataListMap;
-  final Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap;
+  final Map<String, List<SpotDataModel>>? visitedMunicipalSpotDataListMap;
+  final Map<String, List<SpotDataModel>>? noReachMunicipalSpotDataListMap;
 
   @override
   ConsumerState<CityTownTempleMapAlert> createState() => _CityTownTempleMapAlertState();
@@ -422,7 +422,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeVisitedMunicipalSpotDataMarker() {
     visitedTemplesMarkerList.clear();
 
-    widget.visitedMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
+    widget.visitedMunicipalSpotDataListMap?[widget.cityTownName]?.forEach((SpotDataModel element) {
       bool flag = true;
 
       if (appParamState.selectedRankList.isNotEmpty) {
@@ -466,7 +466,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   void makeNoReachMunicipalSpotDataMarker() {
     noReachTemplesMarkerList.clear();
 
-    widget.noReachMunicipalSpotDataListMap[widget.cityTownName]?.forEach((SpotDataModel element) {
+    widget.noReachMunicipalSpotDataListMap?[widget.cityTownName]?.forEach((SpotDataModel element) {
       noReachTemplesMarkerList.add(
         Marker(
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
@@ -514,8 +514,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     children: <Widget>[
                       const Text('Visited'),
                       Text(
-                        (widget.visitedMunicipalSpotDataListMap[widget.cityTownName] != null)
-                            ? widget.visitedMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                        (widget.visitedMunicipalSpotDataListMap?[widget.cityTownName] != null)
+                            ? widget.visitedMunicipalSpotDataListMap![widget.cityTownName]!.length.toString()
                             : '0',
                       ),
                     ],
@@ -534,8 +534,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     children: <Widget>[
                       const Text('No Reach'),
                       Text(
-                        (widget.noReachMunicipalSpotDataListMap[widget.cityTownName] != null)
-                            ? widget.noReachMunicipalSpotDataListMap[widget.cityTownName]!.length.toString()
+                        (widget.noReachMunicipalSpotDataListMap?[widget.cityTownName] != null)
+                            ? widget.noReachMunicipalSpotDataListMap![widget.cityTownName]!.length.toString()
                             : '0',
                       ),
                     ],
@@ -744,7 +744,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     neighborTemplesMarkerList.clear();
 
     for (final String element in appParamState.neighborAreaNameList) {
-      widget.visitedMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
+      widget.visitedMunicipalSpotDataListMap?[element]?.forEach((SpotDataModel element2) {
         bool flag = true;
 
         if (appParamState.selectedRankList.isNotEmpty) {
@@ -783,7 +783,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         }
       });
 
-      widget.noReachMunicipalSpotDataListMap[element]?.forEach((SpotDataModel element2) {
+      widget.noReachMunicipalSpotDataListMap?[element]?.forEach((SpotDataModel element2) {
         neighborTemplesMarkerList.add(
           Marker(
             point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),

@@ -684,6 +684,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                           templeLatLngMap: widget.templeLatLngMap,
                           stationMap: widget.stationMap,
                           tokyoMunicipalList: widget.tokyoMunicipalList,
+                          templeListMap: widget.templeListMap,
                         );
 
                         final List<String> templeMunicipalList =
@@ -892,6 +893,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         templeLatLngMap: widget.templeLatLngMap,
         stationMap: widget.stationMap,
         tokyoMunicipalList: widget.tokyoMunicipalList,
+        templeListMap: widget.templeListMap,
       );
 
       getDailySpotDataInfoMap[element.date.yyyymmdd] = dailySpotDataInfo['templeDataList'] as List<SpotDataModel>;
