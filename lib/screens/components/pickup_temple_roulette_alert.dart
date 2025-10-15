@@ -8,6 +8,8 @@ import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/municipal_model.dart';
+import '../../models/temple_lat_lng_model.dart';
+import '../../models/temple_list_model.dart';
 import '../../utility/map_functions.dart';
 import '../parts/error_dialog.dart';
 import '../parts/temple_dialog.dart';
@@ -45,6 +47,16 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
   int listItemNum = 0;
 
+  Map<String, List<SpotDataModel>> cityTownMunicipalSpotDataListMap = <String, List<SpotDataModel>>{};
+
+  Map<String, List<SpotDataModel>> visitedMunicipalSpotDataListMap = <String, List<SpotDataModel>>{};
+
+  Map<String, List<SpotDataModel>> noReachMunicipalSpotDataListMap = <String, List<SpotDataModel>>{};
+
+  List<SpotDataModel> allNoReachSpotDataList = <SpotDataModel>[];
+
+  Map<String, String> visitedTempleNameRankMap = <String, String>{};
+
   ///
   @override
   void initState() {
@@ -57,6 +69,8 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
             if (element == element2.rank) {
               (templeRankMap[element] ??= <SpotDataModel>[]).add(element2);
             }
+
+            visitedTempleNameRankMap[element2.name] = element2.rank;
           }
         }
       });
@@ -66,6 +80,8 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
   ///
   @override
   Widget build(BuildContext context) {
+    makeMunicipalSpotDataListMap();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
@@ -84,7 +100,7 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
             Row(
               children: <Widget>[
-                ElevatedButton.icon(
+                ElevatedButton(
                   onPressed: _spinning
                       ? null
                       : () {
@@ -105,15 +121,14 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
                           _shuffleList();
                         },
-                  icon: const Icon(Icons.shuffle),
-                  label: const Text('shuffle'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                  child: const Text('shuffle'),
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
 
                 Expanded(
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: _spinning
                         ? null
                         : () {
@@ -134,15 +149,14 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
                             _startRoulette();
                           },
-                    icon: const Icon(Icons.casino),
-                    label: Text(_spinning ? 'now' : 'start'),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                    child: Text(_spinning ? 'now' : 'start'),
                   ),
                 ),
 
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
 
-                ElevatedButton.icon(
+                ElevatedButton(
                   onPressed: _spinning
                       ? null
                       : () {
@@ -187,15 +201,19 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
 
                             widget: CityTownTempleMapAlert(
                               cityTownName: municipalModel?.name ?? '',
+
+                              selectedSpotDataModel: spotDataModel,
+
                               latList: municipalLatLng['latList'] ?? <double>[],
                               lngList: municipalLatLng['lngList'] ?? <double>[],
                               selectArealPolygons: municipalModel?.polygons,
+                              visitedMunicipalSpotDataListMap: visitedMunicipalSpotDataListMap,
+                              noReachMunicipalSpotDataListMap: noReachMunicipalSpotDataListMap,
                             ),
                           );
                         },
-                  icon: const Icon(Icons.map),
-                  label: const Text('map'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
+                  child: const Text('map'),
                 ),
               ],
             ),
@@ -207,6 +225,74 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
         ),
       ),
     );
+  }
+
+  ///
+  void makeMunicipalSpotDataListMap() {
+    cityTownMunicipalSpotDataListMap.clear();
+    visitedMunicipalSpotDataListMap.clear();
+    noReachMunicipalSpotDataListMap.clear();
+
+    allNoReachSpotDataList.clear();
+
+    final List<String> visitedTemples = getDataState.keepTempleLatLngList
+        .map((TempleLatLngModel e) => e.temple)
+        .toList();
+
+    getDataState.keepTokyoMunicipalMap.forEach((String key, MunicipalModel value) {
+      for (final TempleListModel element in getDataState.keepTempleListList) {
+        if (spotInMunicipality(element.lat.toDouble(), element.lng.toDouble(), value)) {
+          (cityTownMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
+            SpotDataModel(
+              type: 'temple',
+              name: element.name,
+              address: element.address,
+              latitude: element.lat,
+              longitude: element.lng,
+            ),
+          );
+
+          if (visitedTemples.contains(element.name)) {
+            (visitedMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
+              SpotDataModel(
+                type: 'temple',
+                mark: element.id.toString(),
+
+                name: element.name,
+                address: element.address,
+                latitude: element.lat,
+                longitude: element.lng,
+                rank: visitedTempleNameRankMap[element.name] ?? '',
+
+                ////////////////
+              ),
+            );
+          } else {
+            (noReachMunicipalSpotDataListMap[key] ??= <SpotDataModel>[]).add(
+              SpotDataModel(
+                type: 'temple',
+                mark: element.id.toString(),
+                name: element.name,
+                address: element.address,
+                latitude: element.lat,
+                longitude: element.lng,
+              ),
+            );
+
+            allNoReachSpotDataList.add(
+              SpotDataModel(
+                type: 'temple',
+                mark: element.id.toString(),
+                name: element.name,
+                address: element.address,
+                latitude: element.lat,
+                longitude: element.lng,
+              ),
+            );
+          }
+        }
+      }
+    });
   }
 
   ///
