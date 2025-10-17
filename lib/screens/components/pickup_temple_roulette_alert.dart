@@ -534,9 +534,11 @@ class _PickupTempleRouletteAlertState extends ConsumerState<PickupTempleRoulette
     for (final String element in appParamState.selectedRankList) {
       templeRankMap[element]?.forEach((SpotDataModel element2) {
         if (!list.contains(element2)) {
-          for (final MunicipalModel element3 in getDataState.keepTokyoMunicipalList) {
-            if (spotInMunicipality(element2.latitude.toDouble(), element2.longitude.toDouble(), element3)) {
-              list.add(element2);
+          if (element2.mark.toInt() != 0) {
+            for (final MunicipalModel element3 in getDataState.keepTokyoMunicipalList) {
+              if (spotInMunicipality(element2.latitude.toDouble(), element2.longitude.toDouble(), element3)) {
+                list.add(element2);
+              }
             }
           }
         }
