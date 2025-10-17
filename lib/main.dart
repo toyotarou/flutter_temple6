@@ -62,7 +62,6 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
     tokyoTrainNotifier.getAllTokyoTrain();
     trainNotifier.getAllTrain();
     chibaMunicipalNotifier.getAllChibaMunicipalData();
-    busInfoNotifier.getAllBusInfo();
     busTotalInfoNotifier.getAllBusTotalInfo();
   }
 
@@ -116,9 +115,6 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
 
           //---
           chibaMunicipalMap: chibaMunicipalState.chibaMunicipalMap,
-
-          //---
-          busInfoStringListMap: busInfoState.busInfoStringListMap,
         ),
       ),
     );

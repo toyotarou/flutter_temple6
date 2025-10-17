@@ -1,7 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/common/spot_data_model.dart';
+import '../../models/bus_total_info_model.dart';
+
+// import '../../models/common/spot_data_model.dart';
+//
+//
+//
+
 import '../../models/municipal_model.dart';
 import '../../models/station_model.dart';
 import '../../models/temple_lat_lng_model.dart';
@@ -60,8 +66,7 @@ class GetDataState with _$GetDataState {
     @Default(<String, List<String>>{}) Map<String, List<String>> keepBusInfoStringListMap,
 
     //---
-    @Default(<SpotDataModel, List<SpotDataModel>>{})
-    Map<SpotDataModel, List<SpotDataModel>> keepBusInfoSpotDataModelMap,
+    @Default(<String, List<BusTotalInfoModel>>{}) Map<String, List<BusTotalInfoModel>> keepBusTotalInfoViaStationMap,
   }) = _GetDataState;
 }
 
@@ -144,11 +149,14 @@ class GetData extends _$GetData {
   void setKeepBusInfoStringListMap({required Map<String, List<String>> map}) =>
       state = state.copyWith(keepBusInfoStringListMap: map);
 
-  ///
-  void setKeepBusInfoSpotDataModelMap({required Map<SpotDataModel, List<SpotDataModel>> map}) =>
-      state = state.copyWith(keepBusInfoSpotDataModelMap: map);
-
-  //===================================================
+  // ///
+  // void setKeepBusInfoSpotDataModelMap({required Map<SpotDataModel, List<SpotDataModel>> map}) =>
+  //     state = state.copyWith(keepBusInfoSpotDataModelMap: map);
+  //
+  //
+  //
+  //
+  //
 
   ///
   void setKeepTokyoStationList({required List<StationModel> list}) =>
@@ -157,4 +165,8 @@ class GetData extends _$GetData {
   ///
   void setKeepTokyoStationMap({required Map<String, StationModel> map}) =>
       state = state.copyWith(keepTokyoStationMap: map);
+
+  ///
+  void setKeepBusTotalInfoViaStationMap({required Map<String, List<BusTotalInfoModel>> map}) =>
+      state = state.copyWith(keepBusTotalInfoViaStationMap: map);
 }

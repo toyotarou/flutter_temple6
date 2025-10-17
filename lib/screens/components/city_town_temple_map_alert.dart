@@ -88,10 +88,14 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   Utility utility = Utility();
 
-  // ignore: always_specify_types
-  List<PolylineLayer> busRoutePolylineLayerList = <PolylineLayer>[];
-
-  bool makeBusPolylineFlag = false;
+  // // ignore: always_specify_types
+  // List<PolylineLayer> busRoutePolylineLayerList = <PolylineLayer>[];
+  //
+  // bool makeBusPolylineFlag = false;
+  //
+  //
+  //
+  //
 
   ///
   @override
@@ -150,19 +154,19 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeSelectedSpotsMarkerList();
 
-    /////////////////////////////////////////////// bus
-    if (appParamState.busInfoDisplayFlag) {
-      if (!makeBusPolylineFlag) {
-        makeBusRoutePolylineLayerList();
-
-        makeBusPolylineFlag = true;
-      }
-    } else {
-      makeBusPolylineFlag = false;
-
-      busRoutePolylineLayerList.clear();
-    }
-    /////////////////////////////////////////////// bus
+    // /////////////////////////////////////////////// bus
+    // if (appParamState.busInfoDisplayFlag) {
+    //   if (!makeBusPolylineFlag) {
+    //     makeBusRoutePolylineLayerList();
+    //
+    //     makeBusPolylineFlag = true;
+    //   }
+    // } else {
+    //   makeBusPolylineFlag = false;
+    //
+    //   busRoutePolylineLayerList.clear();
+    // }
+    // /////////////////////////////////////////////// bus
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -206,9 +210,12 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
 
-                /////////////////////////////////////////////// bus
-                for (int i = 0; i < busRoutePolylineLayerList.length; i++) busRoutePolylineLayerList[i],
-
+                // /////////////////////////////////////////////// bus
+                // for (int i = 0; i < busRoutePolylineLayerList.length; i++) busRoutePolylineLayerList[i],
+                //
+                //
+                //
+                //
                 if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolylineLayer(polylines: makeAddSpotsPolyline()),
@@ -712,9 +719,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             }
 
             if (flag) {
-              final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
-                  .map((SpotDataModel key) => key.name)
-                  .toList();
+              // final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
+              //     .map((SpotDataModel key) => key.name)
+              //     .toList();
+              //
+              //
+              //
+              //
 
               tokyoStationMarkerList.add(
                 Marker(
@@ -736,7 +747,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                     child: Icon(
                       Icons.circle_outlined,
-                      color: (busKeyList.contains(element.stationName)) ? Colors.green[900] : Colors.red[900],
+
+                      // color: (busKeyList.contains(element.stationName)) ? Colors.green[900] : Colors.red[900],
+                      //
+                      //
+                      //
+                      //
+                      color: Colors.green[900],
                     ),
                   ),
                 ),
@@ -1009,9 +1026,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
-    final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
-        .map((SpotDataModel key) => key.name)
-        .toList();
+    // final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
+    //     .map((SpotDataModel key) => key.name)
+    //     .toList();
+    //
+    //
+    //
+    //
 
     return Stack(
       children: <Widget>[
@@ -1103,30 +1124,38 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
                     Row(
                       children: <Widget>[
-                        if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
-                          IconButton(
-                            onPressed: () {
-                              appParamNotifier.setBusInfoDisplayFlag();
-
-                              appParamNotifier.setSelectedSpotDataModelForBusInfo(
-                                spotDataModel: SpotDataModel(
-                                  type: 'bus',
-                                  name: appParamState.selectedSpotDataModel!.name,
-                                  address: appParamState.selectedSpotDataModel!.address,
-                                  latitude: appParamState.selectedSpotDataModel!.latitude,
-                                  longitude: appParamState.selectedSpotDataModel!.longitude,
-                                ),
-                              );
-                            },
-                            icon: Icon(
-                              FontAwesomeIcons.bus,
-                              color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
-                            ),
-                          ),
-
-                          const SizedBox(width: 20),
-                        ],
-
+                        //
+                        //
+                        //
+                        //
+                        // if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
+                        //   IconButton(
+                        //     onPressed: () {
+                        //       appParamNotifier.setBusInfoDisplayFlag();
+                        //
+                        //       appParamNotifier.setSelectedSpotDataModelForBusInfo(
+                        //         spotDataModel: SpotDataModel(
+                        //           type: 'bus',
+                        //           name: appParamState.selectedSpotDataModel!.name,
+                        //           address: appParamState.selectedSpotDataModel!.address,
+                        //           latitude: appParamState.selectedSpotDataModel!.latitude,
+                        //           longitude: appParamState.selectedSpotDataModel!.longitude,
+                        //         ),
+                        //       );
+                        //     },
+                        //     icon: Icon(
+                        //       FontAwesomeIcons.bus,
+                        //       color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
+                        //     ),
+                        //   ),
+                        //
+                        //   const SizedBox(width: 20),
+                        // ],
+                        //
+                        //
+                        //
+                        //
+                        //
                         ElevatedButton(
                           onPressed: () {
                             final SpotDataModel selected = appParamState.selectedSpotDataModel!;
@@ -1468,38 +1497,48 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     ];
   }
 
-  ///
-  void makeBusRoutePolylineLayerList() {
-    busRoutePolylineLayerList.clear();
-
-    if (appParamState.selectedSpotDataModelForBusInfo != null) {
-      final List<SpotDataModel> spotDataModelList = getDataState.keepBusInfoSpotDataModelMap.entries.firstWhere((
-        MapEntry<SpotDataModel, List<SpotDataModel>> entry,
-      ) {
-        return entry.key.name == appParamState.selectedSpotDataModelForBusInfo!.name;
-      }).value;
-
-      for (final SpotDataModel element in spotDataModelList) {
-        busRoutePolylineLayerList.add(
-          // ignore: always_specify_types
-          PolylineLayer(
-            polylines: <Polyline<Object>>[
-              // ignore: always_specify_types
-              Polyline(
-                points: <LatLng>[
-                  LatLng(
-                    appParamState.selectedSpotDataModelForBusInfo!.latitude.toDouble(),
-                    appParamState.selectedSpotDataModelForBusInfo!.longitude.toDouble(),
-                  ),
-                  LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
-                ],
-                color: Colors.purpleAccent.withOpacity(0.5),
-                strokeWidth: 4,
-              ),
-            ],
-          ),
-        );
-      }
-    }
-  }
+  //
+  //
+  //
+  //
+  // ///
+  // void makeBusRoutePolylineLayerList() {
+  //   busRoutePolylineLayerList.clear();
+  //
+  //   if (appParamState.selectedSpotDataModelForBusInfo != null) {
+  //     final List<SpotDataModel> spotDataModelList = getDataState.keepBusInfoSpotDataModelMap.entries.firstWhere((
+  //       MapEntry<SpotDataModel, List<SpotDataModel>> entry,
+  //     ) {
+  //       return entry.key.name == appParamState.selectedSpotDataModelForBusInfo!.name;
+  //     }).value;
+  //
+  //     for (final SpotDataModel element in spotDataModelList) {
+  //       busRoutePolylineLayerList.add(
+  //         // ignore: always_specify_types
+  //         PolylineLayer(
+  //           polylines: <Polyline<Object>>[
+  //             // ignore: always_specify_types
+  //             Polyline(
+  //               points: <LatLng>[
+  //                 LatLng(
+  //                   appParamState.selectedSpotDataModelForBusInfo!.latitude.toDouble(),
+  //                   appParamState.selectedSpotDataModelForBusInfo!.longitude.toDouble(),
+  //                 ),
+  //                 LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
+  //               ],
+  //               color: Colors.purpleAccent.withOpacity(0.5),
+  //               strokeWidth: 4,
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
+  //
+  //
+  //
+  //
+  //
+  //
 }
