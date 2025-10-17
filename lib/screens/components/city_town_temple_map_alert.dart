@@ -25,6 +25,7 @@ import '../parts/error_dialog.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_dialog.dart';
 import '../parts/temple_overlay.dart';
+import 'bus_route_display_alert.dart';
 import 'required_time_calculate_setting_alert.dart';
 
 class CityTownTempleMapAlert extends ConsumerStatefulWidget {
@@ -923,11 +924,20 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         Container(
           decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+
+            color:
+                (selectedBusTotalInfoModel != null &&
+                    selectedBusTotalInfoModel.operatorName == element.operatorName &&
+                    selectedBusTotalInfoModel.line == element.line)
+                ? Colors.yellowAccent.withValues(alpha: 0.1)
+                : Colors.transparent,
           ),
           padding: const EdgeInsets.all(5),
 
           child: Row(
             children: <Widget>[
+              const SizedBox(width: 10),
+
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -935,15 +945,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   });
                 },
 
-                child: Icon(
-                  FontAwesomeIcons.bus,
-                  color:
-                      (selectedBusTotalInfoModel != null &&
-                          selectedBusTotalInfoModel.operatorName == element.operatorName &&
-                          selectedBusTotalInfoModel.line == element.line)
-                      ? Colors.white.withValues(alpha: 0.4)
-                      : Colors.white.withValues(alpha: 0.4),
-                ),
+                child: Icon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
               ),
               const SizedBox(width: 20),
 
@@ -967,8 +969,32 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       ),
                     ),
 
-                    Text(element.stops.first.name),
-                    Text(element.stops.last.name),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[Text(element.stops.first.name), Text(element.stops.last.name)],
+                          ),
+                        ),
+
+                        GestureDetector(
+                          onTap: () {
+                            TempleDialog(
+                              context: context,
+                              widget: BusRouteDisplayAlert(selectedBusTotalInfoModel: element),
+
+                              clearBarrierColor: true,
+                              paddingTop: context.screenSize.height * 0.4,
+                              paddingRight: context.screenSize.width * 0.3,
+                              paddingBottom: context.screenSize.height * 0.3,
+                            );
+                          },
+                          child: const Icon(Icons.list),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -980,12 +1006,28 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          SizedBox(
-            height: context.screenSize.height * 0.25,
+          Positioned(
+            bottom: 0,
+            right: 5,
+            child: Transform(
+              transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
+              child: Text(
+                (selectedBusTotalInfoModel != null) ? selectedBusTotalInfoModel.line : '',
+                style: TextStyle(fontSize: 30, color: Colors.white.withValues(alpha: 0.4)),
+              ),
+            ),
+          ),
 
-            child: SingleChildScrollView(child: Column(children: list)),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: context.screenSize.height * 0.25,
+
+                child: SingleChildScrollView(child: Column(children: list)),
+              ),
+            ],
           ),
         ],
       ),
