@@ -1,5 +1,7 @@
-class BusTotalInfoModel {
-  BusTotalInfoModel({required this.operatorName, required this.line, required this.stops});
+import 'package:equatable/equatable.dart';
+
+class BusTotalInfoModel extends Equatable {
+  const BusTotalInfoModel({required this.operatorName, required this.line, required this.stops});
 
   factory BusTotalInfoModel.fromJson(Map<String, dynamic> json) {
     final List<dynamic> stopList = json['stops'] as List<dynamic>;
@@ -15,20 +17,19 @@ class BusTotalInfoModel {
   final String line;
   final List<BusStopModel> stops;
 
-  /// モデル → JSON
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'operator': operatorName,
-      'line': line,
-      'stops': stops.map((BusStopModel e) => e.toJson()).toList(),
-    };
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'operator': operatorName,
+    'line': line,
+    'stops': stops.map((BusStopModel e) => e.toJson()).toList(),
+  };
+
+  @override
+  List<Object?> get props => <Object?>[operatorName, line, stops];
 }
 
-class BusStopModel {
-  BusStopModel({required this.orderNum, required this.name, required this.lat, required this.lon});
+class BusStopModel extends Equatable {
+  const BusStopModel({required this.orderNum, required this.name, required this.lat, required this.lon});
 
-  /// JSON → モデル
   factory BusStopModel.fromJson(Map<String, dynamic> json) {
     return BusStopModel(
       orderNum: json['order_num'] as int,
@@ -43,8 +44,8 @@ class BusStopModel {
   final String lat;
   final String lon;
 
-  /// モデル → JSON
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{'order_num': orderNum, 'name': name, 'lat': lat, 'lon': lon};
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{'order_num': orderNum, 'name': name, 'lat': lat, 'lon': lon};
+
+  @override
+  List<Object?> get props => <Object?>[orderNum, name, lat, lon];
 }

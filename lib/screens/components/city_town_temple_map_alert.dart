@@ -197,6 +197,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   userAgentPackageName: 'com.example.app',
                 ),
 
+                /////////////////////////////////////// polygon
                 if (widget.selectArealPolygons != null) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: makeAreaPolygons()),
@@ -207,6 +208,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolygonLayer(polygons: getNeighborArea()),
                 ],
 
+                /////////////////////////////////////// polygon
+
+                /////////////////////////////////////// polyline
                 if (appParamState.selectedTrainName != '' &&
                     getDataState.keepTokyoTrainMap[appParamState.selectedTrainName] != null &&
                     getDataState.keepTokyoTrainMap[appParamState.selectedTrainName]!.station.isNotEmpty) ...<Widget>[
@@ -214,7 +218,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
 
-                // /////////////////////////////////////////////// bus
+                // //////// bus
                 // for (int i = 0; i < busRoutePolylineLayerList.length; i++) busRoutePolylineLayerList[i],
                 //
                 //
@@ -225,6 +229,15 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolylineLayer(polylines: makeAddSpotsPolyline()),
                 ],
 
+                // ignore: always_specify_types
+                if (appParamState.selectedBusTotalInfoModel != null) ...<Widget>[
+                  // ignore: always_specify_types
+                  PolylineLayer(polylines: makeBusRoutePolyline()),
+                ],
+
+                /////////////////////////////////////// polyline
+
+                /////////////////////////////////////// marker
                 if (selectedSpotsMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: selectedSpotsMarkerList)],
 
                 if (visitedTemplesMarkerList.isNotEmpty) ...<Widget>[MarkerLayer(markers: visitedTemplesMarkerList)],
@@ -238,6 +251,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 if (neighborTemplesMarkerList.isNotEmpty && displayNeighborTemples) ...<Widget>[
                   MarkerLayer(markers: neighborTemplesMarkerList),
                 ],
+
+                /////////////////////////////////////// marker
               ],
             ),
 
@@ -881,7 +896,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       case 'bus':
         return Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            return displayBusTotalInfoList();
+            return displayBusTotalInfoList(
+              selectedBusTotalInfoModel: ref.watch(
+                appParamProvider.select((AppParamState value) => value.selectedBusTotalInfoModel),
+              ),
+            );
           },
         );
 
@@ -891,7 +910,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  Widget displayBusTotalInfoList() {
+  Widget displayBusTotalInfoList({BusTotalInfoModel? selectedBusTotalInfoModel}) {
     //    return const Text('bus bus');
 
     final List<Widget> list = <Widget>[];
@@ -909,13 +928,48 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
           child: Row(
             children: <Widget>[
-              Icon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    appParamNotifier.setSelectedBusTotalInfoModel(busTotalInfoModel: element);
+                  });
+                },
+
+                child: Icon(
+                  FontAwesomeIcons.bus,
+                  color:
+                      (selectedBusTotalInfoModel != null &&
+                          selectedBusTotalInfoModel.operatorName == element.operatorName &&
+                          selectedBusTotalInfoModel.line == element.line)
+                      ? Colors.white.withValues(alpha: 0.4)
+                      : Colors.white.withValues(alpha: 0.4),
+                ),
+              ),
               const SizedBox(width: 20),
 
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[Text(element.line), Text(element.operatorName)],
+                  children: <Widget>[
+                    DefaultTextStyle(
+                      style: const TextStyle(fontSize: 10),
+                      child: Stack(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[const SizedBox.shrink(), Text(element.line)],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[Text(element.operatorName), const SizedBox.shrink()],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Text(element.stops.first.name),
+                    Text(element.stops.last.name),
+                  ],
                 ),
               ),
             ],
@@ -1610,48 +1664,22 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     ];
   }
 
-  //
-  //
-  //
-  //
-  // ///
-  // void makeBusRoutePolylineLayerList() {
-  //   busRoutePolylineLayerList.clear();
-  //
-  //   if (appParamState.selectedSpotDataModelForBusInfo != null) {
-  //     final List<SpotDataModel> spotDataModelList = getDataState.keepBusInfoSpotDataModelMap.entries.firstWhere((
-  //       MapEntry<SpotDataModel, List<SpotDataModel>> entry,
-  //     ) {
-  //       return entry.key.name == appParamState.selectedSpotDataModelForBusInfo!.name;
-  //     }).value;
-  //
-  //     for (final SpotDataModel element in spotDataModelList) {
-  //       busRoutePolylineLayerList.add(
-  //         // ignore: always_specify_types
-  //         PolylineLayer(
-  //           polylines: <Polyline<Object>>[
-  //             // ignore: always_specify_types
-  //             Polyline(
-  //               points: <LatLng>[
-  //                 LatLng(
-  //                   appParamState.selectedSpotDataModelForBusInfo!.latitude.toDouble(),
-  //                   appParamState.selectedSpotDataModelForBusInfo!.longitude.toDouble(),
-  //                 ),
-  //                 LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
-  //               ],
-  //               color: Colors.purpleAccent.withOpacity(0.5),
-  //               strokeWidth: 4,
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
-  //
-  //
-  //
-  //
-  //
-  //
+  // ignore: always_specify_types
+  List<Polyline> makeBusRoutePolyline() {
+    final BusTotalInfoModel? model = appParamState.selectedBusTotalInfoModel;
+    if (model == null || model.stops.isEmpty) {
+      // ignore: always_specify_types
+      return <Polyline>[];
+    }
+
+    final List<BusStopModel> sortedStops = <BusStopModel>[...model.stops]
+      ..sort((BusStopModel a, BusStopModel b) => a.orderNum.compareTo(b.orderNum));
+
+    final List<LatLng> points = sortedStops
+        .map((BusStopModel e) => LatLng(e.lat.toDouble(), e.lon.toDouble()))
+        .toList();
+
+    // ignore: always_specify_types
+    return <Polyline>[Polyline(points: points, color: Colors.redAccent, strokeWidth: 5)];
+  }
 }

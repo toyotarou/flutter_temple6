@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../models/bus_total_info_model.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../utility/utility.dart';
 
@@ -46,6 +47,8 @@ class AppParamState with _$AppParamState {
     @Default('') String selectedTempleHistoryYear,
 
     @Default(<String>[]) List<String> templeHistoryDateList,
+
+    BusTotalInfoModel? selectedBusTotalInfoModel,
   }) = _AppParamState;
 }
 
@@ -221,4 +224,11 @@ class AppParam extends _$AppParam {
 
   ///
   void setAllTempleHistoryDateList({required List<String> list}) => state = state.copyWith(templeHistoryDateList: list);
+
+  ///
+  void setSelectedBusTotalInfoModel({required BusTotalInfoModel busTotalInfoModel}) =>
+      state = state.copyWith(selectedBusTotalInfoModel: busTotalInfoModel);
+
+  ///
+  void clearSelectedBusTotalInfoModel() => state = state.copyWith(selectedBusTotalInfoModel: null);
 }

@@ -44,6 +44,8 @@ mixin _$AppParamState {
       throw _privateConstructorUsedError;
   String get selectedTempleHistoryYear => throw _privateConstructorUsedError;
   List<String> get templeHistoryDateList => throw _privateConstructorUsedError;
+  BusTotalInfoModel? get selectedBusTotalInfoModel =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -75,7 +77,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       bool busInfoDisplayFlag,
       SpotDataModel? selectedSpotDataModelForBusInfo,
       String selectedTempleHistoryYear,
-      List<String> templeHistoryDateList});
+      List<String> templeHistoryDateList,
+      BusTotalInfoModel? selectedBusTotalInfoModel});
 }
 
 /// @nodoc
@@ -110,6 +113,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? selectedSpotDataModelForBusInfo = freezed,
     Object? selectedTempleHistoryYear = null,
     Object? templeHistoryDateList = null,
+    Object? selectedBusTotalInfoModel = freezed,
   }) {
     return _then(_value.copyWith(
       currentZoom: null == currentZoom
@@ -181,6 +185,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.templeHistoryDateList
           : templeHistoryDateList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      selectedBusTotalInfoModel: freezed == selectedBusTotalInfoModel
+          ? _value.selectedBusTotalInfoModel
+          : selectedBusTotalInfoModel // ignore: cast_nullable_to_non_nullable
+              as BusTotalInfoModel?,
     ) as $Val);
   }
 }
@@ -210,7 +218,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       bool busInfoDisplayFlag,
       SpotDataModel? selectedSpotDataModelForBusInfo,
       String selectedTempleHistoryYear,
-      List<String> templeHistoryDateList});
+      List<String> templeHistoryDateList,
+      BusTotalInfoModel? selectedBusTotalInfoModel});
 }
 
 /// @nodoc
@@ -243,6 +252,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? selectedSpotDataModelForBusInfo = freezed,
     Object? selectedTempleHistoryYear = null,
     Object? templeHistoryDateList = null,
+    Object? selectedBusTotalInfoModel = freezed,
   }) {
     return _then(_$AppParamStateImpl(
       currentZoom: null == currentZoom
@@ -314,6 +324,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value._templeHistoryDateList
           : templeHistoryDateList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      selectedBusTotalInfoModel: freezed == selectedBusTotalInfoModel
+          ? _value.selectedBusTotalInfoModel
+          : selectedBusTotalInfoModel // ignore: cast_nullable_to_non_nullable
+              as BusTotalInfoModel?,
     ));
   }
 }
@@ -339,7 +353,8 @@ class _$AppParamStateImpl implements _AppParamState {
       this.busInfoDisplayFlag = false,
       this.selectedSpotDataModelForBusInfo,
       this.selectedTempleHistoryYear = '',
-      final List<String> templeHistoryDateList = const <String>[]})
+      final List<String> templeHistoryDateList = const <String>[],
+      this.selectedBusTotalInfoModel})
       : _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
@@ -456,8 +471,11 @@ class _$AppParamStateImpl implements _AppParamState {
   }
 
   @override
+  final BusTotalInfoModel? selectedBusTotalInfoModel;
+
+  @override
   String toString() {
-    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList)';
+    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList, selectedBusTotalInfoModel: $selectedBusTotalInfoModel)';
   }
 
   @override
@@ -501,7 +519,10 @@ class _$AppParamStateImpl implements _AppParamState {
                     selectedTempleHistoryYear) ||
                 other.selectedTempleHistoryYear == selectedTempleHistoryYear) &&
             const DeepCollectionEquality()
-                .equals(other._templeHistoryDateList, _templeHistoryDateList));
+                .equals(other._templeHistoryDateList, _templeHistoryDateList) &&
+            (identical(other.selectedBusTotalInfoModel,
+                    selectedBusTotalInfoModel) ||
+                other.selectedBusTotalInfoModel == selectedBusTotalInfoModel));
   }
 
   @override
@@ -523,7 +544,8 @@ class _$AppParamStateImpl implements _AppParamState {
       busInfoDisplayFlag,
       selectedSpotDataModelForBusInfo,
       selectedTempleHistoryYear,
-      const DeepCollectionEquality().hash(_templeHistoryDateList));
+      const DeepCollectionEquality().hash(_templeHistoryDateList),
+      selectedBusTotalInfoModel);
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -536,23 +558,25 @@ class _$AppParamStateImpl implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-      {final double currentZoom,
-      final int currentPaddingIndex,
-      final List<OverlayEntry>? firstEntries,
-      final List<OverlayEntry>? secondEntries,
-      final Offset? overlayPosition,
-      final List<String> selectedMunicipalNameList,
-      final String searchWord,
-      final List<String> neighborAreaNameList,
-      final SpotDataModel? selectedSpotDataModel,
-      final List<String> selectedRankList,
-      final String selectedTrainName,
-      final List<SpotDataModel> addRouteSpotDataModelList,
-      final bool isJrInclude,
-      final bool busInfoDisplayFlag,
-      final SpotDataModel? selectedSpotDataModelForBusInfo,
-      final String selectedTempleHistoryYear,
-      final List<String> templeHistoryDateList}) = _$AppParamStateImpl;
+          {final double currentZoom,
+          final int currentPaddingIndex,
+          final List<OverlayEntry>? firstEntries,
+          final List<OverlayEntry>? secondEntries,
+          final Offset? overlayPosition,
+          final List<String> selectedMunicipalNameList,
+          final String searchWord,
+          final List<String> neighborAreaNameList,
+          final SpotDataModel? selectedSpotDataModel,
+          final List<String> selectedRankList,
+          final String selectedTrainName,
+          final List<SpotDataModel> addRouteSpotDataModelList,
+          final bool isJrInclude,
+          final bool busInfoDisplayFlag,
+          final SpotDataModel? selectedSpotDataModelForBusInfo,
+          final String selectedTempleHistoryYear,
+          final List<String> templeHistoryDateList,
+          final BusTotalInfoModel? selectedBusTotalInfoModel}) =
+      _$AppParamStateImpl;
 
   ///
   @override
@@ -595,6 +619,8 @@ abstract class _AppParamState implements AppParamState {
   String get selectedTempleHistoryYear;
   @override
   List<String> get templeHistoryDateList;
+  @override
+  BusTotalInfoModel? get selectedBusTotalInfoModel;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
