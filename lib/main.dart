@@ -63,6 +63,7 @@ class _MyAppState extends ConsumerState<MyApp> with ControllersMixin<MyApp> {
     trainNotifier.getAllTrain();
     chibaMunicipalNotifier.getAllChibaMunicipalData();
     busInfoNotifier.getAllBusInfo();
+    busTotalInfoNotifier.getAllBusTotalInfo();
   }
 
   ///
