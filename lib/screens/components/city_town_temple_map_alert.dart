@@ -14,6 +14,7 @@ import '../../extensions/extensions.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/municipal_model.dart';
 import '../../models/station_model.dart';
+import '../../models/temple_photo_model.dart';
 import '../../models/tokyo_train_model.dart';
 import '../../models/train_model.dart';
 import '../../utility/map_functions.dart';
@@ -457,7 +458,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   Positioned(bottom: 0, right: 0, child: Text(element.rank, style: const TextStyle(fontSize: 30))),
 
                   CircleAvatar(
-                    backgroundColor: (widget.selectedSpotDataModel != null && widget.selectedSpotDataModel == element)
+                    backgroundColor:
+                        (widget.selectedSpotDataModel != null && widget.selectedSpotDataModel!.name == element.name)
                         ? Colors.redAccent.withValues(alpha: 0.4)
                         : Colors.orangeAccent.withValues(alpha: 0.4),
                     child: Text(
@@ -1034,8 +1036,40 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     //
     //
 
+    String randomPhoto = '';
+
+    if (appParamState.selectedSpotDataModel?.type == 'temple') {
+      final String? templeName = appParamState.selectedSpotDataModel?.name;
+      final List<TemplePhotoModel>? pList = getDataState.keepTemplePhotoMap[templeName];
+
+      final List<String> photoList =
+          pList?.expand((TemplePhotoModel e) => e.templephotos).where((String photo) => photo.isNotEmpty).toList() ??
+          <String>[];
+
+      if (photoList.isNotEmpty) {
+        final Random random = Random();
+
+        randomPhoto = photoList[random.nextInt(photoList.length)];
+      }
+    }
+
     return Stack(
       children: <Widget>[
+        if (randomPhoto.isNotEmpty) ...<Widget>[
+          AspectRatio(
+            aspectRatio: 4 / 3,
+
+            child: Stack(
+              fit: StackFit.expand,
+
+              children: <Widget>[
+                Image.network(randomPhoto, fit: BoxFit.cover),
+                Container(color: Colors.black.withOpacity(0.5)),
+              ],
+            ),
+          ),
+        ],
+
         if (type == 'temple') ...<Widget>[
           Positioned(
             right: 5,
@@ -1070,10 +1104,23 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             children: <Widget>[
               const SizedBox(width: double.infinity),
 
-              Text(appParamState.selectedSpotDataModel!.name, style: const TextStyle(fontSize: 16)),
-              Text(appParamState.selectedSpotDataModel!.address),
-              Text(
-                '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
+              Container(
+                decoration: BoxDecoration(
+                  color: (appParamState.selectedSpotDataModel!.type == 'station')
+                      ? Colors.transparent
+                      : Colors.black.withValues(alpha: 0.4),
+                ),
+                padding: (appParamState.selectedSpotDataModel!.type == 'station') ? null : const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(appParamState.selectedSpotDataModel!.name, style: const TextStyle(fontSize: 16)),
+                    Text(appParamState.selectedSpotDataModel!.address),
+                    Text(
+                      '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
+                    ),
+                  ],
+                ),
               ),
 
               SizedBox(

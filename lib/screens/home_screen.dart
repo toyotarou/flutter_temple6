@@ -203,7 +203,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
         final List<StationModel> tokyoStationList = <StationModel>[];
         final Map<String, StationModel> tokyoStationMap = <String, StationModel>{};
 
-        final Map<SpotDataModel, List<SpotDataModel>> busInfoSpotDataModelMap = <SpotDataModel, List<SpotDataModel>>{};
+        // final Map<SpotDataModel, List<SpotDataModel>> busInfoSpotDataModelMap = <SpotDataModel, List<SpotDataModel>>{};
+        //
+        //
+        //
 
         widget.stationMap.forEach((String key, StationModel value) {
           for (final MunicipalModel element in widget.tokyoMunicipalList) {
