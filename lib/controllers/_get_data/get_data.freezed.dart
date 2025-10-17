@@ -54,8 +54,6 @@ mixin _$GetDataState {
       throw _privateConstructorUsedError; //---
   Map<String, MunicipalModel> get keepChibaMunicipalMap =>
       throw _privateConstructorUsedError; //---
-  Map<String, List<String>> get keepBusInfoStringListMap =>
-      throw _privateConstructorUsedError; //---
   Map<String, List<BusTotalInfoModel>> get keepBusTotalInfoViaStationMap =>
       throw _privateConstructorUsedError;
 
@@ -89,7 +87,6 @@ abstract class $GetDataStateCopyWith<$Res> {
       Map<String, StationModel> keepTokyoStationMap,
       List<TrainModel> keepTrainList,
       Map<String, MunicipalModel> keepChibaMunicipalMap,
-      Map<String, List<String>> keepBusInfoStringListMap,
       Map<String, List<BusTotalInfoModel>> keepBusTotalInfoViaStationMap});
 }
 
@@ -124,7 +121,6 @@ class _$GetDataStateCopyWithImpl<$Res, $Val extends GetDataState>
     Object? keepTokyoStationMap = null,
     Object? keepTrainList = null,
     Object? keepChibaMunicipalMap = null,
-    Object? keepBusInfoStringListMap = null,
     Object? keepBusTotalInfoViaStationMap = null,
   }) {
     return _then(_value.copyWith(
@@ -193,10 +189,6 @@ class _$GetDataStateCopyWithImpl<$Res, $Val extends GetDataState>
           ? _value.keepChibaMunicipalMap
           : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
               as Map<String, MunicipalModel>,
-      keepBusInfoStringListMap: null == keepBusInfoStringListMap
-          ? _value.keepBusInfoStringListMap
-          : keepBusInfoStringListMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<String>>,
       keepBusTotalInfoViaStationMap: null == keepBusTotalInfoViaStationMap
           ? _value.keepBusTotalInfoViaStationMap
           : keepBusTotalInfoViaStationMap // ignore: cast_nullable_to_non_nullable
@@ -230,7 +222,6 @@ abstract class _$$GetDataStateImplCopyWith<$Res>
       Map<String, StationModel> keepTokyoStationMap,
       List<TrainModel> keepTrainList,
       Map<String, MunicipalModel> keepChibaMunicipalMap,
-      Map<String, List<String>> keepBusInfoStringListMap,
       Map<String, List<BusTotalInfoModel>> keepBusTotalInfoViaStationMap});
 }
 
@@ -263,7 +254,6 @@ class __$$GetDataStateImplCopyWithImpl<$Res>
     Object? keepTokyoStationMap = null,
     Object? keepTrainList = null,
     Object? keepChibaMunicipalMap = null,
-    Object? keepBusInfoStringListMap = null,
     Object? keepBusTotalInfoViaStationMap = null,
   }) {
     return _then(_$GetDataStateImpl(
@@ -332,10 +322,6 @@ class __$$GetDataStateImplCopyWithImpl<$Res>
           ? _value._keepChibaMunicipalMap
           : keepChibaMunicipalMap // ignore: cast_nullable_to_non_nullable
               as Map<String, MunicipalModel>,
-      keepBusInfoStringListMap: null == keepBusInfoStringListMap
-          ? _value._keepBusInfoStringListMap
-          : keepBusInfoStringListMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<String>>,
       keepBusTotalInfoViaStationMap: null == keepBusTotalInfoViaStationMap
           ? _value._keepBusTotalInfoViaStationMap
           : keepBusTotalInfoViaStationMap // ignore: cast_nullable_to_non_nullable
@@ -377,8 +363,6 @@ class _$GetDataStateImpl implements _GetDataState {
       final List<TrainModel> keepTrainList = const <TrainModel>[],
       final Map<String, MunicipalModel> keepChibaMunicipalMap =
           const <String, MunicipalModel>{},
-      final Map<String, List<String>> keepBusInfoStringListMap =
-          const <String, List<String>>{},
       final Map<String, List<BusTotalInfoModel>> keepBusTotalInfoViaStationMap =
           const <String, List<BusTotalInfoModel>>{}})
       : _keepTempleList = keepTempleList,
@@ -398,7 +382,6 @@ class _$GetDataStateImpl implements _GetDataState {
         _keepTokyoStationMap = keepTokyoStationMap,
         _keepTrainList = keepTrainList,
         _keepChibaMunicipalMap = keepChibaMunicipalMap,
-        _keepBusInfoStringListMap = keepBusInfoStringListMap,
         _keepBusTotalInfoViaStationMap = keepBusTotalInfoViaStationMap;
 
 //---
@@ -583,18 +566,6 @@ class _$GetDataStateImpl implements _GetDataState {
   }
 
 //---
-  final Map<String, List<String>> _keepBusInfoStringListMap;
-//---
-  @override
-  @JsonKey()
-  Map<String, List<String>> get keepBusInfoStringListMap {
-    if (_keepBusInfoStringListMap is EqualUnmodifiableMapView)
-      return _keepBusInfoStringListMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_keepBusInfoStringListMap);
-  }
-
-//---
   final Map<String, List<BusTotalInfoModel>> _keepBusTotalInfoViaStationMap;
 //---
   @override
@@ -608,7 +579,7 @@ class _$GetDataStateImpl implements _GetDataState {
 
   @override
   String toString() {
-    return 'GetDataState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, keepBusInfoStringListMap: $keepBusInfoStringListMap, keepBusTotalInfoViaStationMap: $keepBusTotalInfoViaStationMap)';
+    return 'GetDataState(keepTempleList: $keepTempleList, keepTempleLatLngList: $keepTempleLatLngList, keepTempleLatLngMap: $keepTempleLatLngMap, keepStationMap: $keepStationMap, keepTokyoMunicipalList: $keepTokyoMunicipalList, keepTokyoMunicipalMap: $keepTokyoMunicipalMap, keepTemplePhotoMap: $keepTemplePhotoMap, keepTempleListMap: $keepTempleListMap, keepTempleListList: $keepTempleListList, keepTokyoTrainList: $keepTokyoTrainList, keepTokyoTrainMap: $keepTokyoTrainMap, keepTokyoStationTokyoTrainModelListMap: $keepTokyoStationTokyoTrainModelListMap, keepTokyoStationList: $keepTokyoStationList, keepTokyoStationMap: $keepTokyoStationMap, keepTrainList: $keepTrainList, keepChibaMunicipalMap: $keepChibaMunicipalMap, keepBusTotalInfoViaStationMap: $keepBusTotalInfoViaStationMap)';
   }
 
   @override
@@ -650,8 +621,6 @@ class _$GetDataStateImpl implements _GetDataState {
             const DeepCollectionEquality()
                 .equals(other._keepChibaMunicipalMap, _keepChibaMunicipalMap) &&
             const DeepCollectionEquality().equals(
-                other._keepBusInfoStringListMap, _keepBusInfoStringListMap) &&
-            const DeepCollectionEquality().equals(
                 other._keepBusTotalInfoViaStationMap,
                 _keepBusTotalInfoViaStationMap));
   }
@@ -676,7 +645,6 @@ class _$GetDataStateImpl implements _GetDataState {
       const DeepCollectionEquality().hash(_keepTokyoStationMap),
       const DeepCollectionEquality().hash(_keepTrainList),
       const DeepCollectionEquality().hash(_keepChibaMunicipalMap),
-      const DeepCollectionEquality().hash(_keepBusInfoStringListMap),
       const DeepCollectionEquality().hash(_keepBusTotalInfoViaStationMap));
 
   /// Create a copy of GetDataState
@@ -707,7 +675,6 @@ abstract class _GetDataState implements GetDataState {
       final Map<String, StationModel> keepTokyoStationMap,
       final List<TrainModel> keepTrainList,
       final Map<String, MunicipalModel> keepChibaMunicipalMap,
-      final Map<String, List<String>> keepBusInfoStringListMap,
       final Map<String, List<BusTotalInfoModel>>
           keepBusTotalInfoViaStationMap}) = _$GetDataStateImpl;
 
@@ -748,8 +715,6 @@ abstract class _GetDataState implements GetDataState {
   List<TrainModel> get keepTrainList; //---
   @override
   Map<String, MunicipalModel> get keepChibaMunicipalMap; //---
-  @override
-  Map<String, List<String>> get keepBusInfoStringListMap; //---
   @override
   Map<String, List<BusTotalInfoModel>> get keepBusTotalInfoViaStationMap;
 

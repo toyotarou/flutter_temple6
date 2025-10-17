@@ -10,6 +10,7 @@ import '../const/const.dart';
 import '../controllers/controllers_mixin.dart';
 import '../extensions/extensions.dart';
 import '../main.dart';
+import '../models/bus_total_info_model.dart';
 import '../models/common/search_result_model.dart';
 import '../models/common/spot_data_model.dart';
 import '../models/municipal_model.dart';
@@ -65,6 +66,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
     //---
     required this.chibaMunicipalMap,
+
+    //---
+    required this.busTotalInfoViaStationMap,
   });
 
   //---
@@ -98,6 +102,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   //---
   final Map<String, MunicipalModel> chibaMunicipalMap;
+
+  //---
+  final Map<String, List<BusTotalInfoModel>> busTotalInfoViaStationMap;
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -198,6 +205,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
 
       //---
       getDataNotifier.setKeepChibaMunicipalMap(map: widget.chibaMunicipalMap);
+
+      //---
+      getDataNotifier.setKeepBusTotalInfoViaStationMap(map: widget.busTotalInfoViaStationMap);
 
       if (!tokyoStationSettedFlag) {
         final List<StationModel> tokyoStationList = <StationModel>[];

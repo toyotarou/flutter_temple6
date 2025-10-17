@@ -11,6 +11,7 @@ import '../../controllers/_get_data/get_data.dart';
 import '../../controllers/app_param/app_param.dart';
 import '../../controllers/controllers_mixin.dart';
 import '../../extensions/extensions.dart';
+import '../../models/bus_total_info_model.dart';
 import '../../models/common/spot_data_model.dart';
 import '../../models/municipal_model.dart';
 import '../../models/station_model.dart';
@@ -97,6 +98,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   //
   //
   //
+
+  String firstOverlayContentsName = '';
 
   ///
   @override
@@ -589,7 +592,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                       const SizedBox(width: 20),
 
                       GestureDetector(
-                        onTap: () => callFirstBox(),
+                        onTap: () {
+                          firstOverlayContentsName = 'train';
+
+                          callFirstBox();
+                        },
                         child: CircleAvatar(
                           backgroundColor: Colors.green[900]?.withValues(alpha: 0.6),
                           child: const Icon(Icons.stacked_line_chart, color: Colors.white),
@@ -851,17 +858,83 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       color: Colors.blueGrey.withOpacity(0.3),
       initialPosition: const Offset(20, 120),
 
-      widget: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          return displayTokyoTrainList(
-            selectedTrainName: ref.watch(appParamProvider.select((AppParamState value) => value.selectedTrainName)),
-          );
-        },
-      ),
+      widget: getFirstOverlayContents(),
 
       firstEntries: _firstEntries,
       secondEntries: _secondEntries,
       onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+    );
+  }
+
+  ///
+  Widget getFirstOverlayContents() {
+    switch (firstOverlayContentsName) {
+      case 'train':
+        return Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return displayTokyoTrainList(
+              selectedTrainName: ref.watch(appParamProvider.select((AppParamState value) => value.selectedTrainName)),
+            );
+          },
+        );
+
+      case 'bus':
+        return Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return displayBusTotalInfoList();
+          },
+        );
+
+      default:
+        return const SizedBox();
+    }
+  }
+
+  ///
+  Widget displayBusTotalInfoList() {
+    //    return const Text('bus bus');
+
+    final List<Widget> list = <Widget>[];
+
+    final List<BusTotalInfoModel>? viaStationMap =
+        getDataState.keepBusTotalInfoViaStationMap[appParamState.selectedSpotDataModel!.name];
+
+    viaStationMap?.forEach((BusTotalInfoModel element) {
+      list.add(
+        Container(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+          ),
+          padding: const EdgeInsets.all(5),
+
+          child: Row(
+            children: <Widget>[
+              Icon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
+              const SizedBox(width: 20),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[Text(element.line), Text(element.operatorName)],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 12),
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: context.screenSize.height * 0.25,
+
+            child: SingleChildScrollView(child: Column(children: list)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1028,17 +1101,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
-    // final List<String> busKeyList = getDataState.keepBusInfoSpotDataModelMap.keys
-    //     .map((SpotDataModel key) => key.name)
-    //     .toList();
-    //
-    //
-    //
-    //
+    final List<String> busKeyList = getDataState.keepBusTotalInfoViaStationMap.keys.map((String e) => e).toList();
 
     String randomPhoto = '';
 
-    if (appParamState.selectedSpotDataModel?.type == 'temple') {
+    if (type == 'temple') {
       final String? templeName = appParamState.selectedSpotDataModel?.name;
       final List<TemplePhotoModel>? pList = getDataState.keepTemplePhotoMap[templeName];
 
@@ -1106,11 +1173,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
               Container(
                 decoration: BoxDecoration(
-                  color: (appParamState.selectedSpotDataModel!.type == 'station')
-                      ? Colors.transparent
-                      : Colors.black.withValues(alpha: 0.4),
+                  color: (type == 'station') ? Colors.transparent : Colors.black.withValues(alpha: 0.4),
                 ),
-                padding: (appParamState.selectedSpotDataModel!.type == 'station') ? null : const EdgeInsets.all(10),
+                padding: (type == 'station') ? null : const EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -1171,38 +1236,39 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
                     Row(
                       children: <Widget>[
-                        //
-                        //
-                        //
-                        //
-                        // if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
-                        //   IconButton(
-                        //     onPressed: () {
-                        //       appParamNotifier.setBusInfoDisplayFlag();
-                        //
-                        //       appParamNotifier.setSelectedSpotDataModelForBusInfo(
-                        //         spotDataModel: SpotDataModel(
-                        //           type: 'bus',
-                        //           name: appParamState.selectedSpotDataModel!.name,
-                        //           address: appParamState.selectedSpotDataModel!.address,
-                        //           latitude: appParamState.selectedSpotDataModel!.latitude,
-                        //           longitude: appParamState.selectedSpotDataModel!.longitude,
-                        //         ),
-                        //       );
-                        //     },
-                        //     icon: Icon(
-                        //       FontAwesomeIcons.bus,
-                        //       color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
-                        //     ),
-                        //   ),
-                        //
-                        //   const SizedBox(width: 20),
-                        // ],
-                        //
-                        //
-                        //
-                        //
-                        //
+                        if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
+                          IconButton(
+                            onPressed: () {
+                              // appParamNotifier.setBusInfoDisplayFlag();
+                              //
+                              // appParamNotifier.setSelectedSpotDataModelForBusInfo(
+                              //   spotDataModel: SpotDataModel(
+                              //     type: 'bus',
+                              //     name: appParamState.selectedSpotDataModel!.name,
+                              //     address: appParamState.selectedSpotDataModel!.address,
+                              //     latitude: appParamState.selectedSpotDataModel!.latitude,
+                              //     longitude: appParamState.selectedSpotDataModel!.longitude,
+                              //   ),
+                              // );
+
+                              final List<BusTotalInfoModel>? viaStationMap =
+                                  getDataState.keepBusTotalInfoViaStationMap[appParamState.selectedSpotDataModel!.name];
+
+                              if (viaStationMap != null) {
+                                firstOverlayContentsName = 'bus';
+
+                                callFirstBox();
+                              }
+                            },
+                            icon: Icon(
+                              FontAwesomeIcons.bus,
+                              color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
+                            ),
+                          ),
+
+                          const SizedBox(width: 20),
+                        ],
+
                         ElevatedButton(
                           onPressed: () {
                             final SpotDataModel selected = appParamState.selectedSpotDataModel!;

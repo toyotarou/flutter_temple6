@@ -63,9 +63,6 @@ class GetDataState with _$GetDataState {
     @Default(<String, MunicipalModel>{}) Map<String, MunicipalModel> keepChibaMunicipalMap,
 
     //---
-    @Default(<String, List<String>>{}) Map<String, List<String>> keepBusInfoStringListMap,
-
-    //---
     @Default(<String, List<BusTotalInfoModel>>{}) Map<String, List<BusTotalInfoModel>> keepBusTotalInfoViaStationMap,
   }) = _GetDataState;
 }
@@ -144,19 +141,6 @@ class GetData extends _$GetData {
   ///
   void setKeepChibaMunicipalMap({required Map<String, MunicipalModel> map}) =>
       state = state.copyWith(keepChibaMunicipalMap: map);
-
-  ///
-  void setKeepBusInfoStringListMap({required Map<String, List<String>> map}) =>
-      state = state.copyWith(keepBusInfoStringListMap: map);
-
-  // ///
-  // void setKeepBusInfoSpotDataModelMap({required Map<SpotDataModel, List<SpotDataModel>> map}) =>
-  //     state = state.copyWith(keepBusInfoSpotDataModelMap: map);
-  //
-  //
-  //
-  //
-  //
 
   ///
   void setKeepTokyoStationList({required List<StationModel> list}) =>
