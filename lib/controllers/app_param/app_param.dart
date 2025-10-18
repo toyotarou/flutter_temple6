@@ -49,6 +49,8 @@ class AppParamState with _$AppParamState {
     @Default(<String>[]) List<String> templeHistoryDateList,
 
     BusTotalInfoModel? selectedBusTotalInfoModel,
+
+    @Default(false) bool isStartEndSameStation,
   }) = _AppParamState;
 }
 
@@ -231,4 +233,7 @@ class AppParam extends _$AppParam {
 
   ///
   void clearSelectedBusTotalInfoModel() => state = state.copyWith(selectedBusTotalInfoModel: null);
+
+  ///
+  void setIsStartEndSameStation({required bool flag}) => state = state.copyWith(isStartEndSameStation: flag);
 }

@@ -46,6 +46,7 @@ mixin _$AppParamState {
   List<String> get templeHistoryDateList => throw _privateConstructorUsedError;
   BusTotalInfoModel? get selectedBusTotalInfoModel =>
       throw _privateConstructorUsedError;
+  bool get isStartEndSameStation => throw _privateConstructorUsedError;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -78,7 +79,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       SpotDataModel? selectedSpotDataModelForBusInfo,
       String selectedTempleHistoryYear,
       List<String> templeHistoryDateList,
-      BusTotalInfoModel? selectedBusTotalInfoModel});
+      BusTotalInfoModel? selectedBusTotalInfoModel,
+      bool isStartEndSameStation});
 }
 
 /// @nodoc
@@ -114,6 +116,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? selectedTempleHistoryYear = null,
     Object? templeHistoryDateList = null,
     Object? selectedBusTotalInfoModel = freezed,
+    Object? isStartEndSameStation = null,
   }) {
     return _then(_value.copyWith(
       currentZoom: null == currentZoom
@@ -189,6 +192,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.selectedBusTotalInfoModel
           : selectedBusTotalInfoModel // ignore: cast_nullable_to_non_nullable
               as BusTotalInfoModel?,
+      isStartEndSameStation: null == isStartEndSameStation
+          ? _value.isStartEndSameStation
+          : isStartEndSameStation // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -219,7 +226,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       SpotDataModel? selectedSpotDataModelForBusInfo,
       String selectedTempleHistoryYear,
       List<String> templeHistoryDateList,
-      BusTotalInfoModel? selectedBusTotalInfoModel});
+      BusTotalInfoModel? selectedBusTotalInfoModel,
+      bool isStartEndSameStation});
 }
 
 /// @nodoc
@@ -253,6 +261,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? selectedTempleHistoryYear = null,
     Object? templeHistoryDateList = null,
     Object? selectedBusTotalInfoModel = freezed,
+    Object? isStartEndSameStation = null,
   }) {
     return _then(_$AppParamStateImpl(
       currentZoom: null == currentZoom
@@ -328,6 +337,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.selectedBusTotalInfoModel
           : selectedBusTotalInfoModel // ignore: cast_nullable_to_non_nullable
               as BusTotalInfoModel?,
+      isStartEndSameStation: null == isStartEndSameStation
+          ? _value.isStartEndSameStation
+          : isStartEndSameStation // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -354,7 +367,8 @@ class _$AppParamStateImpl implements _AppParamState {
       this.selectedSpotDataModelForBusInfo,
       this.selectedTempleHistoryYear = '',
       final List<String> templeHistoryDateList = const <String>[],
-      this.selectedBusTotalInfoModel})
+      this.selectedBusTotalInfoModel,
+      this.isStartEndSameStation = false})
       : _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
@@ -472,10 +486,13 @@ class _$AppParamStateImpl implements _AppParamState {
 
   @override
   final BusTotalInfoModel? selectedBusTotalInfoModel;
+  @override
+  @JsonKey()
+  final bool isStartEndSameStation;
 
   @override
   String toString() {
-    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList, selectedBusTotalInfoModel: $selectedBusTotalInfoModel)';
+    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList, selectedBusTotalInfoModel: $selectedBusTotalInfoModel, isStartEndSameStation: $isStartEndSameStation)';
   }
 
   @override
@@ -522,30 +539,34 @@ class _$AppParamStateImpl implements _AppParamState {
                 .equals(other._templeHistoryDateList, _templeHistoryDateList) &&
             (identical(other.selectedBusTotalInfoModel,
                     selectedBusTotalInfoModel) ||
-                other.selectedBusTotalInfoModel == selectedBusTotalInfoModel));
+                other.selectedBusTotalInfoModel == selectedBusTotalInfoModel) &&
+            (identical(other.isStartEndSameStation, isStartEndSameStation) ||
+                other.isStartEndSameStation == isStartEndSameStation));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      currentZoom,
-      currentPaddingIndex,
-      const DeepCollectionEquality().hash(_firstEntries),
-      const DeepCollectionEquality().hash(_secondEntries),
-      overlayPosition,
-      const DeepCollectionEquality().hash(_selectedMunicipalNameList),
-      searchWord,
-      const DeepCollectionEquality().hash(_neighborAreaNameList),
-      selectedSpotDataModel,
-      const DeepCollectionEquality().hash(_selectedRankList),
-      selectedTrainName,
-      const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
-      isJrInclude,
-      busInfoDisplayFlag,
-      selectedSpotDataModelForBusInfo,
-      selectedTempleHistoryYear,
-      const DeepCollectionEquality().hash(_templeHistoryDateList),
-      selectedBusTotalInfoModel);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        currentZoom,
+        currentPaddingIndex,
+        const DeepCollectionEquality().hash(_firstEntries),
+        const DeepCollectionEquality().hash(_secondEntries),
+        overlayPosition,
+        const DeepCollectionEquality().hash(_selectedMunicipalNameList),
+        searchWord,
+        const DeepCollectionEquality().hash(_neighborAreaNameList),
+        selectedSpotDataModel,
+        const DeepCollectionEquality().hash(_selectedRankList),
+        selectedTrainName,
+        const DeepCollectionEquality().hash(_addRouteSpotDataModelList),
+        isJrInclude,
+        busInfoDisplayFlag,
+        selectedSpotDataModelForBusInfo,
+        selectedTempleHistoryYear,
+        const DeepCollectionEquality().hash(_templeHistoryDateList),
+        selectedBusTotalInfoModel,
+        isStartEndSameStation
+      ]);
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
@@ -558,25 +579,25 @@ class _$AppParamStateImpl implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-          {final double currentZoom,
-          final int currentPaddingIndex,
-          final List<OverlayEntry>? firstEntries,
-          final List<OverlayEntry>? secondEntries,
-          final Offset? overlayPosition,
-          final List<String> selectedMunicipalNameList,
-          final String searchWord,
-          final List<String> neighborAreaNameList,
-          final SpotDataModel? selectedSpotDataModel,
-          final List<String> selectedRankList,
-          final String selectedTrainName,
-          final List<SpotDataModel> addRouteSpotDataModelList,
-          final bool isJrInclude,
-          final bool busInfoDisplayFlag,
-          final SpotDataModel? selectedSpotDataModelForBusInfo,
-          final String selectedTempleHistoryYear,
-          final List<String> templeHistoryDateList,
-          final BusTotalInfoModel? selectedBusTotalInfoModel}) =
-      _$AppParamStateImpl;
+      {final double currentZoom,
+      final int currentPaddingIndex,
+      final List<OverlayEntry>? firstEntries,
+      final List<OverlayEntry>? secondEntries,
+      final Offset? overlayPosition,
+      final List<String> selectedMunicipalNameList,
+      final String searchWord,
+      final List<String> neighborAreaNameList,
+      final SpotDataModel? selectedSpotDataModel,
+      final List<String> selectedRankList,
+      final String selectedTrainName,
+      final List<SpotDataModel> addRouteSpotDataModelList,
+      final bool isJrInclude,
+      final bool busInfoDisplayFlag,
+      final SpotDataModel? selectedSpotDataModelForBusInfo,
+      final String selectedTempleHistoryYear,
+      final List<String> templeHistoryDateList,
+      final BusTotalInfoModel? selectedBusTotalInfoModel,
+      final bool isStartEndSameStation}) = _$AppParamStateImpl;
 
   ///
   @override
@@ -621,6 +642,8 @@ abstract class _AppParamState implements AppParamState {
   List<String> get templeHistoryDateList;
   @override
   BusTotalInfoModel? get selectedBusTotalInfoModel;
+  @override
+  bool get isStartEndSameStation;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.

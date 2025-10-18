@@ -870,6 +870,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       context: context,
       setStateCallback: setState,
       width: MediaQuery.of(context).size.width * 0.7,
+
+      ////////
       height: 300,
       color: Colors.blueGrey.withOpacity(0.3),
       initialPosition: const Offset(20, 120),
@@ -912,8 +914,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   Widget displayBusTotalInfoList({BusTotalInfoModel? selectedBusTotalInfoModel}) {
-    //    return const Text('bus bus');
-
     final List<Widget> list = <Widget>[];
 
     final List<BusTotalInfoModel>? viaStationMap =
@@ -1023,6 +1023,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           Column(
             children: <Widget>[
               SizedBox(
+                ///////////
                 height: context.screenSize.height * 0.25,
 
                 child: SingleChildScrollView(child: Column(children: list)),
@@ -1156,16 +1157,20 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
       widget: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
-            getDataProvider.select((GetDataState value) => value.keepTokyoStationTokyoTrainModelListMap),
-          );
-
           final SpotDataModel? selectedSpotDataModel = ref.watch(
             appParamProvider.select((AppParamState value) => value.selectedSpotDataModel),
           );
 
+          final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
+            getDataProvider.select((GetDataState value) => value.keepTokyoStationTokyoTrainModelListMap),
+          );
+
           return displaySelectedSpotDataModel(
             type: type,
+
+            selectedSpotDataModel: selectedSpotDataModel,
+
+            tokyoStation: keepTokyoStationTokyoTrainModelListMap[selectedSpotDataModel?.name],
 
             addRouteSpotDataModelList: ref.watch(
               appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
@@ -1175,7 +1180,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
             busInfoDisplayFlag: ref.watch(appParamProvider.select((AppParamState value) => value.busInfoDisplayFlag)),
 
-            tokyoStation: keepTokyoStationTokyoTrainModelListMap[selectedSpotDataModel?.name],
+            isStartEndSameStation: ref.watch(
+              appParamProvider.select((AppParamState value) => value.isStartEndSameStation),
+            ),
           );
         },
       ),
@@ -1192,8 +1199,10 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     required bool isJrInclude,
     required bool busInfoDisplayFlag,
     List<TokyoTrainModel>? tokyoStation,
+    required bool isStartEndSameStation,
+    SpotDataModel? selectedSpotDataModel,
   }) {
-    if (appParamState.selectedSpotDataModel == null) {
+    if (selectedSpotDataModel == null) {
       return const SizedBox.shrink();
     }
 
@@ -1202,7 +1211,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     String randomPhoto = '';
 
     if (type == 'temple') {
-      final String? templeName = appParamState.selectedSpotDataModel?.name;
+      final String templeName = selectedSpotDataModel.name;
       final List<TemplePhotoModel>? pList = getDataState.keepTemplePhotoMap[templeName];
 
       final List<String> photoList =
@@ -1239,11 +1248,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                if (appParamState.selectedSpotDataModel!.rank != '') ...<Widget>[
-                  Text(
-                    appParamState.selectedSpotDataModel!.rank,
-                    style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE)),
-                  ),
+                if (selectedSpotDataModel.rank != '') ...<Widget>[
+                  Text(selectedSpotDataModel.rank, style: const TextStyle(fontSize: 60, color: Color(0xFFFBB6CE))),
                 ],
 
                 const SizedBox(width: 10),
@@ -1251,7 +1257,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 Transform(
                   transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
                   child: Text(
-                    appParamState.selectedSpotDataModel!.mark.padLeft(3, '0'),
+                    selectedSpotDataModel.mark.padLeft(3, '0'),
                     style: TextStyle(fontSize: 40, color: Colors.white.withValues(alpha: 0.4)),
                   ),
                 ),
@@ -1275,11 +1281,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(appParamState.selectedSpotDataModel!.name, style: const TextStyle(fontSize: 16)),
-                    Text(appParamState.selectedSpotDataModel!.address),
-                    Text(
-                      '${appParamState.selectedSpotDataModel!.latitude} / ${appParamState.selectedSpotDataModel!.longitude}',
-                    ),
+                    Text(selectedSpotDataModel.name, style: const TextStyle(fontSize: 16)),
+                    Text(selectedSpotDataModel.address),
+                    Text('${selectedSpotDataModel.latitude} / ${selectedSpotDataModel.longitude}'),
                   ],
                 ),
               ),
@@ -1332,7 +1336,25 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
                     Row(
                       children: <Widget>[
-                        if (busKeyList.contains(appParamState.selectedSpotDataModel!.name)) ...<Widget>[
+                        if (selectedSpotDataModel.type == 'station') ...<Widget>[
+                          Row(
+                            children: <Widget>[
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[Text('start & end'), Text('same station')],
+                              ),
+
+                              Switch(
+                                value: isStartEndSameStation,
+                                onChanged: (bool value) {
+                                  appParamNotifier.setIsStartEndSameStation(flag: value);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+
+                        if (busKeyList.contains(selectedSpotDataModel.name)) ...<Widget>[
                           IconButton(
                             onPressed: () {
                               // appParamNotifier.setBusInfoDisplayFlag();
@@ -1348,7 +1370,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                               // );
 
                               final List<BusTotalInfoModel>? viaStationMap =
-                                  getDataState.keepBusTotalInfoViaStationMap[appParamState.selectedSpotDataModel!.name];
+                                  getDataState.keepBusTotalInfoViaStationMap[selectedSpotDataModel.name];
 
                               if (viaStationMap != null) {
                                 firstOverlayContentsName = 'bus';
@@ -1367,8 +1389,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                         ElevatedButton(
                           onPressed: () {
-                            final SpotDataModel selected = appParamState.selectedSpotDataModel!;
-                            final List<SpotDataModel> list = appParamState.addRouteSpotDataModelList;
+                            final SpotDataModel selected = selectedSpotDataModel;
+                            final List<SpotDataModel> list = addRouteSpotDataModelList;
 
                             final bool isAlreadyInList = list.contains(selected);
 
@@ -1393,14 +1415,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                               return;
                             }
 
-                            appParamNotifier.setAddRouteSpotDataModelList(
-                              spotDataModel: appParamState.selectedSpotDataModel!,
-                            );
+                            appParamNotifier.setAddRouteSpotDataModelList(spotDataModel: selectedSpotDataModel);
                           },
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.2)),
 
+                          ///////
                           child: Text(
-                            (addRouteSpotDataModelList.contains(appParamState.selectedSpotDataModel))
+                            (addRouteSpotDataModelList.contains(selectedSpotDataModel))
                                 ? 'remove from route'
                                 : 'add to route',
                           ),
