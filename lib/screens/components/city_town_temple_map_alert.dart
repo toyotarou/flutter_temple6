@@ -24,6 +24,7 @@ import '../../utility/utility.dart';
 import '../parts/error_dialog.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_dialog.dart';
+
 import '../parts/temple_overlay.dart';
 import 'bus_route_display_alert.dart';
 import 'required_time_calculate_setting_alert.dart';
@@ -84,8 +85,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   bool displayNeighborTemples = false;
 
-  final List<OverlayEntry> _firstEntries = <OverlayEntry>[];
-  final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
+  OverlayEntry? _firstEntry;
+
+  OverlayEntry? _secondEntry;
+
+  Offset _firstPos = const Offset(20, 120);
+
+  String _secondType = 'temple';
 
   List<Marker> selectedSpotsMarkerList = <Marker>[];
 
@@ -846,23 +852,66 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   ///
   void callFirstBox() {
-    appParamNotifier.setFirstOverlayParams(firstEntries: _firstEntries);
+    // ignore: use_if_null_to_convert_nulls_to_bools
+    if (_firstEntry?.mounted == true) {
+      _firstEntry!.markNeedsBuild();
+      return;
+    }
 
-    addFirstOverlay(
-      context: context,
-      setStateCallback: setState,
-      width: context.screenSize.width * 0.7,
+    _firstEntry = OverlayEntry(
+      builder: (BuildContext context) {
+        return Positioned(
+          left: _firstPos.dx,
+          top: _firstPos.dy,
+          child: GestureDetector(
+            onPanUpdate: (DragUpdateDetails d) {
+              setState(() {
+                _firstPos += d.delta;
+              });
+              appParamNotifier.updateOverlayPosition(_firstPos);
+              _firstEntry?.markNeedsBuild();
+            },
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                width: context.screenSize.width * 0.7,
+                height: context.screenSize.height * 0.25,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, right: 8),
+                        child: getFirstOverlayContents(),
+                      ),
+                    ),
 
-      height: context.screenSize.height * 0.25,
-      color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: const Offset(20, 120),
-
-      widget: getFirstOverlayContents(),
-
-      firstEntries: _firstEntries,
-      secondEntries: _secondEntries,
-      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: InkWell(
+                        onTap: _closeFirstOverlay,
+                        customBorder: const CircleBorder(),
+                        child: const CircleAvatar(
+                          radius: 12,
+                          backgroundColor: Color(0xAA000000),
+                          child: Icon(Icons.close, size: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
+
+    Overlay.of(context).insert(_firstEntry!);
   }
 
   ///
@@ -891,6 +940,89 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       default:
         return const SizedBox();
     }
+  }
+
+  ///
+  void callSecondBox({required String type}) {
+    _secondType = type;
+
+    // ignore: use_if_null_to_convert_nulls_to_bools
+    if (_secondEntry?.mounted == true) {
+      _secondEntry!.markNeedsBuild();
+      return;
+    }
+
+    _secondEntry = OverlayEntry(
+      builder: (BuildContext context) {
+        return Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            final SpotDataModel? selectedSpotDataModel = ref.watch(
+              appParamProvider.select((AppParamState value) => value.selectedSpotDataModel),
+            );
+
+            final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
+              getDataProvider.select((GetDataState value) => value.keepTokyoStationTokyoTrainModelListMap),
+            );
+
+            return Positioned(
+              left: 0,
+              top: (widget.cityTownName == 'tokyo') ? context.screenSize.height * 0.8 : context.screenSize.height * 0.7,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: context.screenSize.width,
+                  height: (widget.cityTownName == 'tokyo')
+                      ? context.screenSize.height * 0.2
+                      : context.screenSize.height * 0.3,
+                  color: Colors.blueGrey.withOpacity(0.3),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8, right: 8),
+                          child: displaySelectedSpotDataModel(
+                            type: _secondType,
+
+                            selectedSpotDataModel: selectedSpotDataModel,
+                            tokyoStation: keepTokyoStationTokyoTrainModelListMap[selectedSpotDataModel?.name],
+                            addRouteSpotDataModelList: ref.watch(
+                              appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
+                            ),
+                            isJrInclude: ref.watch(appParamProvider.select((AppParamState value) => value.isJrInclude)),
+                            busInfoDisplayFlag: ref.watch(
+                              appParamProvider.select((AppParamState value) => value.busInfoDisplayFlag),
+                            ),
+                            isStartEndSameStation: ref.watch(
+                              appParamProvider.select((AppParamState value) => value.isStartEndSameStation),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: InkWell(
+                          onTap: _closeSecondOverlay,
+                          customBorder: const CircleBorder(),
+                          child: const CircleAvatar(
+                            radius: 12,
+                            backgroundColor: Color(0xAA000000),
+                            child: Icon(Icons.close, size: 16, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    Overlay.of(context).insert(_secondEntry!);
   }
 
   ///
@@ -1112,59 +1244,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
   }
 
   ///
-  void callSecondBox({required String type}) {
-    appParamNotifier.setSecondOverlayParams(secondEntries: _secondEntries);
-
-    addSecondOverlay(
-      context: context,
-      secondEntries: _secondEntries,
-      setStateCallback: setState,
-      width: context.screenSize.width,
-      height: (widget.cityTownName == 'tokyo') ? context.screenSize.height * 0.2 : context.screenSize.height * 0.3,
-      color: Colors.blueGrey.withOpacity(0.3),
-      initialPosition: Offset(
-        0,
-        (widget.cityTownName == 'tokyo') ? context.screenSize.height * 0.8 : context.screenSize.height * 0.7,
-      ),
-
-      widget: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final SpotDataModel? selectedSpotDataModel = ref.watch(
-            appParamProvider.select((AppParamState value) => value.selectedSpotDataModel),
-          );
-
-          final Map<String, List<TokyoTrainModel>> keepTokyoStationTokyoTrainModelListMap = ref.watch(
-            getDataProvider.select((GetDataState value) => value.keepTokyoStationTokyoTrainModelListMap),
-          );
-
-          return displaySelectedSpotDataModel(
-            type: type,
-
-            selectedSpotDataModel: selectedSpotDataModel,
-
-            tokyoStation: keepTokyoStationTokyoTrainModelListMap[selectedSpotDataModel?.name],
-
-            addRouteSpotDataModelList: ref.watch(
-              appParamProvider.select((AppParamState value) => value.addRouteSpotDataModelList),
-            ),
-
-            isJrInclude: ref.watch(appParamProvider.select((AppParamState value) => value.isJrInclude)),
-
-            busInfoDisplayFlag: ref.watch(appParamProvider.select((AppParamState value) => value.busInfoDisplayFlag)),
-
-            isStartEndSameStation: ref.watch(
-              appParamProvider.select((AppParamState value) => value.isStartEndSameStation),
-            ),
-          );
-        },
-      ),
-
-      onPositionChanged: (Offset newPos) => appParamNotifier.updateOverlayPosition(newPos),
-      fixedFlag: true,
-    );
-  }
-
-  ///
   Widget displaySelectedSpotDataModel({
     required String type,
     required List<SpotDataModel> addRouteSpotDataModelList,
@@ -1339,7 +1418,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                                 ),
 
                                 Switch(
-                                  value: isStartEndSameStation,
+                                  value: ref.watch(
+                                    appParamProvider.select((AppParamState value) => value.isStartEndSameStation),
+                                  ),
                                   onChanged: (bool value) => appParamNotifier.setIsStartEndSameStation(flag: value),
                                 ),
                               ],
@@ -1351,7 +1432,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
                                 addRouteSpotDataModelList: addRouteSpotDataModelList,
 
-                                isStartEndSameStation: isStartEndSameStation,
+                                isStartEndSameStation: ref.watch(
+                                  appParamProvider.select((AppParamState value) => value.isStartEndSameStation),
+                                ),
                               ),
                             ],
                           ),
@@ -1692,6 +1775,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     // ignore: empty_catches
                   } catch (e) {}
 
+                  _closeFirstOverlay();
+                  _closeSecondOverlay();
+
                   TempleDialog(context: context, widget: const RequiredTimeCalculateSettingAlert());
                 },
                 child: const Icon(Icons.input),
@@ -1763,6 +1849,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     ];
   }
 
+  ///
   // ignore: always_specify_types
   List<Polyline> makeBusRoutePolyline() {
     final BusTotalInfoModel? model = appParamState.selectedBusTotalInfoModel;
@@ -1780,5 +1867,49 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     // ignore: always_specify_types
     return <Polyline>[Polyline(points: points, color: Colors.redAccent, strokeWidth: 5)];
+  }
+
+  ///
+  @override
+  void dispose() {
+    // ignore: use_if_null_to_convert_nulls_to_bools
+    if (_firstEntry?.mounted == true) {
+      _firstEntry!.remove();
+    }
+    // ignore: use_if_null_to_convert_nulls_to_bools
+    if (_secondEntry?.mounted == true) {
+      _secondEntry!.remove();
+    }
+    _firstEntry = null;
+    _secondEntry = null;
+    super.dispose();
+  }
+
+  ///
+  void _closeFirstOverlay() {
+    try {
+      // ignore: use_if_null_to_convert_nulls_to_bools
+      if (_firstEntry?.mounted == true) {
+        _firstEntry!.remove();
+      }
+    } catch (_) {
+      // no-op
+    } finally {
+      _firstEntry = null;
+    }
+  }
+
+  ///
+  void _closeSecondOverlay() {
+    try {
+      // ignore: use_if_null_to_convert_nulls_to_bools
+      if (_secondEntry?.mounted == true) {
+        _secondEntry!.remove();
+      }
+    } catch (_) {
+      // no-op
+    } finally {
+      _secondEntry = null;
+    }
   }
 }
