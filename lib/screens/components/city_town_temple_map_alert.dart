@@ -1453,38 +1453,8 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
         return ElevatedButton(
           onPressed: () {
             if (isOperationAdd) {
-              if (addRouteSpotDataModelList.last.type == 'station') {
-                // ignore: always_specify_types
-                Future.delayed(
-                  Duration.zero,
-                  () => error_dialog(
-                    // ignore: use_build_context_synchronously
-                    context: context,
-                    title: 'エラー',
-                    content: '連続でstationを登録することはできません。',
-                  ),
-                );
-
-                return;
-              }
-
               appParamNotifier.addAddRouteSpotDataModelList(spotDataModel: selectedSpotDataModel);
             } else {
-              if (addRouteSpotDataModelList.last.type != 'station') {
-                // ignore: always_specify_types
-                Future.delayed(
-                  Duration.zero,
-                  () => error_dialog(
-                    // ignore: use_build_context_synchronously
-                    context: context,
-                    title: 'エラー',
-                    content: '最後の要素がstationではありません。',
-                  ),
-                );
-
-                return;
-              }
-
               appParamNotifier.removeAddRouteSpotDataModelList(spotDataModel: selectedSpotDataModel);
             }
           },
