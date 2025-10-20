@@ -439,6 +439,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
             child: GestureDetector(
               onTap: () {
+                try {
+                  closeAllOverlays(ref: ref);
+                  // ignore: empty_catches
+                } catch (e) {}
+
                 appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
 
                 callSecondBox(type: 'temple');
@@ -483,6 +488,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           point: LatLng(element.latitude.toDouble(), element.longitude.toDouble()),
           child: GestureDetector(
             onTap: () {
+              try {
+                closeAllOverlays(ref: ref);
+                // ignore: empty_catches
+              } catch (e) {}
+
               appParamNotifier.setSelectedSpotDataModel(spotDataModel: element);
 
               callSecondBox(type: 'temple');
@@ -720,6 +730,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   point: LatLng(element.lat.toDouble(), element.lng.toDouble()),
                   child: GestureDetector(
                     onTap: () {
+                      try {
+                        closeAllOverlays(ref: ref);
+                        // ignore: empty_catches
+                      } catch (e) {}
+
                       appParamNotifier.setSelectedSpotDataModel(
                         spotDataModel: SpotDataModel(
                           type: 'station',
@@ -776,6 +791,11 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
               child: GestureDetector(
                 onTap: () {
+                  try {
+                    closeAllOverlays(ref: ref);
+                    // ignore: empty_catches
+                  } catch (e) {}
+
                   appParamNotifier.setSelectedSpotDataModel(spotDataModel: element2);
 
                   callSecondBox(type: 'temple');
@@ -1158,6 +1178,18 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       return const SizedBox.shrink();
     }
 
+    final String distance = (addRouteSpotDataModelList.isNotEmpty)
+        ? utility
+              .calculateDistance(
+                LatLng(
+                  addRouteSpotDataModelList.last.latitude.toDouble(),
+                  addRouteSpotDataModelList.last.longitude.toDouble(),
+                ),
+                LatLng(selectedSpotDataModel.latitude.toDouble(), selectedSpotDataModel.longitude.toDouble()),
+              )
+              .toString()
+        : '';
+
     final List<String> busKeyList = getDataState.keepBusTotalInfoViaStationMap.keys.map((String e) => e).toList();
 
     String randomPhoto = '';
@@ -1236,6 +1268,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                     Text(selectedSpotDataModel.name, style: const TextStyle(fontSize: 16)),
                     Text(selectedSpotDataModel.address),
                     Text('${selectedSpotDataModel.latitude} / ${selectedSpotDataModel.longitude}'),
+
+                    if (distance != '') ...<Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[Text('$distance m'), const SizedBox.shrink()],
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -1616,33 +1655,48 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
           const SizedBox(width: 10),
 
-          GestureDetector(
-            onTap: () {
-              if (appParamState.addRouteSpotDataModelList.isNotEmpty) {
-                if (appParamState.addRouteSpotDataModelList.last.type != 'station') {
-                  // ignore: always_specify_types
-                  Future.delayed(
-                    Duration.zero,
-                    () => error_dialog(
-                      // ignore: use_build_context_synchronously
-                      context: context,
-                      title: 'エラー',
-                      content: '最後の要素はstationを選択してください。',
-                    ),
-                  );
+          Column(
+            children: <Widget>[
+              const Spacer(),
 
-                  return;
-                }
-              }
+              GestureDetector(
+                onTap: () {
+                  appParamNotifier.clearAddRouteSpotDataModelList();
+                },
+                child: const Icon(Icons.clear),
+              ),
 
-              try {
-                closeAllOverlays(ref: ref);
-                // ignore: empty_catches
-              } catch (e) {}
+              const Spacer(flex: 2),
 
-              TempleDialog(context: context, widget: const RequiredTimeCalculateSettingAlert());
-            },
-            child: const Icon(Icons.input),
+              GestureDetector(
+                onTap: () {
+                  if (appParamState.addRouteSpotDataModelList.isNotEmpty) {
+                    if (appParamState.addRouteSpotDataModelList.last.type != 'station') {
+                      // ignore: always_specify_types
+                      Future.delayed(
+                        Duration.zero,
+                        () => error_dialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          title: 'エラー',
+                          content: '最後の要素はstationを選択してください。',
+                        ),
+                      );
+
+                      return;
+                    }
+                  }
+
+                  try {
+                    closeAllOverlays(ref: ref);
+                    // ignore: empty_catches
+                  } catch (e) {}
+
+                  TempleDialog(context: context, widget: const RequiredTimeCalculateSettingAlert());
+                },
+                child: const Icon(Icons.input),
+              ),
+            ],
           ),
         ],
       ),
