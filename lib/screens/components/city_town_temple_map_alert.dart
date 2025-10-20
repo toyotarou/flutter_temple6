@@ -91,15 +91,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
   Utility utility = Utility();
 
-  // // ignore: always_specify_types
-  // List<PolylineLayer> busRoutePolylineLayerList = <PolylineLayer>[];
-  //
-  // bool makeBusPolylineFlag = false;
-  //
-  //
-  //
-  //
-
   String firstOverlayContentsName = '';
 
   ///
@@ -159,20 +150,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
     makeSelectedSpotsMarkerList();
 
-    // /////////////////////////////////////////////// bus
-    // if (appParamState.busInfoDisplayFlag) {
-    //   if (!makeBusPolylineFlag) {
-    //     makeBusRoutePolylineLayerList();
-    //
-    //     makeBusPolylineFlag = true;
-    //   }
-    // } else {
-    //   makeBusPolylineFlag = false;
-    //
-    //   busRoutePolylineLayerList.clear();
-    // }
-    // /////////////////////////////////////////////// bus
-
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -219,12 +196,6 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   PolylineLayer(polylines: makeTrainPolyline()),
                 ],
 
-                // //////// bus
-                // for (int i = 0; i < busRoutePolylineLayerList.length; i++) busRoutePolylineLayerList[i],
-                //
-                //
-                //
-                //
                 if (appParamState.addRouteSpotDataModelList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolylineLayer(polylines: makeAddSpotsPolyline()),
@@ -860,10 +831,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     addFirstOverlay(
       context: context,
       setStateCallback: setState,
-      width: MediaQuery.of(context).size.width * 0.7,
+      width: context.screenSize.width * 0.7,
 
-      ////////
-      height: 300,
+      height: context.screenSize.height * 0.25,
       color: Colors.blueGrey.withOpacity(0.3),
       initialPosition: const Offset(20, 120),
 
@@ -930,11 +900,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               const SizedBox(width: 10),
 
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    appParamNotifier.setSelectedBusTotalInfoModel(busTotalInfoModel: element);
-                  });
-                },
+                onTap: () => setState(() => appParamNotifier.setSelectedBusTotalInfoModel(busTotalInfoModel: element)),
 
                 child: Icon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
               ),
@@ -971,17 +937,15 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                         ),
 
                         GestureDetector(
-                          onTap: () {
-                            TempleDialog(
-                              context: context,
-                              widget: BusRouteDisplayAlert(selectedBusTotalInfoModel: element),
+                          onTap: () => TempleDialog(
+                            context: context,
+                            widget: BusRouteDisplayAlert(selectedBusTotalInfoModel: element),
 
-                              clearBarrierColor: true,
-                              paddingTop: context.screenSize.height * 0.4,
-                              paddingRight: context.screenSize.width * 0.3,
-                              paddingBottom: context.screenSize.height * 0.3,
-                            );
-                          },
+                            clearBarrierColor: true,
+                            paddingTop: context.screenSize.height * 0.4,
+                            paddingRight: context.screenSize.width * 0.3,
+                            paddingBottom: context.screenSize.height * 0.3,
+                          ),
                           child: const Icon(Icons.list),
                         ),
                       ],
@@ -1014,8 +978,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
           Column(
             children: <Widget>[
               SizedBox(
-                ///////////
-                height: context.screenSize.height * 0.25,
+                height: context.screenSize.height * 0.2,
 
                 child: SingleChildScrollView(child: Column(children: list)),
               ),
@@ -1090,9 +1053,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                 ),
 
                 GestureDetector(
-                  onTap: () {
-                    appParamNotifier.setSelectedTrainName(name: element);
-                  },
+                  onTap: () => appParamNotifier.setSelectedTrainName(name: element),
 
                   child: Icon(
                     Icons.check_circle,
@@ -1122,7 +1083,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     return Column(
       children: <Widget>[
         SizedBox(
-          height: context.screenSize.height * 0.25,
+          height: context.screenSize.height * 0.2,
 
           child: SingleChildScrollView(child: Column(children: list)),
         ),
@@ -1327,23 +1288,35 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                   if (widget.cityTownName != 'tokyo') ...<Widget>[
                     Row(
                       children: <Widget>[
-                        if (selectedSpotDataModel.type == 'station') ...<Widget>[
-                          Row(
+                        Container(
+                          decoration: BoxDecoration(border: Border.all(color: Colors.white.withValues(alpha: 0.4))),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Row(
                             children: <Widget>[
-                              const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text('start & end'), Text('same station')],
-                              ),
+                              if (selectedSpotDataModel.type == 'station') ...<Widget>[
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[Text('start & end'), Text('same station')],
+                                ),
 
-                              Switch(
-                                value: isStartEndSameStation,
-                                onChanged: (bool value) {
-                                  appParamNotifier.setIsStartEndSameStation(flag: value);
-                                },
+                                Switch(
+                                  value: isStartEndSameStation,
+                                  onChanged: (bool value) => appParamNotifier.setIsStartEndSameStation(flag: value),
+                                ),
+                              ],
+
+                              getSpotAddingButton(
+                                type: type,
+
+                                selectedSpotDataModel: selectedSpotDataModel,
+
+                                addRouteSpotDataModelList: addRouteSpotDataModelList,
+
+                                isStartEndSameStation: isStartEndSameStation,
                               ),
                             ],
                           ),
-                        ],
+                        ),
 
                         if (busKeyList.contains(selectedSpotDataModel.name)) ...<Widget>[
                           IconButton(
@@ -1362,19 +1335,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                               color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
                             ),
                           ),
-
-                          const SizedBox(width: 20),
                         ],
-
-                        getSpotAddingButton(
-                          type: type,
-
-                          selectedSpotDataModel: selectedSpotDataModel,
-
-                          addRouteSpotDataModelList: addRouteSpotDataModelList,
-
-                          isStartEndSameStation: isStartEndSameStation,
-                        ),
                       ],
                     ),
                   ],
