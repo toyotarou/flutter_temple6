@@ -168,6 +168,27 @@ class AppParam extends _$AppParam {
   }
 
   ///
+  void addAddRouteSpotDataModelList({required SpotDataModel spotDataModel}) {
+    final List<SpotDataModel> list = <SpotDataModel>[...state.addRouteSpotDataModelList];
+
+    list.add(spotDataModel);
+
+    state = state.copyWith(addRouteSpotDataModelList: list);
+  }
+
+  void removeAddRouteSpotDataModelList({required SpotDataModel spotDataModel}) {
+    final List<SpotDataModel> list = <SpotDataModel>[...state.addRouteSpotDataModelList];
+
+    final int lastIndex = list.lastIndexOf(spotDataModel);
+
+    if (lastIndex != -1) {
+      list.removeAt(lastIndex);
+    }
+
+    state = state.copyWith(addRouteSpotDataModelList: list);
+  }
+
+  ///
   void clearAddRouteSpotDataModelList() => state = state.copyWith(addRouteSpotDataModelList: <SpotDataModel>[]);
 
   ///
