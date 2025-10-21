@@ -298,6 +298,8 @@ class _CityTownTempleListAlertState extends ConsumerState<CityTownTempleListAler
 
                     appParamNotifier.setIsJrInclude(flag: true);
 
+                    appParamNotifier.clearSelectedBusTotalInfoModel();
+
                     TempleDialog(
                       context: context,
                       widget: CityTownTempleMapAlert(

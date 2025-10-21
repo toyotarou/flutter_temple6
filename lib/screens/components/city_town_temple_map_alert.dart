@@ -1094,9 +1094,9 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                             widget: BusRouteDisplayAlert(selectedBusTotalInfoModel: element),
 
                             clearBarrierColor: true,
-                            paddingTop: context.screenSize.height * 0.4,
-                            paddingRight: context.screenSize.width * 0.3,
-                            paddingBottom: context.screenSize.height * 0.3,
+                            paddingTop: context.screenSize.height * 0.3,
+                            paddingRight: context.screenSize.width * 0.2,
+                            paddingBottom: context.screenSize.height * 0.4,
                           ),
                           child: const Icon(Icons.list),
                         ),
@@ -1116,7 +1116,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
       child: Stack(
         children: <Widget>[
           Positioned(
-            bottom: 0,
+            bottom: 80,
             right: 5,
             child: Transform(
               transform: Matrix4.diagonal3Values(1.0, 3.0, 1.0),
