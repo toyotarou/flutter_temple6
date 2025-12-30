@@ -89,14 +89,16 @@ Map<String, dynamic> getDailySpotDataInfo({
         ),
       );
 
-      final String? name = findMunicipalityForPoint(
-        templeLatLngModel.lat.toDouble(),
-        templeLatLngModel.lng.toDouble(),
-        tokyoMunicipalList,
-      );
+      if (double.tryParse(templeLatLngModel.lat) != null && double.tryParse(templeLatLngModel.lng) != null) {
+        final String? name = findMunicipalityForPoint(
+          templeLatLngModel.lat.toDouble(),
+          templeLatLngModel.lng.toDouble(),
+          tokyoMunicipalList,
+        );
 
-      if (name != null && !list2.contains(name)) {
-        list2.add(name);
+        if (name != null && !list2.contains(name)) {
+          list2.add(name);
+        }
       }
     }
   }
