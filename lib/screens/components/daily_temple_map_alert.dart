@@ -487,30 +487,32 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     for (final String element in appParamState.selectedMunicipalNameList) {
       if (getDataState.keepTokyoMunicipalMap[element] != null) {
         for (final SpotDataModel element2 in filteredTemples) {
-          if (spotInMunicipality(
-            element2.latitude.toDouble(),
-            element2.longitude.toDouble(),
-            getDataState.keepTokyoMunicipalMap[element]!,
-          )) {
-            municipalTempleMarkerList.add(
-              Marker(
-                point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
+          if (double.tryParse(element2.latitude) != null && double.tryParse(element2.longitude) != null) {
+            if (spotInMunicipality(
+              element2.latitude.toDouble(),
+              element2.longitude.toDouble(),
+              getDataState.keepTokyoMunicipalMap[element]!,
+            )) {
+              municipalTempleMarkerList.add(
+                Marker(
+                  point: LatLng(element2.latitude.toDouble(), element2.longitude.toDouble()),
 
-                child: GestureDetector(
-                  onTap: () {},
-                  child: CircleAvatar(
-                    radius: 10,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: CircleAvatar(
+                      radius: 10,
 
-                    backgroundColor: Colors.pinkAccent.withValues(alpha: 0.6),
+                      backgroundColor: Colors.pinkAccent.withValues(alpha: 0.6),
 
-                    child: Text(
-                      element2.rank,
-                      style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                      child: Text(
+                        element2.rank,
+                        style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           }
         }
       }
