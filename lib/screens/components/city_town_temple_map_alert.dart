@@ -360,13 +360,13 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
     // ignore: always_specify_types
     final List<Polygon<Object>> polygonList = <Polygon>[];
 
-    final List<Color> twentyFourColor = utility.getTwentyFourColor();
+    final List<Color> fortyEightColor = utility.getFortyEightColor();
 
     if (widget.selectArealPolygons != null) {
       for (int i = 0; i < widget.selectArealPolygons!.length; i++) {
         final Polygon<Object>? polygon = getColorPaintPolygon(
           polygon: widget.selectArealPolygons![i],
-          color: (widget.cityTownName == 'tokyo') ? twentyFourColor[i % 24] : Colors.redAccent,
+          color: (widget.cityTownName == 'tokyo') ? fortyEightColor[i % 48] : Colors.redAccent,
         );
 
         if (polygon != null) {

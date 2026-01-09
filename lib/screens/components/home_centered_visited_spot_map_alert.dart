@@ -443,7 +443,7 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
     // ignore: always_specify_types
     final List<Polyline> polylineList = [];
 
-    final List<Color> twentyFourColor = utility.getTwentyFourColor();
+    final List<Color> fortyEightColor = utility.getFortyEightColor();
 
     if (widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear] != null) {
       for (int i = 0; i < widget.homeCenteredTempleHistoryMap[appParamState.selectedTempleHistoryYear]!.length; i++) {
@@ -467,7 +467,7 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
             }
           }
 
-          final Color color = twentyFourColor[i % 24];
+          final Color color = fortyEightColor[i % 48];
 
           dateColorMap[val['date'].toString()] = color;
 

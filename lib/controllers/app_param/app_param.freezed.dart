@@ -48,6 +48,10 @@ mixin _$AppParamState {
       throw _privateConstructorUsedError;
   bool get isStartEndSameStation => throw _privateConstructorUsedError;
 
+  ///
+  List<List<List<List<double>>>> get keepAllPolygonsList =>
+      throw _privateConstructorUsedError;
+
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -80,7 +84,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       String selectedTempleHistoryYear,
       List<String> templeHistoryDateList,
       BusTotalInfoModel? selectedBusTotalInfoModel,
-      bool isStartEndSameStation});
+      bool isStartEndSameStation,
+      List<List<List<List<double>>>> keepAllPolygonsList});
 }
 
 /// @nodoc
@@ -117,6 +122,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? templeHistoryDateList = null,
     Object? selectedBusTotalInfoModel = freezed,
     Object? isStartEndSameStation = null,
+    Object? keepAllPolygonsList = null,
   }) {
     return _then(_value.copyWith(
       currentZoom: null == currentZoom
@@ -196,6 +202,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.isStartEndSameStation
           : isStartEndSameStation // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAllPolygonsList: null == keepAllPolygonsList
+          ? _value.keepAllPolygonsList
+          : keepAllPolygonsList // ignore: cast_nullable_to_non_nullable
+              as List<List<List<List<double>>>>,
     ) as $Val);
   }
 }
@@ -227,7 +237,8 @@ abstract class _$$AppParamStateImplCopyWith<$Res>
       String selectedTempleHistoryYear,
       List<String> templeHistoryDateList,
       BusTotalInfoModel? selectedBusTotalInfoModel,
-      bool isStartEndSameStation});
+      bool isStartEndSameStation,
+      List<List<List<List<double>>>> keepAllPolygonsList});
 }
 
 /// @nodoc
@@ -262,6 +273,7 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
     Object? templeHistoryDateList = null,
     Object? selectedBusTotalInfoModel = freezed,
     Object? isStartEndSameStation = null,
+    Object? keepAllPolygonsList = null,
   }) {
     return _then(_$AppParamStateImpl(
       currentZoom: null == currentZoom
@@ -341,6 +353,10 @@ class __$$AppParamStateImplCopyWithImpl<$Res>
           ? _value.isStartEndSameStation
           : isStartEndSameStation // ignore: cast_nullable_to_non_nullable
               as bool,
+      keepAllPolygonsList: null == keepAllPolygonsList
+          ? _value._keepAllPolygonsList
+          : keepAllPolygonsList // ignore: cast_nullable_to_non_nullable
+              as List<List<List<List<double>>>>,
     ));
   }
 }
@@ -368,14 +384,17 @@ class _$AppParamStateImpl implements _AppParamState {
       this.selectedTempleHistoryYear = '',
       final List<String> templeHistoryDateList = const <String>[],
       this.selectedBusTotalInfoModel,
-      this.isStartEndSameStation = false})
+      this.isStartEndSameStation = false,
+      final List<List<List<List<double>>>> keepAllPolygonsList =
+          const <List<List<List<double>>>>[]})
       : _firstEntries = firstEntries,
         _secondEntries = secondEntries,
         _selectedMunicipalNameList = selectedMunicipalNameList,
         _neighborAreaNameList = neighborAreaNameList,
         _selectedRankList = selectedRankList,
         _addRouteSpotDataModelList = addRouteSpotDataModelList,
-        _templeHistoryDateList = templeHistoryDateList;
+        _templeHistoryDateList = templeHistoryDateList,
+        _keepAllPolygonsList = keepAllPolygonsList;
 
   ///
   @override
@@ -490,9 +509,22 @@ class _$AppParamStateImpl implements _AppParamState {
   @JsonKey()
   final bool isStartEndSameStation;
 
+  ///
+  final List<List<List<List<double>>>> _keepAllPolygonsList;
+
+  ///
+  @override
+  @JsonKey()
+  List<List<List<List<double>>>> get keepAllPolygonsList {
+    if (_keepAllPolygonsList is EqualUnmodifiableListView)
+      return _keepAllPolygonsList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keepAllPolygonsList);
+  }
+
   @override
   String toString() {
-    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList, selectedBusTotalInfoModel: $selectedBusTotalInfoModel, isStartEndSameStation: $isStartEndSameStation)';
+    return 'AppParamState(currentZoom: $currentZoom, currentPaddingIndex: $currentPaddingIndex, firstEntries: $firstEntries, secondEntries: $secondEntries, overlayPosition: $overlayPosition, selectedMunicipalNameList: $selectedMunicipalNameList, searchWord: $searchWord, neighborAreaNameList: $neighborAreaNameList, selectedSpotDataModel: $selectedSpotDataModel, selectedRankList: $selectedRankList, selectedTrainName: $selectedTrainName, addRouteSpotDataModelList: $addRouteSpotDataModelList, isJrInclude: $isJrInclude, busInfoDisplayFlag: $busInfoDisplayFlag, selectedSpotDataModelForBusInfo: $selectedSpotDataModelForBusInfo, selectedTempleHistoryYear: $selectedTempleHistoryYear, templeHistoryDateList: $templeHistoryDateList, selectedBusTotalInfoModel: $selectedBusTotalInfoModel, isStartEndSameStation: $isStartEndSameStation, keepAllPolygonsList: $keepAllPolygonsList)';
   }
 
   @override
@@ -541,7 +573,9 @@ class _$AppParamStateImpl implements _AppParamState {
                     selectedBusTotalInfoModel) ||
                 other.selectedBusTotalInfoModel == selectedBusTotalInfoModel) &&
             (identical(other.isStartEndSameStation, isStartEndSameStation) ||
-                other.isStartEndSameStation == isStartEndSameStation));
+                other.isStartEndSameStation == isStartEndSameStation) &&
+            const DeepCollectionEquality()
+                .equals(other._keepAllPolygonsList, _keepAllPolygonsList));
   }
 
   @override
@@ -565,7 +599,8 @@ class _$AppParamStateImpl implements _AppParamState {
         selectedTempleHistoryYear,
         const DeepCollectionEquality().hash(_templeHistoryDateList),
         selectedBusTotalInfoModel,
-        isStartEndSameStation
+        isStartEndSameStation,
+        const DeepCollectionEquality().hash(_keepAllPolygonsList)
       ]);
 
   /// Create a copy of AppParamState
@@ -579,25 +614,27 @@ class _$AppParamStateImpl implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-      {final double currentZoom,
-      final int currentPaddingIndex,
-      final List<OverlayEntry>? firstEntries,
-      final List<OverlayEntry>? secondEntries,
-      final Offset? overlayPosition,
-      final List<String> selectedMunicipalNameList,
-      final String searchWord,
-      final List<String> neighborAreaNameList,
-      final SpotDataModel? selectedSpotDataModel,
-      final List<String> selectedRankList,
-      final String selectedTrainName,
-      final List<SpotDataModel> addRouteSpotDataModelList,
-      final bool isJrInclude,
-      final bool busInfoDisplayFlag,
-      final SpotDataModel? selectedSpotDataModelForBusInfo,
-      final String selectedTempleHistoryYear,
-      final List<String> templeHistoryDateList,
-      final BusTotalInfoModel? selectedBusTotalInfoModel,
-      final bool isStartEndSameStation}) = _$AppParamStateImpl;
+          {final double currentZoom,
+          final int currentPaddingIndex,
+          final List<OverlayEntry>? firstEntries,
+          final List<OverlayEntry>? secondEntries,
+          final Offset? overlayPosition,
+          final List<String> selectedMunicipalNameList,
+          final String searchWord,
+          final List<String> neighborAreaNameList,
+          final SpotDataModel? selectedSpotDataModel,
+          final List<String> selectedRankList,
+          final String selectedTrainName,
+          final List<SpotDataModel> addRouteSpotDataModelList,
+          final bool isJrInclude,
+          final bool busInfoDisplayFlag,
+          final SpotDataModel? selectedSpotDataModelForBusInfo,
+          final String selectedTempleHistoryYear,
+          final List<String> templeHistoryDateList,
+          final BusTotalInfoModel? selectedBusTotalInfoModel,
+          final bool isStartEndSameStation,
+          final List<List<List<List<double>>>> keepAllPolygonsList}) =
+      _$AppParamStateImpl;
 
   ///
   @override
@@ -644,6 +681,10 @@ abstract class _AppParamState implements AppParamState {
   BusTotalInfoModel? get selectedBusTotalInfoModel;
   @override
   bool get isStartEndSameStation;
+
+  ///
+  @override
+  List<List<List<List<double>>>> get keepAllPolygonsList;
 
   /// Create a copy of AppParamState
   /// with the given fields replaced by the non-null parameter values.

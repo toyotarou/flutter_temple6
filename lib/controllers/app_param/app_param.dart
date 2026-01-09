@@ -51,6 +51,9 @@ class AppParamState with _$AppParamState {
     BusTotalInfoModel? selectedBusTotalInfoModel,
 
     @Default(false) bool isStartEndSameStation,
+
+    ///
+    @Default(<List<List<List<double>>>>[]) List<List<List<List<double>>>> keepAllPolygonsList,
   }) = _AppParamState;
 }
 
@@ -257,4 +260,8 @@ class AppParam extends _$AppParam {
 
   ///
   void setIsStartEndSameStation({required bool flag}) => state = state.copyWith(isStartEndSameStation: flag);
+
+  ///
+  void setKeepAllPolygonsList({required List<List<List<List<double>>>> list}) =>
+      state = state.copyWith(keepAllPolygonsList: list);
 }

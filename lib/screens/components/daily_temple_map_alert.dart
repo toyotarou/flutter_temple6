@@ -11,6 +11,7 @@ import '../../models/common/spot_data_model.dart';
 import '../../models/temple_lat_lng_model.dart';
 import '../../utility/map_functions.dart';
 import '../../utility/tile_provider.dart';
+import '../../utility/utility.dart';
 import '../parts/expandable_box.dart';
 import '../parts/temple_dialog.dart';
 import '../parts/temple_overlay.dart';
@@ -50,6 +51,9 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
   final List<OverlayEntry> _secondEntries = <OverlayEntry>[];
 
   List<Marker> municipalTempleMarkerList = <Marker>[];
+
+  Utility utility = Utility();
+  List<Color> fortyEightColor = <Color>[];
 
   ///
   @override
@@ -106,6 +110,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
     makeMunicipalTempleMarkerList();
 
+    fortyEightColor = utility.getFortyEightColor();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
 
@@ -134,6 +140,16 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
                 if (appParamState.selectedMunicipalNameList.isNotEmpty) ...<Widget>[
                   // ignore: always_specify_types
                   PolygonLayer(polygons: makeAreaPolygons()),
+                ] else ...<Widget>[
+                  if (appParamState.keepAllPolygonsList.isNotEmpty) ...<Widget>[
+                    // ignore: always_specify_types
+                    PolygonLayer(
+                      polygons: makeAreaPolygons2(
+                        allPolygonsList: appParamState.keepAllPolygonsList,
+                        fortyEightColor: fortyEightColor,
+                      ),
+                    ),
+                  ],
                 ],
 
                 // ignore: always_specify_types

@@ -228,10 +228,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
           }
         });
 
+        final List<List<List<List<double>>>> allPolygonsList = <List<List<List<double>>>>[];
+
+        for (final MunicipalModel element in widget.tokyoMunicipalList) {
+          allPolygonsList.addAll(element.polygons);
+        }
+
         // ignore: always_specify_types
         Future(() {
           getDataNotifier.setKeepTokyoStationList(list: tokyoStationList);
           getDataNotifier.setKeepTokyoStationMap(map: tokyoStationMap);
+
+          appParamNotifier.setKeepAllPolygonsList(list: allPolygonsList);
 
           // getDataNotifier.setKeepBusInfoSpotDataModelMap(map: busInfoSpotDataModelMap);
           //
