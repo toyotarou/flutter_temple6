@@ -51,8 +51,7 @@ dev_dependencies:
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
 
-  custom_lint: ^0.6.4
-  custom_lint_core: ^0.6.4
+  custom_lint: ^0.7.0
 
 flutter:
 
