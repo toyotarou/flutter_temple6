@@ -85,12 +85,15 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
 
       final LatLngBounds bounds = LatLngBounds.fromPoints(<LatLng>[LatLng(minLat, maxLng), LatLng(maxLat, minLng)]);
 
-      final CameraFit cameraFit = CameraFit.bounds(
-        bounds: bounds,
-        padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
-      );
-
-      mapController.fitCamera(cameraFit);
+      if ((maxLat - minLat).abs() > 0.0001 || (maxLng - minLng).abs() > 0.0001) {
+        final CameraFit cameraFit = CameraFit.bounds(
+          bounds: bounds,
+          padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
+        );
+        mapController.fitCamera(cameraFit);
+      } else {
+        mapController.move(LatLng(minLat, minLng), 15);
+      }
 
       /// これは残しておく
       // final LatLng newCenter = mapController.camera.center;
@@ -461,7 +464,7 @@ class _HomeCenteredVisitedSpotMapAlertState extends ConsumerState<HomeCenteredVi
               templeMarkerList.add(
                 Marker(
                   point: latlng,
-                  child: const Icon(FontAwesomeIcons.toriiGate, color: Colors.pinkAccent),
+                  child: const FaIcon(FontAwesomeIcons.toriiGate, color: Colors.pinkAccent),
                 ),
               );
             }

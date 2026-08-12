@@ -205,7 +205,6 @@ Polygon? getColorPaintPolygon({required List<List<List<double>>> polygon, requir
   return Polygon(
     points: outer,
     holePointsList: holes.isEmpty ? null : holes,
-    isFilled: true,
     color: color.withValues(alpha: 0.3),
     borderColor: color.withValues(alpha: 0.8),
     borderStrokeWidth: 1.5,

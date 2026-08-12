@@ -123,12 +123,15 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
 
       final LatLngBounds bounds = LatLngBounds.fromPoints(<LatLng>[LatLng(minLat, maxLng), LatLng(maxLat, minLng)]);
 
-      final CameraFit cameraFit = CameraFit.bounds(
-        bounds: bounds,
-        padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
-      );
-
-      mapController.fitCamera(cameraFit);
+      if ((maxLat - minLat).abs() > 0.0001 || (maxLng - minLng).abs() > 0.0001) {
+        final CameraFit cameraFit = CameraFit.bounds(
+          bounds: bounds,
+          padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
+        );
+        mapController.fitCamera(cameraFit);
+      } else {
+        mapController.move(LatLng(minLat, minLng), 15);
+      }
 
       /// これは残しておく
       // final LatLng newCenter = mapController.camera.center;
@@ -300,7 +303,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                           child: const CircleAvatar(
                             radius: 15,
                             backgroundColor: Color(0x66000000),
-                            child: Icon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
+                            child: FaIcon(FontAwesomeIcons.toriiGate, size: 18, color: Colors.white),
                           ),
                         ),
 
@@ -1054,7 +1057,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
               GestureDetector(
                 onTap: () => setState(() => appParamNotifier.setSelectedBusTotalInfoModel(busTotalInfoModel: element)),
 
-                child: Icon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
+                child: FaIcon(FontAwesomeIcons.bus, color: Colors.white.withValues(alpha: 0.4)),
               ),
               const SizedBox(width: 20),
 
@@ -1452,7 +1455,7 @@ class _CityTownTempleMapAlertState extends ConsumerState<CityTownTempleMapAlert>
                                 callFirstBox();
                               }
                             },
-                            icon: Icon(
+                            icon: FaIcon(
                               FontAwesomeIcons.bus,
                               color: busInfoDisplayFlag ? Colors.yellowAccent : Colors.white,
                             ),

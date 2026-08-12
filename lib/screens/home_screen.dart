@@ -506,7 +506,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                   },
                   child: const Row(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.toriiGate),
+                      FaIcon(FontAwesomeIcons.toriiGate),
                       SizedBox(width: 20),
                       Text('市区町村別神社リスト', style: TextStyle(color: Colors.white)),
                     ],
@@ -580,7 +580,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                   },
                   child: const Row(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.toriiGate),
+                      FaIcon(FontAwesomeIcons.toriiGate),
                       SizedBox(width: 20),
                       Text('参拝神社リスト', style: TextStyle(color: Colors.white)),
                     ],
@@ -608,7 +608,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with ControllersMixin<H
                   },
                   child: const Row(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.toriiGate),
+                      FaIcon(FontAwesomeIcons.toriiGate),
                       SizedBox(width: 20),
                       Text('神社ピックアップ', style: TextStyle(color: Colors.white)),
                     ],

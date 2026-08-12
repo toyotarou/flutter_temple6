@@ -110,7 +110,7 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
 
                 child: (appParamState.addRouteSpotDataModelList[i].type == 'station')
                     ? const Icon(Icons.train)
-                    : const Icon(FontAwesomeIcons.toriiGate),
+                    : const FaIcon(FontAwesomeIcons.toriiGate),
               ),
               const SizedBox(width: 10),
 
@@ -164,7 +164,7 @@ class _RouteDisplayAlertState extends ConsumerState<RouteDisplayAlert> with Cont
                 ),
                 IconButton(
                   onPressed: () => showGoogleTransit(index: i),
-                  icon: Icon(FontAwesomeIcons.google, color: Colors.white.withValues(alpha: 0.4)),
+                  icon: FaIcon(FontAwesomeIcons.google, color: Colors.white.withValues(alpha: 0.4)),
                 ),
               ],
             ),

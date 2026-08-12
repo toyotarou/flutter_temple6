@@ -35,6 +35,7 @@ class DailyTempleMapAlert extends ConsumerStatefulWidget {
 
 class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with ControllersMixin<DailyTempleMapAlert> {
   bool isLoading = false;
+  bool _mapReady = false;
 
   List<double> latList = <double>[];
   List<double> lngList = <double>[];
@@ -61,6 +62,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() => _mapReady = true);
       setState(() => isLoading = true);
 
       // ignore: always_specify_types
@@ -77,16 +79,25 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
     if (widget.templeDataList.isNotEmpty) {
       mapController.rotate(0);
 
-      final LatLngBounds bounds = LatLngBounds.fromPoints(
-        widget.templeDataList.map((SpotDataModel e) => LatLng(e.latitude.toDouble(), e.longitude.toDouble())).toList(),
-      );
+      final List<LatLng> points = widget.templeDataList
+          .map((SpotDataModel e) => LatLng(e.latitude.toDouble(), e.longitude.toDouble()))
+          .toList();
 
-      final CameraFit cameraFit = CameraFit.bounds(
-        bounds: bounds,
-        padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
-      );
+      final LatLngBounds bounds = LatLngBounds.fromPoints(points);
 
-      mapController.fitCamera(cameraFit);
+      // バウンズが有効（面積を持つ）場合のみ fitCamera を使用
+      if (bounds.northEast != bounds.southWest &&
+          (bounds.northEast.latitude - bounds.southWest.latitude).abs() > 0.0001 ||
+          (bounds.northEast.longitude - bounds.southWest.longitude).abs() > 0.0001) {
+        final CameraFit cameraFit = CameraFit.bounds(
+          bounds: bounds,
+          padding: EdgeInsets.all(appParamState.currentPaddingIndex * 10),
+        );
+        mapController.fitCamera(cameraFit);
+      } else {
+        // 1点または全点が同座標の場合は直接移動
+        mapController.move(points.first, currentZoomEightTeen);
+      }
 
       /// これは残しておく
       // final LatLng newCenter = mapController.camera.center;
@@ -118,7 +129,8 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            FlutterMap(
+            if (_mapReady) Positioned.fill(
+              child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
                 initialCenter: const LatLng(35.718532, 139.586639),
@@ -159,6 +171,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
 
                 if (municipalTempleMarkerList.isNotEmpty) MarkerLayer(markers: municipalTempleMarkerList),
               ],
+            ),
             ),
 
             Column(
@@ -254,7 +267,7 @@ class _DailyTempleMapAlertState extends ConsumerState<DailyTempleMapAlert> with 
             child: (int.tryParse(widget.templeDataList[i].mark) != null)
                 ? Stack(
                     children: <Widget>[
-                      const Icon(FontAwesomeIcons.toriiGate, size: 20, color: Colors.pinkAccent),
+                      const FaIcon(FontAwesomeIcons.toriiGate, size: 20, color: Colors.pinkAccent),
 
                       Positioned(
                         bottom: 0,
